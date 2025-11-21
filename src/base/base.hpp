@@ -38,6 +38,7 @@ inline int get_terminal_columns() {
   else
     return -1;
 }
+
 inline int get_terminal_rows() {
   struct winsize w;
   if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1)
