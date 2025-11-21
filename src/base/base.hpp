@@ -2,6 +2,7 @@
 
 #ifndef TERMINAL_LIBRARY_BASE_
 #define TERMINAL_LIBRARY_BASE_
+#include <cstdlib>
 #include <iostream>
 
 namespace T_base {
@@ -10,6 +11,14 @@ void BackSpace(int letter_num) {
     std::cout << "\x08 \x08" << std::flush;
   }
 };
+void cls() {
+#ifdef _WIN32
+  system("cls");
+#else
+  system("clear");
+#endif
+}
+
 } // namespace T_base
 
 #endif TERMINAL_LIBRARY_BASE_
