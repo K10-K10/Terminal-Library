@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <sys/ioctl.h>
+#include <termios.h>
 #include <unistd.h>
 
 namespace T_base {
@@ -19,16 +20,20 @@ inline void cls() {
 #endif
 }
 
-inline void BackSpace(int letter_num) {
-  for (int i = 0; i < letter_num; i++) {
-    std::cout << "\x08 \x08" << std::flush;
-  }
+inline void BackSpace(int count) {
+  if (count <= 0)
+    return;
+  std::cout << "\033[" << count << "D";
+  for (int i = 0; i < count; i++)
+    std::cout << ' ';
+  std::cout << "\033[" << count << "D";
+  std::cout.flush();
 }
 
 inline void init_cursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
 
-inline void move_cursor(int x, int h) {
-  std::cout << "\033[" << x << ";" << h << "H" << std::flush;
+inline void move(int row, int col) {
+  std::cout << "\033[" << row << ";" << col << "H" << std::flush;
 }
 
 inline int get_terminal_columns() {
@@ -45,6 +50,29 @@ inline int get_terminal_rows() {
     return w.ws_row;
   else
     return -1;
+}
+
+inline void get_cursor_position(int &row, int &col) {
+  termios oldt, newt;
+
+  tcgetattr(STDIN_FILENO, &oldt);
+  newt = oldt;
+
+  newt.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+  std::cout << "\033[6n" << std::flush;
+
+  char ch;
+  if (std::cin.get(ch) && ch == '\033') {
+    std::cin.get(ch);
+    std::cin >> row;
+    std::cin.get(ch);
+    std::cin >> col;
+    std::cin.get(ch);
+  }
+
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
 } // namespace T_base
