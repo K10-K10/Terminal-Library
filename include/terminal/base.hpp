@@ -10,7 +10,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-namespace T_base {
+namespace terminal {
 
 inline void cls() {
 #ifdef _WIN32
@@ -75,6 +75,6 @@ inline void get_cursor_position(int &row, int &col) {
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
-} // namespace T_base
+} // namespace terminal
 
 #endif // TERMINAL_LIBRARY_BASE_

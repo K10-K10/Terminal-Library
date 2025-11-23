@@ -1,6 +1,6 @@
 #ifndef __color
 #define __color
-
+namespace terminal {
 #define text_red 31
 #define text_green 32
 #define text_yellow 33
@@ -15,5 +15,6 @@
 #define fill_magenta 45
 #define fill_sian 46
 #define fill_gray 46
+} // namespace terminal
 
 #endif

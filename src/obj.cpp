@@ -1,7 +1,9 @@
-#include "obj.hpp"
-#include "../base/base.hpp"
+#include "terminal/obj.hpp"
+#include "terminal/color.hpp"
+#include <iostream>
 #include <stdexcept>
 
+using namespace terminal;
 Object::Object(const std::string &text, const int &row, const int &col)
     : row(row), col(col), text(text), text_color(-1), fill_color(-1),
       show_flag(false) {
@@ -57,7 +59,7 @@ void Object::clear() {
 void Object::show() {
   text_size();
   show_flag = true;
-  T_base::move(row, col);
+  move(row, col);
   int current_row = row;
   size_t start = 0;
 
@@ -98,7 +100,7 @@ void Object::hide() {
   int current_row = row;
 
   for (int i = 0; i < high; ++i) {
-    T_base::move(current_row, col);
+    move(current_row, col);
 
     for (int j = 0; j < width; ++j)
       std::cout << ' ';

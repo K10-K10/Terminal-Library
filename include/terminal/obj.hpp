@@ -1,9 +1,10 @@
-#ifndef __terminal_object
-#define __terminal_object
-#include "../base/base.hpp"
-#include "../color/color.hpp"
+#pragma once
+
+#ifndef TERMINAL_LIBRARY_OBJECT_
+#define TERMINAL_LIBRARY_OBJECT_
 #include <string>
 
+namespace terminal {
 class Object {
 public:
   Object(const std::string &text, const int &row, const int &col);
@@ -40,5 +41,6 @@ private:
   int width;
   int flags;
 };
+} // namespace terminal
 
 #endif

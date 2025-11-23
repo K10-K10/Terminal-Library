@@ -4,7 +4,7 @@
 #include <iostream>
 #include <istream>
 #include <string>
-namespace T_feature {
+namespace terminal {
 void PasswordInput(std::string &Password) {
   char c;
   // while (std::cin.get(c))
@@ -18,6 +18,6 @@ void PasswordInput(std::string &Password) {
   //	}
   // }
 }
-} // namespace T_feature
+} // namespace terminal
 
 #endif TERMINAL_LIBRARY_FEATURE_
