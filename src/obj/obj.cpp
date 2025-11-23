@@ -32,6 +32,10 @@ int &Object::operator[](int num) {
     return high;
   case 3:
     return width;
+  case 4:
+    return text_color;
+  case 5:
+    return fill_color;
   default:
     throw std::out_of_range("Object::operator[] invalid index");
   }
@@ -39,20 +43,21 @@ int &Object::operator[](int num) {
 
 std::string &Object::operator()() { return text; }
 
+void Object::clear() {
+  text = "";
+  text_color = -1;
+  fill_color = -1;
+  flags = 0;
+  refresh();
+}
+
 // =======================================================
 // SHOW — now supports multi-line text
 // =======================================================
 void Object::show() {
   text_size();
+  show_flag = true;
   T_base::move(row, col);
-
-  // color settings
-  if (text_color >= 0)
-    std::cout << "\033[" << text_color << "m";
-  if (fill_color >= 0)
-    std::cout << "\033[" << fill_color << "m";
-
-  // draw line-by-line
   int current_row = row;
   size_t start = 0;
 
@@ -62,8 +67,15 @@ void Object::show() {
                            ? text.substr(start)
                            : text.substr(start, end - start);
 
-    T_base::move(current_row, col);
-    std::cout << line << "\033[0m" << std::flush;
+    std::cout << "\033[" << current_row << ";" << col << "H";
+
+    // colors
+    if (text_color >= 0)
+      std::cout << "\033[" << text_color << "m";
+    if (fill_color >= 0)
+      std::cout << "\033[" << fill_color << "m";
+
+    std::cout << line << std::flush;
 
     if (end == std::string::npos)
       break;
@@ -71,8 +83,7 @@ void Object::show() {
     start = end + 1;
     current_row++;
   }
-
-  show_flag = true;
+  std::cout << "\033[0m" << std::flush;
 }
 
 // =======================================================
@@ -161,10 +172,10 @@ int Object::convert_color_name(const std::string &name, const bool &is_text) {
 }
 
 void Object::refresh() {
-  if (show_flag) {
+  text_size();
+  if (show_flag)
     hide();
-    show();
-  }
+  show();
 }
 
 // =======================================================

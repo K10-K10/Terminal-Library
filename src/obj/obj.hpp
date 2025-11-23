@@ -10,9 +10,11 @@ public:
   ~Object();
 
   Object &operator=(const std::string &new_text);
-  // 0-row,1-col,2,high,3-width
+  // 0-row,1-col,2,high,3-width,4-text_color,5-fill_color
   int &operator[](int num);
   std::string &operator()();
+
+  void clear();
 
   void show();
   void hide();
