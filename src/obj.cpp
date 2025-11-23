@@ -1,4 +1,5 @@
 #include "terminal/obj.hpp"
+#include "terminal/base.hpp"
 #include "terminal/color.hpp"
 #include <iostream>
 #include <stdexcept>
@@ -16,11 +17,13 @@ Object::~Object() {
 }
 
 Object &Object::operator=(const std::string &new_text) {
+  bool was_show_flag = show_flag;
   if (show_flag)
     hide();
   text = new_text;
   text_size();
-  show();
+  if (was_show_flag)
+    show();
   return *this;
 }
 
@@ -59,7 +62,7 @@ void Object::clear() {
 void Object::show() {
   text_size();
   show_flag = true;
-  move(row, col);
+  terminal::move(row, col);
   int current_row = row;
   size_t start = 0;
 
@@ -100,7 +103,7 @@ void Object::hide() {
   int current_row = row;
 
   for (int i = 0; i < high; ++i) {
-    move(current_row, col);
+    terminal::move(current_row, col);
 
     for (int j = 0; j < width; ++j)
       std::cout << ' ';
@@ -114,7 +117,7 @@ void Object::hide() {
 
 // =======================================================
 
-void Object::move(int &new_row, int &new_col) {
+void Object::move(int new_row, int new_col) {
   bool was_showing = show_flag;
   if (was_showing)
     hide();

@@ -34,7 +34,7 @@ void BackSpace(int count) {
 
 void init_cursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
 
-void move(int row, int col) {
+void move(const int &row, const int &col) {
   std::cout << "\033[" << row << ";" << col << "H" << std::flush;
 }
 
