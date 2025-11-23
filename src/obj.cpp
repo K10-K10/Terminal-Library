@@ -90,13 +90,19 @@ void Object::show() {
 // HIDE — correctly erases multi-line text
 // =======================================================
 void Object::hide() {
+  if (!show_flag)
+    return;
+
   text_size();
+
   int current_row = row;
 
-  for (int i = 0; i < high; i++) {
+  for (int i = 0; i < high; ++i) {
     T_base::move(current_row, col);
-    for (int j = 0; j < width; j++)
-      std::cout << " ";
+
+    for (int j = 0; j < width; ++j)
+      std::cout << ' ';
+
     current_row++;
   }
 
