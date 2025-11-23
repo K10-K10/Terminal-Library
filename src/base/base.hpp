@@ -20,7 +20,7 @@ inline void cls() {
 #endif
 }
 
-inline void BackSpace(int count) {
+inline void BackSpace(const int &count) {
   if (count <= 0)
     return;
   std::cout << "\033[" << count << "D";
