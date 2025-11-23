@@ -20,4 +20,4 @@ void PasswordInput(std::string &Password) {
 }
 } // namespace terminal
 
-#endif TERMINAL_LIBRARY_FEATURE_
+#endif
