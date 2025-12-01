@@ -66,6 +66,12 @@ void Object::show() {
   int current_row = row;
   size_t start = 0;
 
+  if (flags & (1 << 0)) // Italic
+    std::cout << "\e[3m" << std::flush;
+  if (flags & (1 << 1)) // under_bar
+    std::cout << "\e[4m" << std::flush;
+  if (flags & (2 << 1))
+    std::cout << "\e[1m" << std::flush;
   while (true) {
     size_t end = text.find('\n', start);
     std::string line = (end == std::string::npos)
@@ -88,6 +94,8 @@ void Object::show() {
     start = end + 1;
     current_row++;
   }
+  if (flags & (1 << 0))
+    std::cout << "\e[23m" << std::flush;
   std::cout << "\033[0m" << std::flush;
 }
 

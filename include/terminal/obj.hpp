@@ -42,6 +42,7 @@ private:
   int fill_color = -1;
   int high = 1;
   int width = 0;
+  // 0-italic 1-under 2-width
   int flags = 0;
 };
 
