@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
-using namespace terminal;
+namespace terminal {
 Object::Object(const std::string &text, const int &row, const int &col)
     : row(row), col(col), text(text), text_color(-1), fill_color(-1),
       show_flag(false) {
@@ -62,7 +62,7 @@ void Object::clear() {
 void Object::show() {
   text_size();
   show_flag = true;
-  terminal::move(row, col);
+  terminal::move_to(row, col);
   int current_row = row;
   size_t start = 0;
 
@@ -111,7 +111,7 @@ void Object::hide() {
   int current_row = row;
 
   for (int i = 0; i < high; ++i) {
-    terminal::move(current_row, col);
+    terminal::move_to(current_row, col);
 
     for (int j = 0; j < width; ++j)
       std::cout << ' ';
@@ -217,3 +217,4 @@ void Object::text_size() {
   }
   width = std::max(width, current_width);
 }
+} // namespace terminal
