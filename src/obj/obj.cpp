@@ -78,13 +78,13 @@ void Object::show() {
                            ? text.substr(start)
                            : text.substr(start, end - start);
 
-    std::cout << "\033[" << current_row << ";" << col << "H";
+    std::cout << "\e[" << current_row << ";" << col << "H";
 
     // colors
     if (text_color >= 0)
-      std::cout << "\033[" << text_color << "m";
+      std::cout << "\e[" << text_color << "m";
     if (fill_color >= 0)
-      std::cout << "\033[" << fill_color << "m";
+      std::cout << "\e[" << fill_color << "m";
 
     std::cout << line << std::flush;
 
@@ -96,7 +96,7 @@ void Object::show() {
   }
   if (flags & (1 << 0))
     std::cout << "\e[23m" << std::flush;
-  std::cout << "\033[0m" << std::flush;
+  std::cout << "\e[0m" << std::flush;
 }
 
 // =======================================================
