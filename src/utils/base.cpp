@@ -23,7 +23,7 @@ void BackSpace() {
   std::cout.flush();
 }
 
-void BackSpace(int count) {
+void BackSpace(const int &count) {
   if (count <= 0)
     return;
 
