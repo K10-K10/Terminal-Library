@@ -1,6 +1,6 @@
-#include "terminal/obj.hpp"
-#include "terminal/base.hpp"
-#include "terminal/color.hpp"
+#include "./obj.hpp"
+#include "utils/base.hpp"
+#include "utils/color.hpp"
 #include <iostream>
 #include <stdexcept>
 

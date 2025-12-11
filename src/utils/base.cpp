@@ -1,4 +1,4 @@
-#include "terminal/base.hpp"
+#include "./base.hpp"
 
 #include <cstdlib>
 #include <iostream>

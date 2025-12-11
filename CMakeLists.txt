@@ -1,32 +1,33 @@
-cmake_minimum_required(VERSION 3.12)
-project(TerminalLib VERSION 1.0.0 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.16)
+project(terminalLib)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 20)
 
-# include/
-# ├── terminal.hpp
-# └── terminal/xxx.hpp
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-file(GLOB TERMINAL_SRC
-    src/*.cpp
+# ----------------------------------------
+# Library: build from src/
+# ----------------------------------------
+file(GLOB_RECURSE LIB_SOURCES
+    "${PROJECT_SOURCE_DIR}/src/obj/*.cpp"
+    "${PROJECT_SOURCE_DIR}/src/utils/*.cpp"
+    "${PROJECT_SOURCE_DIR}/src/func/*.cpp"
 )
 
-add_library(terminal STATIC
-    ${TERMINAL_SRC}
+add_library(terminalLib ${LIB_SOURCES})
+
+# Include the src directory so headers like "utils/base.hpp" work
+target_include_directories(terminalLib PUBLIC
+    "${PROJECT_SOURCE_DIR}/src"
 )
 
-target_include_directories(terminal
-    PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-install(TARGETS terminal
-    ARCHIVE DESTINATION lib
+# ----------------------------------------
+# Test executable
+# ----------------------------------------
+add_executable(testRunner
+    test/baseTest.cpp
 )
 
-install(DIRECTORY include/ DESTINATION include)
+target_include_directories(testRunner PUBLIC
+    "${PROJECT_SOURCE_DIR}/src"
+)
 
-include(CPack)
-set(CPACK_PACKAGE_NAME "TerminalLib")
-set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+target_link_libraries(testRunner PRIVATE terminalLib)
