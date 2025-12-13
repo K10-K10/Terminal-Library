@@ -5,9 +5,10 @@
 #include <stdexcept>
 
 namespace terminal {
-Object::Object(const std::string &text, const int &row, const int &col)
-    : row(row), col(col), text(text), text_color(-1), fill_color(-1),
-      show_flag(false) {
+Object::Object(const std::string &text, const int &row, const int &col,
+               const int &width, const int &hight, int &border)
+    : row(row), col(col), width(width), hight(hight), text(text),
+      text_color(-1), fill_color(-1), show_flag(false), border_flag(border) {
   text_size();
 }
 
@@ -16,7 +17,7 @@ Object::~Object() {
     hide();
 }
 
-Object &Object::operator=(const std::string &new_text) {
+Object Object::operator=(const std::string &new_text) {
   bool was_show_flag = show_flag;
   if (show_flag)
     hide();
@@ -27,20 +28,28 @@ Object &Object::operator=(const std::string &new_text) {
   return *this;
 }
 
-int &Object::operator[](int num) {
+int Object::operator[](int num) {
   switch (num) {
   case 0:
-    return row;
+    return show_flag ? 1 : 0;
   case 1:
-    return col;
+    return row;
   case 2:
-    return high;
+    return col;
   case 3:
     return width;
   case 4:
-    return text_color;
+    return hight;
   case 5:
+    return text_width;
+  case 6:
+    return text_hight;
+  case 7:
+    return text_color;
+  case 8:
     return fill_color;
+  case 9:
+    return border_flag ? 1 : 0;
   default:
     throw std::out_of_range("Object::operator[] invalid index");
   }
@@ -110,10 +119,10 @@ void Object::hide() {
 
   int current_row = row;
 
-  for (int i = 0; i < high; ++i) {
+  for (int i = 0; i < text_hight; ++i) {
     terminal::move_to(current_row, col);
 
-    for (int j = 0; j < width; ++j)
+    for (int j = 0; j < text_width; ++j)
       std::cout << ' ';
 
     current_row++;
@@ -201,20 +210,20 @@ void Object::refresh() {
 // text_size — better multi-line support
 // =======================================================
 void Object::text_size() {
-  high = 1;
-  width = 0;
+  text_hight = 1;
+  text_width = 0;
 
-  int current_width = 0;
+  int current_text_width = 0;
 
   for (char c : text) {
     if (c == '\n') {
-      width = std::max(width, current_width);
-      high++;
-      current_width = 0;
+      text_width = std::max(text_width, current_text_width);
+      text_hight++;
+      current_text_width = 0;
     } else {
-      current_width++;
+      current_text_width++;
     }
   }
-  width = std::max(width, current_width);
+  text_width = std::max(text_width, current_text_width);
 }
 } // namespace terminal
