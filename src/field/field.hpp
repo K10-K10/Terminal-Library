@@ -2,18 +2,17 @@
 
 #ifndef TERMINAL_LIBRARY_FIELD_
 #define TERMINAL_LIBRARY_FIELD_
+#include "../obj/obj.hpp"
 #include <map>
 #include <string>
 #include <utility>
 
 namespace terminal {
-class Object {};
-
 class field {
 public:
   field();
   ~field();
-  field operator[](terminal::Object); // Add object
+  // field operator[](terminal::Object); // Add object
   field operator()();
   void show();
   void hide();

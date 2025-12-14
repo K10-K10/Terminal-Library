@@ -5,11 +5,13 @@
 #include <stdexcept>
 
 namespace terminal {
+int Object::cnt = 0;
+
 Object::Object(const std::string &text, const int &row, const int &col,
-               const int &width, const int &hight, int &border)
+               const int &width, const int &hight, const int &border)
     : row(row), col(col), width(width), hight(hight), text(text),
       text_color(-1), fill_color(-1), show_flag(false), border_flag(border) {
-  cnt++;
+  ++cnt;
   self_id = cnt;
   self_data.gen = 0; // TODO: add gen
   self_data.x = row;
@@ -22,7 +24,7 @@ Object::Object(const std::string &text, const int &row, const int &col,
 }
 
 Object::~Object() {
-  cnt--;
+  --cnt;
   terminal_manager::obj_map.erase(self_id);
   if (show_flag)
     hide();
@@ -82,6 +84,7 @@ void Object::clear() {
 void Object::show() {
   text_size();
   show_flag = true;
+  show_border();
   terminal::move_to(row, col);
   int current_row = row;
   size_t start = 0;
@@ -240,7 +243,36 @@ void Object::refresh() {
   show();
 }
 
-void Object::show_border() { std::cout << "└──║" << std::endl; }
+int Object::show_border() {
+  switch (border_flag) {
+  case 0:
+    return 0;
+    break;
+  case 1:
+    terminal::move_to(row, col);
+    std::cout << "┌" << std::flush;
+    for (int i = 0; i < width - 1; i++)
+      std::cout << "-" << std::flush;
+    std::cout << "┐" << std::flush;
+    for (int i = col + 1; i < col + hight;) {
+      terminal::move_to(row, i);
+      std::cout << "|" << std::flush;
+      terminal::move_to(row + width, i);
+      std::cout << "|" << std::flush;
+    }
+    terminal::move_to(row + width, col + hight);
+    std::cout << "└" << std::flush;
+    for (int i = 0; i < width - 1; i++)
+      std::cout << "-" << std::flush;
+    std::cout << "┘" << std::flush;
+    return 0;
+    break;
+  case 2:
+  default:
+    return -1;
+    break;
+  }
+}
 
 // =======================================================
 // text_size — better multi-line support

@@ -12,7 +12,7 @@ class Object {
 public:
   static int cnt;
   Object(const std::string &text, const int &row, const int &col,
-         const int &width, const int &hight, int &border);
+         const int &width, const int &hight, const int &border);
   ~Object();
 
   Object operator=(const std::string &new_text);
@@ -42,7 +42,7 @@ private:
   int convert_color_name(const std::string &name, const bool &is_text);
   void refresh();
   void text_size();
-  void show_border();
+  int show_border();
 
   bool show_flag = false;
   int row = 0, col = 0;
