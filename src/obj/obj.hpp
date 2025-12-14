@@ -3,12 +3,14 @@
 #ifndef TERMINAL_LIBRARY_OBJECT_
 #define TERMINAL_LIBRARY_OBJECT_
 
-#include <string>
+#include "../field/field.hpp"
+#include "./manager.hpp"
 
 namespace terminal {
 
 class Object {
 public:
+  static int cnt;
   Object(const std::string &text, const int &row, const int &col,
          const int &width, const int &hight, int &border);
   ~Object();
@@ -16,7 +18,7 @@ public:
   Object operator=(const std::string &new_text);
 
   // 0-show,1-row,2-col,3-width,4-hight,5-text_width,6-text_hight,7-text_color,8-fill_color,9-board,flags...
-  int operator[](int num);
+  int operator[](const int &num);
   std::string &operator()();
 
   void clear();
@@ -24,7 +26,10 @@ public:
   void show();
   void hide();
 
-  void move(int new_row, int new_col);
+  void move(const int &new_row, const int &new_col);
+  void resize(const int &new_width, const int &new_hight,
+              const int &border_type);
+  void resize(const int &border_type);
 
   void change_text_color(const int &color);
   void change_fill_color(const int &color);
@@ -32,6 +37,8 @@ public:
   void change_fill_color(const std::string &color);
 
 private:
+  int self_id;
+  terminal_manager::obj_data self_data;
   int convert_color_name(const std::string &name, const bool &is_text);
   void refresh();
   void text_size();
@@ -40,7 +47,7 @@ private:
   bool show_flag = false;
   int row = 0, col = 0;
   int width = 0, hight = 0;
-  int border_flag = false;
+  int border_flag = false; // 0-None, 1-singe, 2-double
   std::string text;
   int text_color = -1;
   int fill_color = -1;

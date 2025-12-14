@@ -9,10 +9,21 @@ Object::Object(const std::string &text, const int &row, const int &col,
                const int &width, const int &hight, int &border)
     : row(row), col(col), width(width), hight(hight), text(text),
       text_color(-1), fill_color(-1), show_flag(false), border_flag(border) {
+  cnt++;
+  self_id = cnt;
+  self_data.gen = 0; // TODO: add gen
+  self_data.x = row;
+  self_data.y = col;
+  self_data.w = width;
+  self_data.h = hight;
+  self_data.show = false;
+  terminal_manager::obj_map[self_id] = self_data;
   text_size();
 }
 
 Object::~Object() {
+  cnt--;
+  terminal_manager::obj_map.erase(self_id);
   if (show_flag)
     hide();
 }
@@ -28,7 +39,7 @@ Object Object::operator=(const std::string &new_text) {
   return *this;
 }
 
-int Object::operator[](int num) {
+int Object::operator[](const int &num) {
   switch (num) {
   case 0:
     return show_flag ? 1 : 0;
@@ -106,6 +117,8 @@ void Object::show() {
   if (flags & (1 << 0))
     std::cout << "\e[23m" << std::flush;
   std::cout << "\e[0m" << std::flush;
+  self_data.show = true;
+  terminal_manager::obj_map[self_id] = self_data;
 }
 
 // =======================================================
@@ -130,11 +143,13 @@ void Object::hide() {
 
   std::cout << std::flush;
   show_flag = false;
+  self_data.show = false;
+  terminal_manager::obj_map[self_id] = self_data;
 }
 
 // =======================================================
 
-void Object::move(int new_row, int new_col) {
+void Object::move(const int &new_row, const int &new_col) {
   bool was_showing = show_flag;
   if (was_showing)
     hide();
@@ -142,6 +157,25 @@ void Object::move(int new_row, int new_col) {
   col = new_col;
   if (was_showing)
     show();
+  self_data.x = row;
+  self_data.y = col;
+  terminal_manager::obj_map[self_id] = self_data;
+}
+
+void Object::resize(const int &new_width, const int &new_hight,
+                    const int &border_type) {
+  width = new_width;
+  hight = new_hight;
+  border_flag = border_type;
+  refresh();
+  self_data.w = width;
+  self_data.h = hight;
+  terminal_manager::obj_map[self_id] = self_data;
+}
+
+void Object::resize(const int &border_type) {
+  border_flag = border_type;
+  refresh();
 }
 
 void Object::change_text_color(const int &color) {
@@ -205,6 +239,8 @@ void Object::refresh() {
     hide();
   show();
 }
+
+void Object::show_border() { std::cout << "└──║" << std::endl; }
 
 // =======================================================
 // text_size — better multi-line support
