@@ -10,8 +10,8 @@
 namespace terminal {
 class field {
 public:
-  field();
-  ~field();
+  field() = default;
+  ~field() = default;
   // field operator[](terminal::Object); // Add object
   field operator()();
   void show();

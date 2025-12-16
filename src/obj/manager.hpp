@@ -15,7 +15,7 @@ struct obj_data {
   int show;
 };
 
-std::map<int, obj_data> obj_map;
+inline std::map<int, obj_data> obj_map;
 } // namespace terminal_manager
 
 #endif

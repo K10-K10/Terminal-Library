@@ -5,6 +5,6 @@ class field {
 public:
   field();
   ~field();
-  field operator[](terminal::Object);
+  // field operator[](terminal::Object);
 };
 } // namespace terminal

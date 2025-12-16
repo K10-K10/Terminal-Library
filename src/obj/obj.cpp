@@ -8,8 +8,8 @@ namespace terminal {
 int Object::cnt = 0;
 
 Object::Object(const std::string &text, const int &row, const int &col,
-               const int &width, const int &hight, const int &border)
-    : row(row), col(col), width(width), hight(hight), text(text),
+               const int &width, const int &height, const int &border)
+    : row(row), col(col), width(width), height(height), text(text),
       text_color(-1), fill_color(-1), show_flag(false), border_flag(border) {
   ++cnt;
   self_id = cnt;
@@ -17,7 +17,7 @@ Object::Object(const std::string &text, const int &row, const int &col,
   self_data.x = row;
   self_data.y = col;
   self_data.w = width;
-  self_data.h = hight;
+  self_data.h = height;
   self_data.show = false;
   terminal_manager::obj_map[self_id] = self_data;
   text_size();
@@ -52,11 +52,11 @@ int Object::operator[](const int &num) {
   case 3:
     return width;
   case 4:
-    return hight;
+    return height;
   case 5:
     return text_width;
   case 6:
-    return text_hight;
+    return text_height;
   case 7:
     return text_color;
   case 8:
@@ -135,7 +135,7 @@ void Object::hide() {
 
   int current_row = row;
 
-  for (int i = 0; i < text_hight; ++i) {
+  for (int i = 0; i < text_height; ++i) {
     terminal::move_to(current_row, col);
 
     for (int j = 0; j < text_width; ++j)
@@ -165,14 +165,14 @@ void Object::move(const int &new_row, const int &new_col) {
   terminal_manager::obj_map[self_id] = self_data;
 }
 
-void Object::resize(const int &new_width, const int &new_hight,
+void Object::resize(const int &new_width, const int &new_height,
                     const int &border_type) {
   width = new_width;
-  hight = new_hight;
+  height = new_height;
   border_flag = border_type;
   refresh();
   self_data.w = width;
-  self_data.h = hight;
+  self_data.h = height;
   terminal_manager::obj_map[self_id] = self_data;
 }
 
@@ -244,41 +244,48 @@ void Object::refresh() {
 }
 
 int Object::show_border() {
-  switch (border_flag) {
-  case 0:
+  if (border_flag == 0)
     return 0;
-    break;
-  case 1:
-    terminal::move_to(row, col);
-    std::cout << "┌" << std::flush;
-    for (int i = 0; i < width - 1; i++)
-      std::cout << "-" << std::flush;
-    std::cout << "┐" << std::flush;
-    for (int i = col + 1; i < col + hight;) {
-      terminal::move_to(row, i);
-      std::cout << "|" << std::flush;
-      terminal::move_to(row + width, i);
-      std::cout << "|" << std::flush;
-    }
-    terminal::move_to(row + width, col + hight);
-    std::cout << "└" << std::flush;
-    for (int i = 0; i < width - 1; i++)
-      std::cout << "-" << std::flush;
-    std::cout << "┘" << std::flush;
-    return 0;
-    break;
-  case 2:
-  default:
+
+  if (border_flag != 1)
     return -1;
-    break;
+
+  int top = row;
+  int left = col;
+  int bottom = row + height - 1;
+  int right = col + width - 1;
+
+  // ┌───┐
+  terminal::move_to(top, left);
+  std::cout << "┌";
+  for (int c = left + 1; c < right; ++c)
+    std::cout << "─";
+  std::cout << "┐";
+
+  // │   │
+  for (int r = top + 1; r < bottom; ++r) {
+    terminal::move_to(r, left);
+    std::cout << "│";
+    terminal::move_to(r, right);
+    std::cout << "│";
   }
+
+  // └───┘
+  terminal::move_to(bottom, left);
+  std::cout << "└";
+  for (int c = left + 1; c < right; ++c)
+    std::cout << "─";
+  std::cout << "┘";
+
+  std::cout << std::flush;
+  return 0;
 }
 
 // =======================================================
 // text_size — better multi-line support
 // =======================================================
 void Object::text_size() {
-  text_hight = 1;
+  text_height = 1;
   text_width = 0;
 
   int current_text_width = 0;
@@ -286,7 +293,7 @@ void Object::text_size() {
   for (char c : text) {
     if (c == '\n') {
       text_width = std::max(text_width, current_text_width);
-      text_hight++;
+      text_height++;
       current_text_width = 0;
     } else {
       current_text_width++;
