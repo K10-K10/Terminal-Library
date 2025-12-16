@@ -204,7 +204,7 @@ Object Object::change_text_color(const std::string &color) {
   return *this;
 }
 
-void Object::change_fill_color(const std::string &color) {
+Object Object::change_fill_color(const std::string &color) {
   fill_color = convert_color_name(color, false);
   refresh();
 }
