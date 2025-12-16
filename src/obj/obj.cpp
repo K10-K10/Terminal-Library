@@ -70,18 +70,19 @@ int Object::operator[](const int &num) {
 
 std::string &Object::operator()() { return text; }
 
-void Object::clear() {
+Object Object::clear() {
   text = "";
   text_color = -1;
   fill_color = -1;
   flags = 0;
   refresh();
+  return *this;
 }
 
 // =======================================================
 // SHOW — now supports multi-line text
 // =======================================================
-void Object::show() {
+Object Object::show() {
   text_size();
   show_flag = true;
   show_border();
@@ -122,12 +123,13 @@ void Object::show() {
   std::cout << "\e[0m" << std::flush;
   self_data.show = true;
   terminal_manager::obj_map[self_id] = self_data;
+  return *this;
 }
 
 // =======================================================
 // HIDE — correctly erases multi-line text
 // =======================================================
-void Object::hide() {
+Object Object::hide() {
   if (!show_flag)
     return;
 
@@ -152,7 +154,7 @@ void Object::hide() {
 
 // =======================================================
 
-void Object::move(const int &new_row, const int &new_col) {
+Object Object::move(const int &new_row, const int &new_col) {
   bool was_showing = show_flag;
   if (was_showing)
     hide();
@@ -163,10 +165,11 @@ void Object::move(const int &new_row, const int &new_col) {
   self_data.x = row;
   self_data.y = col;
   terminal_manager::obj_map[self_id] = self_data;
+  return *this;
 }
 
-void Object::resize(const int &new_width, const int &new_height,
-                    const int &border_type) {
+Object Object::resize(const int &new_width, const int &new_height,
+                      const int &border_type) {
   width = new_width;
   height = new_height;
   border_flag = border_type;
@@ -174,26 +177,31 @@ void Object::resize(const int &new_width, const int &new_height,
   self_data.w = width;
   self_data.h = height;
   terminal_manager::obj_map[self_id] = self_data;
+  return *this;
 }
 
-void Object::resize(const int &border_type) {
+Object Object::resize(const int &border_type) {
   border_flag = border_type;
   refresh();
+  return *this;
 }
 
-void Object::change_text_color(const int &color) {
+Object Object::change_text_color(const int &color) {
   text_color = color;
   refresh();
+  return *this;
 }
 
-void Object::change_fill_color(const int &color) {
+Object Object::change_fill_color(const int &color) {
   fill_color = color;
   refresh();
+  return *this;
 }
 
-void Object::change_text_color(const std::string &color) {
+Object Object::change_text_color(const std::string &color) {
   text_color = convert_color_name(color, true);
   refresh();
+  return *this;
 }
 
 void Object::change_fill_color(const std::string &color) {

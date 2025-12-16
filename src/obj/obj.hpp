@@ -21,20 +21,20 @@ public:
   int operator[](const int &num);
   std::string &operator()();
 
-  void clear();
+  Object clear();
 
-  void show();
-  void hide();
+  Object show();
+  Object hide();
 
-  void move(const int &new_row, const int &new_col);
-  void resize(const int &new_width, const int &new_height,
-              const int &border_type);
-  void resize(const int &border_type);
+  Object move(const int &new_row, const int &new_col);
+  Object resize(const int &new_width, const int &new_height,
+                const int &border_type);
+  Object resize(const int &border_type);
 
-  void change_text_color(const int &color);
-  void change_fill_color(const int &color);
-  void change_text_color(const std::string &color);
-  void change_fill_color(const std::string &color);
+  Object change_text_color(const int &color);
+  Object change_fill_color(const int &color);
+  Object change_text_color(const std::string &color);
+  Object change_fill_color(const std::string &color);
 
 private:
   int self_id;
