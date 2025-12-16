@@ -9,6 +9,8 @@
 namespace terminal {
 
 class Object {
+  friend field;
+
 public:
   static int cnt;
   Object(const std::string &text, const int &row, const int &col,

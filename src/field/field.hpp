@@ -12,12 +12,13 @@ class field {
 public:
   field() = default;
   ~field() = default;
-  // field operator[](terminal::Object); // Add object
+  field operator[](terminal::Object); // Add object
   field operator()();
   void show();
   void hide();
 
 private:
+  int id = 0;
   std::map<int, int> field_map;
   int move_x, move_y;
 };
