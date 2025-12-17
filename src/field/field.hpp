@@ -8,11 +8,12 @@
 #include <utility>
 
 namespace terminal {
+class Object;
 class field {
 public:
   field() = default;
   ~field() = default;
-  field operator[](terminal::Object); // Add object
+  field &operator[](Object &); // Add object
   field operator()();
   void show();
   void hide();

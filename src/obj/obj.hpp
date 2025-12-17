@@ -7,14 +7,15 @@
 #include "./manager.hpp"
 
 namespace terminal {
-
+class field;
 class Object {
   friend field;
 
 public:
   static int cnt;
-  Object(const std::string &text, const int &row, const int &col,
-         const int &width, const int &height, const int &border);
+  Object(const std::string &title, const std::string &text, const int &row,
+         const int &col, const int &width, const int &height,
+         const int &border);
   ~Object();
 
   Object operator=(const std::string &new_text);
@@ -50,6 +51,7 @@ private:
   int row = 0, col = 0;
   int width = 0, height = 0;
   int border_flag = 0; // 0-None, 1-singe, 2-double
+  std::string title;
   std::string text;
   int text_color = -1;
   int fill_color = -1;

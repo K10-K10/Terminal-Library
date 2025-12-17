@@ -5,7 +5,7 @@ class field {
 public:
   field();
   ~field();
-  field &operator[](terminal::Object &obj) {
+  field &field::operator[](terminal::Object &obj) {
     field_map[obj.self_id] = id++;
     return *this;
   }

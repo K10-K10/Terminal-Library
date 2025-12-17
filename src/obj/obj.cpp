@@ -7,9 +7,10 @@
 namespace terminal {
 int Object::cnt = 0;
 
-Object::Object(const std::string &text, const int &row, const int &col,
-               const int &width, const int &height, const int &border)
-    : row(row), col(col), width(width), height(height), text(text),
+Object::Object(const std::string &title, const std::string &text,
+               const int &row, const int &col, const int &width,
+               const int &height, const int &border)
+    : title(title) row(row), col(col), width(width), height(height), text(text),
       text_color(-1), fill_color(-1), show_flag(false), border_flag(border) {
   ++cnt;
   self_id = cnt;
@@ -131,7 +132,7 @@ Object Object::show() {
 // =======================================================
 Object Object::hide() {
   if (!show_flag)
-    return;
+    return *this;
 
   text_size();
 
@@ -207,6 +208,7 @@ Object Object::change_text_color(const std::string &color) {
 Object Object::change_fill_color(const std::string &color) {
   fill_color = convert_color_name(color, false);
   refresh();
+  return *this;
 }
 
 int Object::convert_color_name(const std::string &name, const bool &is_text) {
