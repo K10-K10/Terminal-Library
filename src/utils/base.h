@@ -1,41 +1,41 @@
 #pragma once
 
-#ifndef TERMINAL_LIBRARY_BASE_
-#define TERMINAL_LIBRARY_BASE_
+#ifndef TERMINAL_LIBRARY_UTILS_BASE_H_
+#define TERMINAL_LIBRARY_UTILS_BASE_H_
 
 namespace terminal {
 
 // Clear screen
-void cls();
+void clear();
 
 // Erase backward characters
 void BackSpace();
 void BackSpace(const int &count);
 
 // Reset cursor & clear screen
-void init_cursor();
+inline void InitCursor();
 
 // Move cursor to row/col
-void up_for(const int &num);
-void down_for(const int &num);
-void l_for(const int &num);
-void r_for(const int &num);
-void up_to_bol(const int &num);
-void down_to_bol(const int &num);
-void l_to(const int &num);
+void UpFor(const int &num);
+void DownFor(const int &num);
+void LFor(const int &num);
+void RFor(const int &num);
+void UpForBeginOfLine(const int &num);
+void DownForBeginOfLine(const int &num);
+void LTo(const int &num);
 
-void move_to(const int &row, const int &col);
+void MoveTo(const int &row, const int &col);
 
 // Terminal size
-int get_terminal_columns();
-int get_terminal_rows();
+int GetTerminalColumns();
+int GetTerminalRows();
 
 // Get current cursor position (row, col)
-void get_cursor_position(int &row, int &col);
+void GetCursorPosition(int &row, int &col);
 
 // scroll
-void up_scroll(const int &num);
-void down_scroll(const int &num);
+void UpScroll(const int &num);
+void DownScroll(const int &num);
 
 // print
 void print_bold(const char *str);
@@ -50,4 +50,4 @@ void print_cancel(const char *str);
 
 } // namespace terminal
 
-#endif // TERMINAL_LIBRARY_BASE_
+#endif // TERMINAL_LIBRARY_UTILS_BASE_H_

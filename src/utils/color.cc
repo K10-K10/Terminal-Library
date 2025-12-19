@@ -1,4 +1,5 @@
-#include "./color.hpp"
+#include "./color.h"
+
 #include <iostream>
 
 namespace terminal {
@@ -10,6 +11,7 @@ int print_color(const int &txt_color, const char *str) {
     return -1;
   }
 }
+
 int print_color(const int &txt_color, const int &fill_color, const char *str) {
   if (37 >= txt_color && txt_color >= 30 && 47 >= fill_color &&
       fill_color >= 40) {
