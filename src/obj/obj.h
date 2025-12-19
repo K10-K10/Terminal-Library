@@ -1,15 +1,17 @@
 #pragma once
 
-#ifndef TERMINAL_LIBRARY_OBJECT_
-#define TERMINAL_LIBRARY_OBJECT_
+#ifndef TERMINAL_LIBRARY_OBJ_OBJ_H_
+#define TERMINAL_LIBRARY_OBJ_OBJ_H_
 
-#include "../field/field.hpp"
-#include "./manager.hpp"
+#include <string>
+
+#include "../field/field.h"
+#include "./manager.h"
 
 namespace terminal {
-class field;
+class Field;
 class Object {
-  friend field;
+  friend Field;
 
 public:
   static int cnt;
@@ -41,7 +43,7 @@ public:
 
 private:
   int self_id;
-  terminal_manager::obj_data self_data;
+  terminal_manager::ObjData self_data;
   int convert_color_name(const std::string &name, const bool &is_text);
   void refresh();
   void text_size();
@@ -63,4 +65,4 @@ private:
 
 } // namespace terminal
 
-#endif
+#endif // TERMINAL_LIBRARY_OBJ_OBJ_H_

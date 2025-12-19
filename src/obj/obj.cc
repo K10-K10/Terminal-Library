@@ -1,8 +1,10 @@
-#include "./obj.hpp"
-#include "utils/base.hpp"
-#include "utils/color.hpp"
+#include "./obj.h"
+
 #include <iostream>
 #include <stdexcept>
+
+#include "utils/base.h"
+#include "utils/color.h"
 
 namespace terminal {
 int Object::cnt = 0;
@@ -10,8 +12,9 @@ int Object::cnt = 0;
 Object::Object(const std::string &title, const std::string &text,
                const int &row, const int &col, const int &width,
                const int &height, const int &border)
-    : title(title) row(row), col(col), width(width), height(height), text(text),
-      text_color(-1), fill_color(-1), show_flag(false), border_flag(border) {
+    : title(title), row(row), col(col), width(width), height(height),
+      text(text), text_color(-1), fill_color(-1), show_flag(false),
+      border_flag(border) {
   ++cnt;
   self_id = cnt;
   self_data.gen = 0; // TODO: add gen
@@ -87,7 +90,7 @@ Object Object::show() {
   text_size();
   show_flag = true;
   show_border();
-  terminal::move_to(row, col);
+  terminal::MoveTo(row, col);
   int current_row = row;
   size_t start = 0;
 
@@ -139,7 +142,7 @@ Object Object::hide() {
   int current_row = row;
 
   for (int i = 0; i < text_height; ++i) {
-    terminal::move_to(current_row, col);
+    terminal::MoveTo(current_row, col);
 
     for (int j = 0; j < text_width; ++j)
       std::cout << ' ';
@@ -266,7 +269,7 @@ int Object::show_border() {
   int right = col + width - 1;
 
   // ┌───┐
-  terminal::move_to(top, left);
+  terminal::MoveTo(top, left);
   std::cout << "┌";
   for (int c = left + 1; c < right; ++c)
     std::cout << "─";
@@ -274,14 +277,14 @@ int Object::show_border() {
 
   // │   │
   for (int r = top + 1; r < bottom; ++r) {
-    terminal::move_to(r, left);
+    terminal::MoveTo(r, left);
     std::cout << "│";
-    terminal::move_to(r, right);
+    terminal::MoveTo(r, right);
     std::cout << "│";
   }
 
   // └───┘
-  terminal::move_to(bottom, left);
+  terminal::MoveTo(bottom, left);
   std::cout << "└";
   for (int c = left + 1; c < right; ++c)
     std::cout << "─";

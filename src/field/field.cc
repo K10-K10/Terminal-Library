@@ -1,11 +1,11 @@
-#include "./field.hpp"
+#include "./field.h"
 
 namespace terminal {
-class field {
+class Field {
 public:
-  field();
-  ~field();
-  field &field::operator[](terminal::Object &obj) {
+  Field();
+  ~Field();
+  Field &Field::operator[](terminal::Object &obj) {
     field_map[obj.self_id] = id++;
     return *this;
   }
