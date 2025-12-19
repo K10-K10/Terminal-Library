@@ -1,14 +1,15 @@
-#include "./base.hpp"
+#include "./base.h"
 
-#include <cstdlib>
-#include <iostream>
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
 
+#include <cstdlib>
+#include <iostream>
+
 namespace terminal {
 
-void cls() {
+void clear() {
 #ifdef _WIN32
   system("cls");
 #else
@@ -39,33 +40,33 @@ void BackSpace(const int &count) {
   std::cout.flush();
 }
 
-void init_cursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
+void InitCursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
 
-void up_for(const int &num) {
+void UpFor(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "A" << std::flush;
   }
 }
 
-void down_for(const int &num) {
+void DownFor(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "B" << std::flush;
   }
 }
 
-void r_for(const int &num) {
+void RFor(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "C" << std::flush;
   }
 }
 
-void l_for(const int &num) {
+void LFor(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "D" << std::flush;
   }
 }
 
-void up_to_bol(const int &num) {
+void UpForBeginOfLine(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "E" << std::flush;
   } else {
@@ -73,7 +74,7 @@ void up_to_bol(const int &num) {
   }
 }
 
-void down_to_bol(const int &num) {
+void DownForBeginOfLine(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "F" << std::flush;
   } else {
@@ -81,27 +82,27 @@ void down_to_bol(const int &num) {
   }
 }
 
-void l_to(const int &num) {
+void LTo(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "G" << std::flush;
   }
 }
 
-void move_to(const int &row, const int &col) {
+void MoveTo(const int &row, const int &col) {
   std::cout << "\e[" << row << ";" << col << "H" << std::flush;
 }
 
-int get_terminal_columns() {
+int GetTerminalColumns() {
   struct winsize w;
   return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_col : -1;
 }
 
-int get_terminal_rows() {
+int GetTerminalRows() {
   struct winsize w;
   return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_row : -1;
 }
 
-void get_cursor_position(int &row, int &col) {
+void GetCursorPosition(int &row, int &col) {
   struct termios oldt, newt;
 
   tcgetattr(STDIN_FILENO, &oldt);
@@ -124,7 +125,7 @@ void get_cursor_position(int &row, int &col) {
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
-void up_scroll(const int &num) {
+void UpScroll(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "S" << std::flush;
   } else {
@@ -133,7 +134,7 @@ void up_scroll(const int &num) {
   }
 }
 
-void down_scroll(const int &num) {
+void DownScroll(const int &num) {
   if (num > 0) {
     std::cout << "\e[" << num << "T" << std::flush;
   } else {

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TERMINAL_COLOR
-#define TERMINAL_COLOR
+#ifndef TERMINAL_LIBRARY_UTILS_COLOR_H_
+#define TERMINAL_LIBRARY_UTILS_COLOR_H_
 
 namespace terminal {
 // text
@@ -28,4 +28,4 @@ int print_color(const int &txt_color, const int &fill_color, const char *str);
 
 } // namespace terminal
 
-#endif
+#endif // TERMINAL_LIBRARY_UTILS_COLOR_H_
