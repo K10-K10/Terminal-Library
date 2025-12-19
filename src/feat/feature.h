@@ -1,9 +1,11 @@
 #pragma once
-#ifndef TERMINAL_LIBRARY_FEATURE_
-#define TERMINAL_LIBRARY_FEATURE_
+#ifndef TERMINAL_LIBRARY__FEAT_FEATURE_H_
+#define TERMINAL_LIBRARY__FEAT_FEATURE_H_
+
 #include <iostream>
 #include <istream>
 #include <string>
+
 namespace terminal {
 void PasswordInput(std::string &Password) {
   char c;
@@ -20,4 +22,4 @@ void PasswordInput(std::string &Password) {
 }
 } // namespace terminal
 
-#endif
+#endif // TERMINAL_LIBRARY__FEAT_FEATURE_H_
