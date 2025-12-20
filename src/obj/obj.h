@@ -5,8 +5,8 @@
 
 #include <string>
 
-#include "../field/field.h"
-#include "./manager.h"
+#include "field/field.h"
+#include "obj/manager.h"
 
 namespace terminal {
 class Field;

@@ -3,11 +3,10 @@
 #ifndef TERMINAL_LIBRARY_FIELD_FIELD_H_
 #define TERMINAL_LIBRARY_FIELD_FIELD_H_
 
-#include "../obj/obj.h"
+#include "obj/obj.h"
 
 #include <map>
 #include <string>
-#include <utility>
 
 namespace terminal {
 class Object;

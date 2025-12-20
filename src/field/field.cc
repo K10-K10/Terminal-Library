@@ -1,4 +1,7 @@
-#include "./field.h"
+#include "field/field.h"
+
+#include <map>
+#include <string>
 
 namespace terminal {
 class Field {
