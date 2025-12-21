@@ -13,38 +13,36 @@ class Field;
 class Object {
   friend Field;
 
-public:
-  static int cnt;
-  Object(const std::string &title, const std::string &text, const int &row,
-         const int &col, const int &width, const int &height,
-         const int &border);
-  ~Object();
-
-  Object operator=(const std::string &new_text);
-
+ public:
+  Object(const std::string& title, const std::string& text, const int& row,
+         const int& col, const int& width, const int& height,
+         const int& border);
+  Object operator=(const std::string& new_text);
   // 0-show,1-row,2-col,3-width,4-height,5-text_width,6-text_height,7-text_color,8-fill_color,9-board,flags...
-  int operator[](const int &num);
-  std::string &operator()();
+  int operator[](const int& num);
+  std::string& operator()();
+  ~Object();
 
   Object clear();
 
   Object show();
   Object hide();
 
-  Object move(const int &new_row, const int &new_col);
-  Object resize(const int &new_width, const int &new_height,
-                const int &border_type);
-  Object resize(const int &border_type);
+  Object move(const int& new_row, const int& new_col);
+  Object resize(const int& new_width, const int& new_height,
+                const int& border_type);
+  Object resize(const int& border_type);
 
-  Object change_text_color(const int &color);
-  Object change_fill_color(const int &color);
-  Object change_text_color(const std::string &color);
-  Object change_fill_color(const std::string &color);
+  Object change_text_color(const int& color);
+  Object change_fill_color(const int& color);
+  Object change_text_color(const std::string& color);
+  Object change_fill_color(const std::string& color);
 
-private:
+ private:
+  inline static int cnt = 0;
   int self_id;
   terminal_manager::ObjData self_data;
-  int convert_color_name(const std::string &name, const bool &is_text);
+  int convert_color_name(const std::string& name, const bool& is_text);
   void refresh();
   void text_size();
   int show_border();
@@ -52,7 +50,7 @@ private:
   bool show_flag = false;
   int row = 0, col = 0;
   int width = 0, height = 0;
-  int border_flag = 0; // 0-None, 1-singe, 2-double
+  int border_flag = 0;  // 0-None, 1-singe, 2-double, 3-curved
   std::string title;
   std::string text;
   int text_color = -1;
@@ -63,6 +61,6 @@ private:
   int flags = 0;
 };
 
-} // namespace terminal
+}  // namespace terminal
 
-#endif // TERMINAL_LIBRARY_OBJ_OBJ_H_
+#endif  // TERMINAL_LIBRARY_OBJ_OBJ_H_

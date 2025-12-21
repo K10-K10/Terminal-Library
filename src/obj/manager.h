@@ -12,10 +12,10 @@ struct ObjData {
   int y;
   int w;
   int h;
-  int show;
+  int show = 0;
 };
 
 inline std::map<int, ObjData> obj_map;
-} // namespace terminal_manager
+}  // namespace terminal_manager
 
-#endif // TERMINAL_LIBRARY_OBJ_MANAGER_H_
+#endif  // TERMINAL_LIBRARY_OBJ_MANAGER_H_

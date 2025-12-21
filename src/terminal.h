@@ -10,4 +10,4 @@
 #include "utils/base.h"
 #include "utils/color.h"
 
-#endif // LIBRARY_TERMINAL_TERMINAL_H_
+#endif  // LIBRARY_TERMINAL_TERMINAL_H_

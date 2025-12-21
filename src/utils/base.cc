@@ -8,7 +8,7 @@
 #include <iostream>
 
 namespace terminal {
-
+namespace utils {
 void clear() {
 #ifdef _WIN32
   system("cls");
@@ -24,16 +24,14 @@ void BackSpace() {
   std::cout.flush();
 }
 
-void BackSpace(const int &count) {
-  if (count <= 0)
-    return;
+void BackSpace(const int& count) {
+  if (count <= 0) return;
 
   // Move cursor left
   std::cout << "\e[" << count << "D";
 
   // Clear characters
-  for (int i = 0; i < count; i++)
-    std::cout << ' ';
+  for (int i = 0; i < count; i++) std::cout << ' ';
 
   // Move back again
   std::cout << "\e[" << count << "D";
@@ -42,31 +40,31 @@ void BackSpace(const int &count) {
 
 void InitCursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
 
-void UpFor(const int &num) {
+void UpFor(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "A" << std::flush;
   }
 }
 
-void DownFor(const int &num) {
+void DownFor(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "B" << std::flush;
   }
 }
 
-void RFor(const int &num) {
+void RFor(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "C" << std::flush;
   }
 }
 
-void LFor(const int &num) {
+void LFor(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "D" << std::flush;
   }
 }
 
-void UpForBeginOfLine(const int &num) {
+void UpForBeginOfLine(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "E" << std::flush;
   } else {
@@ -74,7 +72,7 @@ void UpForBeginOfLine(const int &num) {
   }
 }
 
-void DownForBeginOfLine(const int &num) {
+void DownForBeginOfLine(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "F" << std::flush;
   } else {
@@ -82,13 +80,13 @@ void DownForBeginOfLine(const int &num) {
   }
 }
 
-void LTo(const int &num) {
+void LTo(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "G" << std::flush;
   }
 }
 
-void MoveTo(const int &row, const int &col) {
+void MoveTo(const int& row, const int& col) {
   std::cout << "\e[" << row << ";" << col << "H" << std::flush;
 }
 
@@ -102,7 +100,7 @@ int GetTerminalRows() {
   return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_row : -1;
 }
 
-void GetCursorPosition(int &row, int &col) {
+void GetCursorPosition(int& row, int& col) {
   struct termios oldt, newt;
 
   tcgetattr(STDIN_FILENO, &oldt);
@@ -115,17 +113,17 @@ void GetCursorPosition(int &row, int &col) {
 
   char ch;
   if (std::cin.get(ch) && ch == '\e') {
-    std::cin.get(ch); // '['
+    std::cin.get(ch);  // '['
     std::cin >> row;
-    std::cin.get(ch); // ';'
+    std::cin.get(ch);  // ';'
     std::cin >> col;
-    std::cin.get(ch); // 'R'
+    std::cin.get(ch);  // 'R'
   }
 
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
-void UpScroll(const int &num) {
+void UpScroll(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "S" << std::flush;
   } else {
@@ -134,7 +132,7 @@ void UpScroll(const int &num) {
   }
 }
 
-void DownScroll(const int &num) {
+void DownScroll(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "T" << std::flush;
   } else {
@@ -143,40 +141,40 @@ void DownScroll(const int &num) {
   }
 }
 
-void print_bold(const char *str) {
+void print_bold(const char* str) {
   std::cout << "\e[1m" << str << "\e[0m" << std::flush;
 }
 
-void print_thick(const char *str) {
+void print_thick(const char* str) {
   std::cout << "\e[2m" << str << "\e[0m" << std::flush;
 }
 
-void print_italic(const char *str) {
+void print_italic(const char* str) {
   std::cout << "\e[3m" << str << "\e[0m" << std::flush;
 }
 
-void print_under_line(const char *str) {
+void print_under_line(const char* str) {
   std::cout << "\e[4m" << str << "\e[0m" << std::flush;
 }
 
-void print_blink(const char *str) {
+void print_blink(const char* str) {
   std::cout << "\e[5m" << str << "\e[0m" << std::flush;
 }
 
-void print_fast_blink(const char *str) {
+void print_fast_blink(const char* str) {
   std::cout << "\e[5m" << str << "\e[0m" << std::flush;
 }
 
-void print_reverse(const char *str) {
+void print_reverse(const char* str) {
   std::cout << "\e[7m" << str << "\e[0m" << std::flush;
 }
 
-void print_hide(const char *str) {
+void print_hide(const char* str) {
   std::cout << "\e[8m" << str << "\e[0m" << std::flush;
 }
 
-void print_cancel(const char *str) {
+void print_cancel(const char* str) {
   std::cout << "\e[9m" << str << "\e[0m" << std::flush;
 }
-
-} // namespace terminal
+}  // namespace utils
+}  // namespace terminal
