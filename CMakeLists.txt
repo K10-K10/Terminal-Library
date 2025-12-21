@@ -23,7 +23,7 @@ target_include_directories(terminalLib PUBLIC
 # Test executable
 # ----------------------------------------
 add_executable(testRunner
-    test/baseTest.cpp
+    test/main.cpp
 )
 
 target_include_directories(testRunner PUBLIC
