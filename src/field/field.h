@@ -3,27 +3,27 @@
 #ifndef TERMINAL_LIBRARY_FIELD_FIELD_H_
 #define TERMINAL_LIBRARY_FIELD_FIELD_H_
 
-#include "obj/obj.h"
-
 #include <map>
 #include <string>
+
+#include "obj/obj.h"
 
 namespace terminal {
 class Object;
 class Field {
-public:
+ public:
   Field() = default;
-  ~Field() = default;
-  Field &operator[](Object &); // Add object
+  Field& operator[](Object&);  // Add object
   Field operator()();
+  ~Field() = default;
   void show();
   void hide();
 
-private:
+ private:
   int id = 0;
-  std::map<int, int> field_map;
+  std::map<int, int> field_map;  // Map of object IDs to field IDs
   int move_x, move_y;
 };
-} // namespace terminal
+}  // namespace terminal
 
-#endif // TERMINAL_LIBRARY_FIELD_FIELD_H_
+#endif  // TERMINAL_LIBRARY_FIELD_FIELD_H_
