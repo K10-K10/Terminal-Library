@@ -6,25 +6,25 @@
 namespace terminal {
 // text
 enum TextColor {
-  black = 30,
-  red = 31,
-  green = 32,
-  yellow = 33,
-  blue = 34,
-  magenta = 35,
-  cyan = 36,
-  gray = 37
+  text_black = 30,
+  text_red = 31,
+  text_green = 32,
+  text_yellow = 33,
+  text_blue = 34,
+  text_magenta = 35,
+  text_cyan = 36,
+  text_gray = 37
 };
 // fill
 enum FillColor {
-  black = 40,
-  red = 41,
-  green = 42,
-  yellow = 43,
-  blue = 44,
-  magenta = 45,
-  cyan = 46,
-  gray = 47
+  fill_black = 40,
+  fill_red = 41,
+  fill_green = 42,
+  fill_yellow = 43,
+  fill_blue = 44,
+  fill_magenta = 45,
+  fill_cyan = 46,
+  fill_gray = 47
 };
 
 int print_color(const int& txt_color, const char* str);

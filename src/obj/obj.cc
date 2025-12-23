@@ -212,21 +212,21 @@ Object Object::change_fill_color(const std::string& color) {
 
 int Object::convert_color_name(const std::string& name, const bool& is_text) {
   if (is_text) {
-    if (name == "red") return terminal::TextColor::red;
-    if (name == "green") return terminal::TextColor::green;
-    if (name == "yellow") return terminal::TextColor::yellow;
-    if (name == "blue") return terminal::TextColor::blue;
-    if (name == "magenta") return terminal::TextColor::magenta;
-    if (name == "cyan") return terminal::TextColor::cyan;
-    if (name == "gray") return terminal::TextColor::gray;
+    if (name == "red") return terminal::TextColor::text_red;
+    if (name == "green") return terminal::TextColor::text_green;
+    if (name == "yellow") return terminal::TextColor::text_yellow;
+    if (name == "blue") return terminal::TextColor::text_blue;
+    if (name == "magenta") return terminal::TextColor::text_magenta;
+    if (name == "cyan") return terminal::TextColor::text_cyan;
+    if (name == "gray") return terminal::TextColor::text_gray;
   } else {
-    if (name == "red") return terminal::FillColor::red;
-    if (name == "green") return terminal::FillColor::green;
-    if (name == "yellow") return terminal::FillColor::yellow;
-    if (name == "blue") return terminal::FillColor::blue;
-    if (name == "magenta") return terminal::FillColor::magenta;
-    if (name == "cyan") return terminal::FillColor::cyan;
-    if (name == "gray") return terminal::FillColor::gray;
+    if (name == "red") return terminal::FillColor::fill_red;
+    if (name == "green") return terminal::FillColor::fill_green;
+    if (name == "yellow") return terminal::FillColor::fill_yellow;
+    if (name == "blue") return terminal::FillColor::fill_blue;
+    if (name == "magenta") return terminal::FillColor::fill_magenta;
+    if (name == "cyan") return terminal::FillColor::fill_cyan;
+    if (name == "gray") return terminal::FillColor::fill_gray;
   }
   return -1;
 }
