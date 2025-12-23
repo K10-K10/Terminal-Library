@@ -87,7 +87,7 @@ void LTo(const int& num) {
 }
 
 void MoveTo(const int& row, const int& col) {
-  std::cout << "\e[" << row << ";" << col << "H" << std::flush;
+  std::cout << "\e[" << (row + 1) << ";" << (col + 1) << "H";
 }
 
 int GetTerminalColumns() {
