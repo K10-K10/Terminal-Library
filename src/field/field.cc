@@ -1,5 +1,6 @@
 #include "field/field.h"
 
+#include <iostream>
 #include <map>
 #include <string>
 
@@ -9,4 +10,5 @@ Field& Field::operator[](terminal::Object& obj) {
   return *this;
 }
 Field Field::operator()() { return *this; }
+Field::~Field() { std::cout << std::endl; }
 }  // namespace terminal

@@ -13,7 +13,7 @@ void BackSpace();
 void BackSpace(const int& count);
 
 // Reset cursor & clear screen
-inline void InitCursor();
+void InitCursor();
 
 // Move cursor to row/col
 void UpFor(const int& num);

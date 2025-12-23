@@ -15,7 +15,7 @@ class Field {
   Field() = default;
   Field& operator[](Object&);  // Add object
   Field operator()();
-  ~Field() = default;
+  ~Field();
   void show();
   void hide();
 

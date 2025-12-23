@@ -8,8 +8,6 @@
 #include "utils/color.h"
 
 namespace terminal {
-int Object::cnt = 0;
-
 Object::Object(const std::string& title, const std::string& text,
                const int& row, const int& col, const int& width,
                const int& height, const int& border)
@@ -25,7 +23,7 @@ Object::Object(const std::string& title, const std::string& text,
       border_flag(border) {
   ++cnt;
   self_id = cnt;
-  self_data.gen = 0;  // TODO: add gen
+  self_data.gen = 0;  // TODO(K10-K10): add gen
   self_data.x = row;
   self_data.y = col;
   self_data.w = width;
@@ -38,7 +36,7 @@ Object::Object(const std::string& title, const std::string& text,
 Object::~Object() {
   --cnt;
   terminal_manager::obj_map.erase(self_id);
-  if (show_flag) hide();
+  // if (show_flag) hide();
 }
 
 Object Object::operator=(const std::string& new_text) {
@@ -103,7 +101,7 @@ Object Object::show() {
     std::cout << "\e[3m" << std::flush;
   if (flags & (1 << 1))  // under_bar
     std::cout << "\e[4m" << std::flush;
-  if (flags & (2 << 1)) std::cout << "\e[1m" << std::flush;
+  if (flags & (1 << 2)) std::cout << "\e[1m" << std::flush;
   while (true) {
     size_t end = text.find('\n', start);
     std::string line = (end == std::string::npos)
