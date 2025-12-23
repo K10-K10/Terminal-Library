@@ -95,7 +95,7 @@ Object Object::show() {
   text_size();
   show_flag = true;
   show_border();
-  terminal::MoveTo(row, col);
+  terminal::utils::MoveTo(row, col);
   int current_row = row;
   size_t start = 0;
 
@@ -141,7 +141,7 @@ Object Object::hide() {
   int current_row = row;
 
   for (int i = 0; i < text_height; ++i) {
-    terminal::MoveTo(current_row, col);
+    terminal::utils::MoveTo(current_row, col);
 
     for (int j = 0; j < text_width; ++j) std::cout << ' ';
 
@@ -212,21 +212,21 @@ Object Object::change_fill_color(const std::string& color) {
 
 int Object::convert_color_name(const std::string& name, const bool& is_text) {
   if (is_text) {
-    if (name == "red") return text_red;
-    if (name == "green") return text_green;
-    if (name == "yellow") return text_yellow;
-    if (name == "blue") return text_blue;
-    if (name == "magenta") return text_magenta;
-    if (name == "cyan") return text_sian;
-    if (name == "gray") return text_gray;
+    if (name == "red") return terminal::TextColor::red;
+    if (name == "green") return terminal::TextColor::green;
+    if (name == "yellow") return terminal::TextColor::yellow;
+    if (name == "blue") return terminal::TextColor::blue;
+    if (name == "magenta") return terminal::TextColor::magenta;
+    if (name == "cyan") return terminal::TextColor::cyan;
+    if (name == "gray") return terminal::TextColor::gray;
   } else {
-    if (name == "red") return fill_red;
-    if (name == "green") return fill_green;
-    if (name == "yellow") return fill_yellow;
-    if (name == "blue") return fill_blue;
-    if (name == "magenta") return fill_magenta;
-    if (name == "cyan") return fill_sian;
-    if (name == "gray") return fill_gray;
+    if (name == "red") return terminal::FillColor::red;
+    if (name == "green") return terminal::FillColor::green;
+    if (name == "yellow") return terminal::FillColor::yellow;
+    if (name == "blue") return terminal::FillColor::blue;
+    if (name == "magenta") return terminal::FillColor::magenta;
+    if (name == "cyan") return terminal::FillColor::cyan;
+    if (name == "gray") return terminal::FillColor::gray;
   }
   return -1;
 }
@@ -248,21 +248,21 @@ int Object::show_border() {
   int right = col + width - 1;
 
   // ┌───┐
-  terminal::MoveTo(top, left);
+  terminal::utils::MoveTo(top, left);
   std::cout << "┌";
   for (int c = left + 1; c < right; ++c) std::cout << "─";
   std::cout << "┐";
 
   // │   │
   for (int r = top + 1; r < bottom; ++r) {
-    terminal::MoveTo(r, left);
+    terminal::utils::MoveTo(r, left);
     std::cout << "│";
-    terminal::MoveTo(r, right);
+    terminal::utils::MoveTo(r, right);
     std::cout << "│";
   }
 
   // └───┘
-  terminal::MoveTo(bottom, left);
+  terminal::utils::MoveTo(bottom, left);
   std::cout << "└";
   for (int c = left + 1; c < right; ++c) std::cout << "─";
   std::cout << "┘";

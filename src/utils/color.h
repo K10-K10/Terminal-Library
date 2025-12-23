@@ -12,7 +12,7 @@ enum TextColor {
   yellow = 33,
   blue = 34,
   magenta = 35,
-  sian = 36,
+  cyan = 36,
   gray = 37
 };
 // fill
@@ -23,7 +23,7 @@ enum FillColor {
   yellow = 43,
   blue = 44,
   magenta = 45,
-  sian = 46,
+  cyan = 46,
   gray = 47
 };
 
