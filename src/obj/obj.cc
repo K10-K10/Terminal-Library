@@ -36,10 +36,10 @@ Object::Object(const std::string& title, const std::string& text,
 Object::~Object() {
   --cnt;
   terminal_manager::obj_map.erase(self_id);
-  // if (show_flag) hide();
+  if (show_flag) hide();
 }
 
-Object Object::operator=(const std::string& new_text) {
+Object& Object::operator=(const std::string& new_text) {
   bool was_show_flag = show_flag;
   if (show_flag) hide();
   text = new_text;
@@ -77,7 +77,7 @@ int Object::operator[](const int& num) {
 
 std::string& Object::operator()() { return text; }
 
-Object Object::clear() {
+Object& Object::clear() {
   text = "";
   text_color = -1;
   fill_color = -1;
@@ -89,72 +89,72 @@ Object Object::clear() {
 // =======================================================
 // SHOW — now supports multi-line text
 // =======================================================
-Object Object::show() {
+Object& Object::show() {
+  if (flags & (1 << 0))  // Italic
+    std::cout << "\e[3m";
+  if (flags & (1 << 1))  // under_bar
+    std::cout << "\e[4m";
+  if (flags & (1 << 2)) std::cout << "\e[1m";  // bold
   text_size();
   show_flag = true;
   show_border();
-  terminal::utils::MoveTo(row, col);
-  int current_row = row;
-  size_t start = 0;
+  int text_start_col = col + 2;
+  terminal::utils::MoveTo(row, text_start_col);
+  for (size_t i = 0; i < std::min(title.size(), static_cast<size_t>(width - 1));
+       ++i) {
+    std::cout << title[i];
+  }
 
-  if (flags & (1 << 0))  // Italic
-    std::cout << "\e[3m" << std::flush;
-  if (flags & (1 << 1))  // under_bar
-    std::cout << "\e[4m" << std::flush;
-  if (flags & (1 << 2)) std::cout << "\e[1m" << std::flush;
+  int text_start_row = row + 2;
+  terminal::utils::MoveTo(text_start_row, text_start_col);
+  int current_row = text_start_row;
+  size_t start = 0;
   while (true) {
+    if (current_row >= row + height - 1) break;
     size_t end = text.find('\n', start);
     std::string line = (end == std::string::npos)
                            ? text.substr(start)
                            : text.substr(start, end - start);
-
-    std::cout << "\e[" << current_row << ";" << col << "H";
-
-    // colors
+    std::cout << "\e[" << current_row << ";" << text_start_col << "H";
     if (text_color >= 0) std::cout << "\e[" << text_color << "m";
     if (fill_color >= 0) std::cout << "\e[" << fill_color << "m";
-
-    std::cout << line << std::flush;
-
+    std::cout << line.substr(0, width - 1);
     if (end == std::string::npos) break;
-
     start = end + 1;
     current_row++;
   }
-  if (flags & (1 << 0)) std::cout << "\e[23m" << std::flush;
   std::cout << "\e[0m" << std::flush;
   self_data.show = true;
-  terminal_manager::obj_map[self_id] = self_data;
+  terminal_manager::obj_map[self_id] =
+      self_data;  // TODO(K10-K10): update in field class?
   return *this;
 }
 
 // =======================================================
 // HIDE — correctly erases multi-line text
 // =======================================================
-Object Object::hide() {
+Object& Object::hide() {
   if (!show_flag) return *this;
-
   text_size();
-
-  int current_row = row;
-
-  for (int i = 0; i < text_height; ++i) {
-    terminal::utils::MoveTo(current_row, col);
-
-    for (int j = 0; j < text_width; ++j) std::cout << ' ';
-
-    current_row++;
+  int r = row;
+  int c = col;
+  for (int i = 0; i < width; ++i) {
+    for (int j = 0; j < height; ++j) {
+      terminal::utils::MoveTo(r + j, c + i);
+      std::cout << " ";
+    }
   }
-
   std::cout << std::flush;
   show_flag = false;
   self_data.show = false;
   terminal_manager::obj_map[self_id] = self_data;
+
+  return *this;
 }
 
 // =======================================================
 
-Object Object::move(const int& new_row, const int& new_col) {
+Object& Object::move(const int& new_row, const int& new_col) {
   bool was_showing = show_flag;
   if (was_showing) hide();
   row = new_row;
@@ -166,8 +166,8 @@ Object Object::move(const int& new_row, const int& new_col) {
   return *this;
 }
 
-Object Object::resize(const int& new_width, const int& new_height,
-                      const int& border_type) {
+Object& Object::resize(const int& new_width, const int& new_height,
+                       const int& border_type) {
   width = new_width;
   height = new_height;
   border_flag = border_type;
@@ -178,31 +178,31 @@ Object Object::resize(const int& new_width, const int& new_height,
   return *this;
 }
 
-Object Object::resize(const int& border_type) {
+Object& Object::resize(const int& border_type) {
   border_flag = border_type;
   refresh();
   return *this;
 }
 
-Object Object::change_text_color(const int& color) {
+Object& Object::change_text_color(const int& color) {
   text_color = color;
   refresh();
   return *this;
 }
 
-Object Object::change_fill_color(const int& color) {
+Object& Object::change_fill_color(const int& color) {
   fill_color = color;
   refresh();
   return *this;
 }
 
-Object Object::change_text_color(const std::string& color) {
+Object& Object::change_text_color(const std::string& color) {
   text_color = convert_color_name(color, true);
   refresh();
   return *this;
 }
 
-Object Object::change_fill_color(const std::string& color) {
+Object& Object::change_fill_color(const std::string& color) {
   fill_color = convert_color_name(color, false);
   refresh();
   return *this;
@@ -242,27 +242,27 @@ int Object::show_border() {
 
   int top = row;
   int left = col;
-  int bottom = row + height - 1;
-  int right = col + width - 1;
+  int bottom = row + height;
+  int right = col + width;
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);
   std::cout << "┌";
-  for (int c = left + 1; c < right; ++c) std::cout << "─";
+  for (int c = left + 1; c < right - 1; ++c) std::cout << "─";
   std::cout << "┐";
 
   // │   │
-  for (int r = top + 1; r < bottom; ++r) {
+  for (int r = top + 1; r < bottom - 1; ++r) {
     terminal::utils::MoveTo(r, left);
     std::cout << "│";
-    terminal::utils::MoveTo(r, right);
+    terminal::utils::MoveTo(r, right - 1);
     std::cout << "│";
   }
 
   // └───┘
-  terminal::utils::MoveTo(bottom, left);
+  terminal::utils::MoveTo(bottom - 1, left);
   std::cout << "└";
-  for (int c = left + 1; c < right; ++c) std::cout << "─";
+  for (int c = left + 1; c < right - 1; ++c) std::cout << "─";
   std::cout << "┘";
 
   std::cout << std::flush;
