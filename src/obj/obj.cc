@@ -168,6 +168,7 @@ Object& Object::move(const int& new_row, const int& new_col) {
 
 Object& Object::resize(const int& new_width, const int& new_height,
                        const int& border_type) {
+  hide();
   width = new_width;
   height = new_height;
   border_flag = border_type;
