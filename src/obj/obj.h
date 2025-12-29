@@ -19,9 +19,9 @@ class Object {
          const int& col, const int& width = 0, const int& height = 0,
          const int& border = 0);
   Object& operator=(const std::string& new_text);
-  // 0-show,1-row,2-col,3-width,4-height,5-text_width,6-text_height,7-text_color,8-fill_color,9-board,flags...
+  // 0-show,1-x,2-y,3-width,4-height,5-text_width,6-text_height,7-text_color,8-fill_color,9-board,flags...
   int operator[](const int& num);
-  std::string& operator()();
+  std::string& operator()(const int& type = 0);
   ~Object();
 
   Object& clear();

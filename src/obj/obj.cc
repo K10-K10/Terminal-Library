@@ -78,7 +78,14 @@ int Object::operator[](const int& num) {
   }
 }
 
-std::string& Object::operator()() { return text; }
+std::string& Object::operator()(const int& type = 0) {
+  if (type == 0)
+    return title;
+  else if (type == 1)
+    return text;
+  else
+    throw std::out_of_range("Object::operator() invalid type");
+}
 
 Object& Object::clear() {
   text = "";
