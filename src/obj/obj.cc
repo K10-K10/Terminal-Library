@@ -29,6 +29,8 @@ Object::Object(const std::string& title, const std::string& text,
   self_data.w = width;
   self_data.h = height;
   self_data.show = false;
+  if (terminal_manager::selected_obj_id == -1)
+    terminal_manager::selected_obj_id = self_id;
   terminal_manager::obj_map[self_id] = self_data;
   text_size();
 }
