@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 
+#include "obj/manager.h"
 #include "utils/base.h"
 #include "utils/color.h"
 

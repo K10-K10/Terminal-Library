@@ -15,7 +15,7 @@ struct ObjData {
   int show = 0;
 };
 
-int selected_obj_id = -1;
+inline int selected_obj_id = -1;
 
 inline std::map<int, ObjData> obj_map;
 }  // namespace terminal_manager
