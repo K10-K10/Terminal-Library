@@ -14,7 +14,7 @@ struct ObjData {
   int h;
   int show = 0;
 };
-// TODO(K10-K10): other obj hide -> refresh conflict obj
+
 inline std::map<int, ObjData> obj_map;
 }  // namespace terminal_manager
 

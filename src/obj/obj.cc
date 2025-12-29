@@ -248,11 +248,6 @@ int Object::show_border() {
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);
-  char c;
-  std::cin >> c;
-  if (c == '┘') {
-    std::cout << "┼";
-  }
   std::cout << "┌";
   for (int c = left + 1; c < right - 1; ++c) std::cout << "─";
   std::cout << "┐";
