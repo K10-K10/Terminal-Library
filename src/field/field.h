@@ -24,6 +24,7 @@ class Field {
   int id = 0;
   std::map<int, int> field_map;  // Map of object IDs to field IDs
   int move_x, move_y;
+  inline selected_id = -1;
 };
 }  // namespace terminal
 
