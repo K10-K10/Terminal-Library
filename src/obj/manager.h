@@ -6,6 +6,9 @@
 #include <atomic>
 #include <map>
 
+namespace terminal {
+class Object;
+}  // namespace terminal
 namespace terminal_manager {
 struct ObjData {
   int gen;
@@ -16,9 +19,12 @@ struct ObjData {
   int show = false;
 };
 
+inline std::atomic<bool> running{true};
+void obj_drowing(std::atomic<bool>& running);
+
 inline int selected_obj_id = -1;
 
-inline std::map<int, ObjData> obj_map;
+inline std::map<terminal::Object*, ObjData> obj_map;
 }  // namespace terminal_manager
 
 #endif  // TERMINAL_LIBRARY_OBJ_MANAGER_H_
