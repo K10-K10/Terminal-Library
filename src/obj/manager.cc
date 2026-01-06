@@ -1,7 +1,10 @@
 #include "obj/manager.h"
 
 #include <atomic>
+#include <chrono>
 #include <map>
+#include <mutex>
+#include <thread>
 
 #include "obj/obj.h"
 
@@ -10,16 +13,23 @@ class Object;
 }  // namespace terminal
 
 namespace terminal_manager {
-void obj_drowing(std::atomic<bool>& running) {
-  while (running) {
-    for (const auto& pair : obj_map) {
-      terminal::Object* obj_id = pair.first;
-      ObjData obj_data = pair.second;
-      if (obj_data.show) {
-        obj_id->show();
+std::atomic<bool> running{false};
+std::thread draw_thread;
+
+void obj_drawing(std::atomic<bool>& running) {
+  using namespace std::chrono_literals;
+
+  while (running.load(std::memory_order_relaxed)) {
+    {
+      std::lock_guard<std::mutex> lock(obj_mutex);
+      for (const auto& [obj, data] : obj_map) {
+        if (data.show) {
+          obj->show();
+        }
       }
     }
-    // Sleep or yield to avoid busy waiting
+    std::this_thread::sleep_for(16ms);
   }
 }
+
 }  // namespace terminal_manager

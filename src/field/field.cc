@@ -13,7 +13,12 @@ Field& Field::operator[](terminal::Object& obj) {
 
 Field Field::operator()() { return *this; }
 
-void Field::init() {}
+void Field::init() {
+  terminal_manager::running.store(true);
+
+  terminal_manager::draw_thread = std::thread(
+      terminal_manager::obj_drawing, std::ref(terminal_manager::running));
+}
 
 void Field::exit() { hide(); }
 

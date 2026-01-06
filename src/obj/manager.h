@@ -5,6 +5,8 @@
 
 #include <atomic>
 #include <map>
+#include <mutex>
+#include <thread>
 
 namespace terminal {
 class Object;
@@ -19,8 +21,12 @@ struct ObjData {
   int show = false;
 };
 
-inline std::atomic<bool> running{true};
-void obj_drowing(std::atomic<bool>& running);
+inline std::mutex obj_mutex;
+
+extern std::atomic<bool> running;
+extern std::thread draw_thread;
+
+void obj_drawing(std::atomic<bool>& running);
 
 inline int selected_obj_id = -1;
 
