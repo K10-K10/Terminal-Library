@@ -78,7 +78,7 @@ int Object::operator[](const int& num) {
   }
 }
 
-std::string& Object::operator()(const int& type = 0) {
+std::string& Object::operator()(const int& type) {
   if (type == 0)
     return title;
   else if (type == 1)
