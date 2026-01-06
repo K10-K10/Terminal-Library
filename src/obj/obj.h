@@ -47,8 +47,6 @@ class Object {
   void refresh();
   void text_size();
   int show_border();
-
-  bool show_flag = false;
   int row = 0, col = 0;
   int width = 0, height = 0;
   int border_flag = 0;  // 0-None, 1-singe, 2-double, 3-curved
