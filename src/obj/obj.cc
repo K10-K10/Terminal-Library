@@ -20,7 +20,6 @@ Object::Object(const std::string& title, const std::string& text,
       text(text),
       text_color(-1),
       fill_color(-1),
-      show_flag(false),
       border_flag(border) {
   ++cnt;
   self_id = cnt;
@@ -39,12 +38,12 @@ Object::Object(const std::string& title, const std::string& text,
 Object::~Object() {
   --cnt;
   terminal_manager::obj_map.erase(self_id);
-  if (show_flag) hide();
+  if (terminal_manager::obj_map[self_id].show) hide();
 }
 
 Object& Object::operator=(const std::string& new_text) {
-  bool was_show_flag = show_flag;
-  if (show_flag) hide();
+  bool was_show_flag = terminal_manager::obj_map[self_id].show;
+  if (terminal_manager::obj_map[self_id].show) hide();
   text = new_text;
   text_size();
   if (was_show_flag) show();
@@ -54,7 +53,7 @@ Object& Object::operator=(const std::string& new_text) {
 int Object::operator[](const int& num) {
   switch (num) {
     case 0:
-      return show_flag ? 1 : 0;
+      return terminal_manager::obj_map[self_id].show ? 1 : 0;
     case 1:
       return row;
     case 2:
@@ -106,7 +105,7 @@ Object& Object::show() {
     std::cout << "\e[4m";
   if (flags & (1 << 2)) std::cout << "\e[1m";  // bold
   text_size();
-  show_flag = true;
+  terminal_manager::obj_map[self_id].show = true;
   show_border();
   int text_start_col = col + 2;
   terminal::utils::MoveTo(row, text_start_col);
@@ -144,7 +143,7 @@ Object& Object::show() {
 // HIDE — correctly erases multi-line text
 // =======================================================
 Object& Object::hide() {
-  if (!show_flag) return *this;
+  if (!terminal_manager::obj_map[self_id].show) return *this;
   text_size();
   int r = row;
   int c = col;
@@ -155,7 +154,7 @@ Object& Object::hide() {
     }
   }
   std::cout << std::flush;
-  show_flag = false;
+  terminal_manager::obj_map[self_id].show = false;
   self_data.show = false;
   terminal_manager::obj_map[self_id] = self_data;
 
@@ -165,7 +164,7 @@ Object& Object::hide() {
 // =======================================================
 
 Object& Object::move(const int& new_row, const int& new_col) {
-  bool was_showing = show_flag;
+  bool was_showing = terminal_manager::obj_map[self_id].show;
   if (was_showing) hide();
   row = new_row;
   col = new_col;
@@ -242,7 +241,7 @@ int Object::convert_color_name(const std::string& name, const bool& is_text) {
 
 void Object::refresh() {
   text_size();
-  if (show_flag) hide();
+  if (terminal_manager::obj_map[self_id].show) hide();
   show();
 }
 

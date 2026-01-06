@@ -3,6 +3,7 @@
 #ifndef TERMINAL_LIBRARY_OBJ_MANAGER_H_
 #define TERMINAL_LIBRARY_OBJ_MANAGER_H_
 
+#include <atomic>
 #include <map>
 
 namespace terminal_manager {
@@ -12,7 +13,7 @@ struct ObjData {
   int y;
   int w;
   int h;
-  int show = 0;
+  int show = false;
 };
 
 inline int selected_obj_id = -1;
