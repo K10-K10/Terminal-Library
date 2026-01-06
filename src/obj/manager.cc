@@ -25,6 +25,8 @@ void obj_drawing(std::atomic<bool>& running) {
       for (const auto& [obj, data] : obj_map) {
         if (data.show) {
           obj->show();
+        } else {
+          obj->hide();
         }
       }
     }
