@@ -16,7 +16,7 @@ class Object {
 
  public:
   Object(const std::string& title, const std::string& text, const int& row,
-         const int& col, const int& width = 0, const int& height = 0,
+         const int& col, const int& height = 0, const int& width = 0,
          const int& border = 0);
   Object& operator=(const std::string& new_text);
   // 0-show,1-x,2-y,3-width,4-height,5-text_width,6-text_height,7-text_color,8-fill_color,9-board,flags...
@@ -30,7 +30,7 @@ class Object {
   Object& hide();
 
   Object& move(const int& new_row, const int& new_col);
-  Object& resize(const int& new_width, const int& new_height,
+  Object& resize(const int& new_height, const int& new_width,
                  const int& border_type);
   Object& resize(const int& border_type);
 
