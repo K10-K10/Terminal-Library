@@ -11,12 +11,7 @@
 namespace terminal {
 Object::Object(const std::string& title, const std::string& text,
                const int& row, const int& col, const int& height,
-               const int& width, const int& border)
-    : title(title),
-      text(text),
-      text_color(-1),
-      fill_color(-1),
-      border_flag(border) {
+               const int& width, const int& border) {
   ++cnt;
   self_id = cnt;
   self_data.gen = 0;  // TODO(K10-K10): add gen
@@ -40,9 +35,10 @@ Object::~Object() {
 Object& Object::operator=(const std::string& new_text) {
   bool was_show_flag = terminal_manager::is_showing(this);
   if (terminal_manager::is_showing(this)) hide();
-  text = new_text;
+  self_data.text = new_text;
   text_size();
   if (was_show_flag) show();
+  terminal_manager::update(this, self_data);
   return *this;
 }
 
@@ -59,15 +55,11 @@ int Object::operator[](const int& num) {
     case 4:
       return terminal_manager::obj_width(this);
     case 5:
-      return text_width;
+      return self_data.text_color;
     case 6:
-      return text_height;
+      return self_data.fill_color;
     case 7:
-      return text_color;
-    case 8:
-      return fill_color;
-    case 9:
-      return border_flag ? 1 : 0;
+      return self_data.border;
     default:
       throw std::out_of_range("Object::operator[] invalid index");
   }

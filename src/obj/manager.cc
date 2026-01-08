@@ -4,6 +4,7 @@
 #include <chrono>
 #include <map>
 #include <mutex>
+#include <string>
 #include <thread>
 
 #include "obj/obj.h"
@@ -13,26 +14,6 @@ class Object;
 }  // namespace terminal
 
 namespace terminal_manager {
-std::atomic<bool> running{false};
-std::thread draw_thread;
-
-void obj_drawing(std::atomic<bool>& running) {
-  using namespace std::chrono_literals;
-
-  while (running.load(std::memory_order_relaxed)) {
-    {
-      std::lock_guard<std::mutex> lock(obj_mutex);
-      for (const auto& [obj, data] : obj_map) {
-        if (data.show) {
-          obj->show();
-        } else {
-          obj->hide();
-        }
-      }
-    }
-    std::this_thread::sleep_for(16ms);
-  }
-}
 
 void register_object(terminal::Object* obj, const ObjData& data) {
   std::lock_guard<std::mutex> lock(obj_mutex);
@@ -76,6 +57,36 @@ int obj_height(terminal::Object* obj) {
 bool is_showing(const terminal::Object* obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map.at(const_cast<terminal::Object*>(obj)).show;
+}
+
+std::string obj_title(const terminal::Object* obj) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  return obj_map.at(const_cast<terminal::Object*>(obj)).title;
+}
+
+std::string obj_text(const terminal::Object* obj) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  return obj_map.at(const_cast<terminal::Object*>(obj)).text;
+}
+
+int obj_text_color(const terminal::Object* obj) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  return obj_map.at(const_cast<terminal::Object*>(obj)).text_color;
+}
+
+int obj_fill_color(const terminal::Object* obj) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  return obj_map.at(const_cast<terminal::Object*>(obj)).fill_color;
+}
+
+int obj_border(const terminal::Object* obj) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  return obj_map.at(const_cast<terminal::Object*>(obj)).border;
+}
+
+int obj_flags(const terminal::Object* obj) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  return obj_map.at(const_cast<terminal::Object*>(obj)).flags;
 }
 
 }  // namespace terminal_manager

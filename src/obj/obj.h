@@ -8,6 +8,7 @@
 
 #include "field/field.h"
 #include "obj/manager.h"
+#include "obj/render.h"
 
 namespace terminal {
 class Field;
@@ -47,15 +48,13 @@ class Object {
   void refresh();
   void text_size();
   int show_border();
-  int border_flag = 0;  // 0-None, 1-singe, 2-double, 3-curved
-  std::string title;
-  std::string text;
-  int text_color = -1;
-  int fill_color = -1;
-  int text_height = 1;
-  int text_width = 0;
-  // 0-italic 1-under 2-text_width
-  int flags = 0;
+  // int border_flag = 0;  // 0-None, 1-singe, 2-double, 3-curved
+  // std::string title;
+  // std::string text;
+  // int text_color = -1;
+  // int fill_color = -1;
+  // int text_height = 1;
+  // int text_width = 0;
 };
 
 }  // namespace terminal
