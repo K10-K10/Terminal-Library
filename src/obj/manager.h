@@ -30,7 +30,16 @@ void obj_drawing(std::atomic<bool>& running);
 
 inline int selected_obj_id = -1;
 
+void register_object(terminal::Object* obj, const ObjData& data);
+void update(const terminal::Object* obj, const ObjData& data);
+void unregister_object(terminal::Object* obj);
 inline std::map<terminal::Object*, ObjData> obj_map;
+int obj_generation(terminal::Object* obj);
+int obj_x(terminal::Object* obj);
+int obj_y(terminal::Object* obj);
+int obj_width(terminal::Object* obj);
+int obj_height(terminal::Object* obj);
+bool is_showing(const terminal::Object* obj);
 }  // namespace terminal_manager
 
 #endif  // TERMINAL_LIBRARY_OBJ_MANAGER_H_
