@@ -29,8 +29,6 @@ struct ObjData {
   int flags = 0;
 };
 
-inline std::mutex obj_mutex;
-
 extern std::atomic<bool> running;
 extern std::thread draw_thread;
 
@@ -40,6 +38,9 @@ void register_object(int id, const ObjData& data);
 void update(const int id, const ObjData& data);
 void unregister_object(int id);
 
+inline std::mutex obj_mutex;
+inline std::atomic<bool> running{false};
+inline std::thread draw_thread;
 inline std::map<int, ObjData> obj_map;
 
 const int obj_generation(int id);
