@@ -16,7 +16,9 @@ void draw_text(const int obj, const std::pair<int, int>& text_size);
 void draw_border(const int obj, const std::pair<int, int>& text_size);
 std::pair<int, int> cnt_text_size(const int obj);
 }  // namespace detail
-using terminal_manager::running;
+static std::mutex obj_mutex;
+static std::atomic<bool> running{false};
+static std::thread draw_thread;
 static void obj_drawing() {
   using namespace std::chrono_literals;
 
@@ -36,7 +38,7 @@ static void obj_drawing() {
 }
 
 void start() {
-  if (running.exchange(true)) return;  // 二重起動防止
+  if (running.exchange(true)) return;
   draw_thread = std::thread(obj_drawing);
 }
 

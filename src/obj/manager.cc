@@ -15,6 +15,9 @@ class Object;
 
 namespace terminal_manager {
 
+std::mutex obj_mutex;
+std::map<int, ObjData> obj_map;
+
 void register_object(int obj, const ObjData& data) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   obj_map[obj] = data;
