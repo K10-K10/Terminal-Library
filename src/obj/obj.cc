@@ -37,8 +37,8 @@ Object::Object(const std::string& title, const std::string& text,
 
 Object::~Object() {
   --cnt;
-  terminal_manager::obj_map.erase(this);
   if (terminal_manager::obj_map[this].show) hide();
+  terminal_manager::obj_map.erase(this);
 }
 
 Object& Object::operator=(const std::string& new_text) {
@@ -128,7 +128,7 @@ Object& Object::show() {
     std::cout << "\e[" << current_row << ";" << text_start_col << "H";
     if (text_color >= 0) std::cout << "\e[" << text_color << "m";
     if (fill_color >= 0) std::cout << "\e[" << fill_color << "m";
-    std::cout << line.substr(0, width - 1);
+    std::cout << line.substr(0, width - 2);
     if (end == std::string::npos) break;
     start = end + 1;
     current_row++;
@@ -148,12 +148,13 @@ Object& Object::hide() {
   text_size();
   int r = row;
   int c = col;
-  for (int i = 0; i < width; ++i) {
-    for (int j = 0; j < height; ++j) {
-      terminal::utils::MoveTo(r + j, c + i);
-      std::cout << " ";
+  for (int j = 0; j < height; ++j) {
+    terminal::utils::MoveTo(row + j, col);
+    for (int i = 0; i < width; ++i) {
+      std::cout << ' ';
     }
   }
+
   std::cout << std::flush;
   terminal_manager::obj_map[this].show = false;
   self_data.show = false;
@@ -253,8 +254,8 @@ int Object::show_border() {
 
   int top = row;
   int left = col;
-  int bottom = height;
-  int right = width;
+  int bottom = row + height;
+  int right = col + width;
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);
