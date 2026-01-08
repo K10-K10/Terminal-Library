@@ -8,7 +8,7 @@
 #include "utils/base.h"
 
 namespace terminal::input {
-Key::Key() = default;
+// Key::Key() = default;
 
 void Key::init() {
   initscr();
@@ -84,5 +84,5 @@ bool Key::read() {
   return true;
 }
 
-Key::~Key() = default;
+// Key::~Key() = default;
 }  // namespace terminal::input
