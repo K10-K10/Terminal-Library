@@ -5,6 +5,8 @@
 
 #include "feat/feature.h"
 #include "field/field.h"
+#include "input/cursor.h"
+#include "input/keyboard.h"
 #include "obj/manager.h"
 #include "obj/obj.h"
 #include "utils/base.h"
