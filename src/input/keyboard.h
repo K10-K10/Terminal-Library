@@ -23,6 +23,8 @@ enum class KeyCode {
 
 class Key {
  public:
+  Key();
+  ~Key();
   void init();
   void show();
   void hide();
