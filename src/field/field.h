@@ -15,14 +15,15 @@ class Field {
   Field() = default;
   Field& operator[](Object&);  // Add object
   Field operator()();
-  ~Field();
   void init();
+  void exit();
   void show();
   void hide();
+  ~Field();
 
  private:
   int id = 0;
-  std::map<int, int> field_map;  // Map of object IDs to field IDs
+  std::map<int, Object*> field_map;  // Map of object IDs to field IDs
   int move_x, move_y;
   int selected_id = -1;
 };
