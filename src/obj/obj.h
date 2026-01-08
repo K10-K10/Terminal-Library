@@ -8,7 +8,6 @@
 
 #include "field/field.h"
 #include "obj/manager.h"
-#include "obj/render.h"
 
 namespace terminal {
 class Object {

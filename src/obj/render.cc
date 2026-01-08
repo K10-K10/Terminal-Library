@@ -6,7 +6,6 @@
 #include <thread>
 #include <utility>
 
-#include "obj/manager.h"
 #include "utils/base.h"
 
 namespace terminal_manager::render {

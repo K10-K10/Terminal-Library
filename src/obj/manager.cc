@@ -7,12 +7,6 @@
 #include <string>
 #include <thread>
 
-#include "obj/obj.h"
-
-namespace terminal {  // namespace terminal
-class Object;
-}  // namespace terminal
-
 namespace terminal_manager {
 
 std::mutex obj_mutex;

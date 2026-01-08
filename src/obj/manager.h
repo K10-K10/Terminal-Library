@@ -9,9 +9,6 @@
 #include <string>
 #include <thread>
 
-namespace terminal {
-class Object;
-}  // namespace terminal
 namespace terminal_manager {
 struct ObjData {
   int gen;

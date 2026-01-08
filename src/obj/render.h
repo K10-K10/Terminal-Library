@@ -6,13 +6,7 @@
 #include <utility>
 
 #include "obj/manager.h"
-
-namespace terminal {
-class Object;
-class Field;
-}  // namespace terminal
 namespace terminal_manager::render {
-
 void start();
 void stop();
 static void obj_drawing();
