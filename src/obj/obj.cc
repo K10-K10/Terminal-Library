@@ -10,13 +10,13 @@
 
 namespace terminal {
 Object::Object(const std::string& title, const std::string& text,
-               const int& row, const int& col, const int& width,
-               const int& height, const int& border)
+               const int& row, const int& col, const int& height,
+               const int& width, const int& border)
     : title(title),
       row(row),
       col(col),
-      width(width),
       height(height),
+      width(width),
       text(text),
       text_color(-1),
       fill_color(-1),
