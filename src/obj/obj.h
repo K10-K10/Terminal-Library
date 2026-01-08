@@ -12,6 +12,8 @@
 
 namespace terminal {
 class Object {
+  friend class Field;
+
  public:
   Object(const std::string& title, const std::string& text, const int& row,
          const int& col, const int& height = 0, const int& width = 0,
@@ -42,9 +44,6 @@ class Object {
   int self_id;
   terminal_manager::ObjData self_data;
   int convert_color_name(const std::string& name, const bool& is_text);
-  void refresh();
-  void text_size();
-  int show_border();
 };
 
 }  // namespace terminal
