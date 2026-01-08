@@ -7,6 +7,7 @@
 #include <string>
 
 #include "obj/obj.h"
+#include "obj/render.h"
 
 namespace terminal {
 class Object;
@@ -23,7 +24,7 @@ class Field {
 
  private:
   int id = 0;
-  std::map<int, Object*> field_map;  // Map of object IDs to field IDs
+  std::map<int, int> field_map;  // Map of object IDs to field IDs
   int move_x, move_y;
   int selected_id = -1;
 };
