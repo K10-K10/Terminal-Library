@@ -117,6 +117,7 @@ Object& Object::show() {
   int text_start_row = row + 2;
   terminal::utils::MoveTo(text_start_row, text_start_col);
   int current_row = text_start_row;
+  int current_col = text_start_col;
   size_t start = 0;
   while (true) {
     if (current_row >= row + height - 1) break;
@@ -176,7 +177,7 @@ Object& Object::move(const int& new_row, const int& new_col) {
   return *this;
 }
 
-Object& Object::resize(const int& new_width, const int& new_height,
+Object& Object::resize(const int& new_height, const int& new_width,
                        const int& border_type) {
   hide();
   width = new_width;
