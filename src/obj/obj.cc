@@ -252,8 +252,8 @@ int Object::show_border() {
 
   int top = row;
   int left = col;
-  int bottom = row + height;
-  int right = col + width;
+  int bottom = height;
+  int right = width;
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);
