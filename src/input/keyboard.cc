@@ -8,9 +8,7 @@
 #include "utils/base.h"
 
 namespace terminal::input {
-// Key::Key() = default;
-
-void Key::init() {
+Key::Key() {
   initscr();
   cbreak();
   noecho();
@@ -18,6 +16,8 @@ void Key::init() {
   nodelay(stdscr, TRUE);
   is_visible = false;
 }
+
+void Key::init() {}
 
 void Key::show() {
   is_visible = true;
@@ -84,5 +84,5 @@ bool Key::read() {
   return true;
 }
 
-// Key::~Key() = default;
+Key::~Key() { endwin(); };
 }  // namespace terminal::input
