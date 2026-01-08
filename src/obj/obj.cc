@@ -13,10 +13,6 @@ Object::Object(const std::string& title, const std::string& text,
                const int& row, const int& col, const int& height,
                const int& width, const int& border)
     : title(title),
-      row(row),
-      col(col),
-      height(height),
-      width(width),
       text(text),
       text_color(-1),
       fill_color(-1),
@@ -55,13 +51,13 @@ int Object::operator[](const int& num) {
     case 0:
       return terminal_manager::is_showing(this) ? 1 : 0;
     case 1:
-      return row;
+      return terminal_manager::obj_x(this);
     case 2:
-      return col;
+      return terminal_manager::obj_y(this);
     case 3:
-      return width;
+      return terminal_manager::obj_height(this);
     case 4:
-      return height;
+      return terminal_manager::obj_width(this);
     case 5:
       return text_width;
     case 6:
@@ -99,6 +95,7 @@ Object& Object::clear() {
 // SHOW — now supports multi-line text
 // =======================================================
 Object& Object::show() {
+  int col = self_data.y;
   if (flags & (1 << 0))  // Italic
     std::cout << "\e[3m";
   if (flags & (1 << 1))  // under_bar
@@ -109,19 +106,23 @@ Object& Object::show() {
   terminal_manager::update(this, self_data);
   show_border();
   int text_start_col = col + 2;
-  terminal::utils::MoveTo(row, text_start_col);
-  for (size_t i = 0; i < std::min(title.size(), static_cast<size_t>(width - 1));
+  terminal::utils::MoveTo(terminal_manager::obj_x(this), text_start_col);
+  for (size_t i = 0;
+       i < std::min(title.size(),
+                    static_cast<size_t>(terminal_manager::obj_width(this) - 1));
        ++i) {
     std::cout << title[i];
   }
 
-  int text_start_row = row + 2;
+  int text_start_row = terminal_manager::obj_x(this) + 2;
   terminal::utils::MoveTo(text_start_row, text_start_col);
   int current_row = text_start_row;
   int current_col = text_start_col;
   size_t start = 0;
   while (true) {
-    if (current_row >= row + height - 1) break;
+    if (current_row >=
+        terminal_manager::obj_x(this) + terminal_manager::obj_height(this) - 1)
+      break;
     size_t end = text.find('\n', start);
     std::string line = (end == std::string::npos)
                            ? text.substr(start)
@@ -129,7 +130,7 @@ Object& Object::show() {
     std::cout << "\e[" << current_row << ";" << text_start_col << "H";
     if (text_color >= 0) std::cout << "\e[" << text_color << "m";
     if (fill_color >= 0) std::cout << "\e[" << fill_color << "m";
-    std::cout << line.substr(0, width - 2);
+    std::cout << line.substr(0, terminal_manager::obj_width(this) - 2);
     if (end == std::string::npos) break;
     start = end + 1;
     current_row++;
@@ -147,11 +148,12 @@ Object& Object::show() {
 Object& Object::hide() {
   if (!terminal_manager::is_showing(this)) return *this;
   text_size();
-  int r = row;
-  int c = col;
-  for (int j = 0; j < height; ++j) {
-    terminal::utils::MoveTo(row + j, col);
-    for (int i = 0; i < width; ++i) {
+  int r = terminal_manager::obj_x(this);
+  int c = terminal_manager::obj_y(this);
+  for (int j = 0; j < terminal_manager::obj_height(this); ++j) {
+    terminal::utils::MoveTo(terminal_manager::obj_x(this) + j,
+                            terminal_manager::obj_y(this));
+    for (int i = 0; i < terminal_manager::obj_width(this); ++i) {
       std::cout << ' ';
     }
   }
@@ -168,11 +170,9 @@ Object& Object::hide() {
 Object& Object::move(const int& new_row, const int& new_col) {
   bool was_showing = terminal_manager::is_showing(this);
   if (was_showing) hide();
-  row = new_row;
-  col = new_col;
+  self_data.x = new_row;
+  self_data.y = new_col;
   if (was_showing) show();
-  self_data.x = row;
-  self_data.y = col;
   terminal_manager::update(this, self_data);
   return *this;
 }
@@ -180,12 +180,10 @@ Object& Object::move(const int& new_row, const int& new_col) {
 Object& Object::resize(const int& new_height, const int& new_width,
                        const int& border_type) {
   hide();
-  width = new_width;
-  height = new_height;
+  self_data.w = new_width;
+  self_data.h = new_height;
   border_flag = border_type;
   refresh();
-  self_data.w = width;
-  self_data.h = height;
   terminal_manager::update(this, self_data);
   return *this;
 }
@@ -252,10 +250,10 @@ int Object::show_border() {
 
   if (border_flag != 1) return -1;
 
-  int top = row;
-  int left = col;
-  int bottom = row + height;
-  int right = col + width;
+  int top = terminal_manager::obj_x(this);
+  int left = terminal_manager::obj_y(this);
+  int bottom = top + terminal_manager::obj_height(this);
+  int right = left + terminal_manager::obj_width(this);
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);

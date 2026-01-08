@@ -19,7 +19,7 @@ class Object {
          const int& col, const int& height = 0, const int& width = 0,
          const int& border = 0);
   Object& operator=(const std::string& new_text);
-  // 0-show,1-x,2-y,3-width,4-height,5-text_width,6-text_height,7-text_color,8-fill_color,9-board,flags...
+  // 0-show,1-x,2-y,3-height,4-width,5-text_width,6-text_height,7-text_color,8-fill_color,9-border,flags...
   int operator[](const int& num);
   std::string& operator()(const int& type = 0);
   ~Object();
@@ -47,8 +47,6 @@ class Object {
   void refresh();
   void text_size();
   int show_border();
-  int row = 0, col = 0;
-  int width = 0, height = 0;
   int border_flag = 0;  // 0-None, 1-singe, 2-double, 3-curved
   std::string title;
   std::string text;
