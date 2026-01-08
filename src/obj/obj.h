@@ -10,18 +10,17 @@
 #include "obj/manager.h"
 
 namespace terminal {
-class Field;
 class Object {
-  friend Field;
+  friend class Field;
 
  public:
   Object(const std::string& title, const std::string& text, const int& row,
          const int& col, const int& height = 0, const int& width = 0,
          const int& border = 0);
   Object& operator=(const std::string& new_text);
-  // 0-show,1-x,2-y,3-width,4-height,5-text_width,6-text_height,7-text_color,8-fill_color,9-board,flags...
+  // 0-show,1-x,2-y,3-height,4-width,5-text_width,6-text_height,7-text_color,8-fill_color,9-border,flags...
   int operator[](const int& num);
-  std::string& operator()(const int& type = 0);
+  std::string operator()(const int& type = 0);
   ~Object();
 
   Object& clear();
@@ -44,20 +43,6 @@ class Object {
   int self_id;
   terminal_manager::ObjData self_data;
   int convert_color_name(const std::string& name, const bool& is_text);
-  void refresh();
-  void text_size();
-  int show_border();
-  int row = 0, col = 0;
-  int width = 0, height = 0;
-  int border_flag = 0;  // 0-None, 1-singe, 2-double, 3-curved
-  std::string title;
-  std::string text;
-  int text_color = -1;
-  int fill_color = -1;
-  int text_height = 1;
-  int text_width = 0;
-  // 0-italic 1-under 2-text_width
-  int flags = 0;
 };
 
 }  // namespace terminal

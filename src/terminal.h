@@ -9,6 +9,7 @@
 #include "input/keyboard.h"
 #include "obj/manager.h"
 #include "obj/obj.h"
+#include "obj/render.h"
 #include "utils/base.h"
 #include "utils/color.h"
 
