@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 
+#include "obj/render.h"
+
 namespace terminal {
 Field& Field::operator[](terminal::Object& obj) {
   field_map[id] = &obj;
@@ -16,8 +18,9 @@ Field Field::operator()() { return *this; }
 void Field::init() {
   terminal_manager::running.store(true);
 
-  terminal_manager::draw_thread = std::thread(
-      terminal_manager::obj_drawing, std::ref(terminal_manager::running));
+  terminal_manager::draw_thread =
+      std::thread(terminal_manager::Render::obj_drawing,
+                  std::ref(terminal_manager::running));
 }
 
 void Field::exit() {

@@ -15,78 +15,79 @@ class Object;
 
 namespace terminal_manager {
 
-void register_object(terminal::Object* obj, const ObjData& data) {
+void register_object(int obj, const ObjData& data) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   obj_map[obj] = data;
 }
 
-void update(const terminal::Object* obj, const ObjData& data) {
+void update(const int obj, const ObjData& data) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  obj_map[const_cast<terminal::Object*>(obj)] = data;
+  obj_map[obj] = data;
 }
 
-void unregister_object(terminal::Object* obj) {
+void unregister_object(int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   obj_map.erase(obj);
 }
 
-int obj_generation(terminal::Object* obj) {
+const int obj_generation(int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].gen;
 }
 
-int obj_x(terminal::Object* obj) {
+const int obj_x(int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].x;
 }
 
-int obj_y(terminal::Object* obj) {
+const int obj_y(int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].y;
 }
-int obj_width(terminal::Object* obj) {
+
+const int obj_width(int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].w;
 }
 
-int obj_height(terminal::Object* obj) {
+const int obj_height(int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].h;
 }
 
-bool is_showing(const terminal::Object* obj) {
+const bool is_showing(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).show;
+  return obj_map[obj].show;
 }
 
-std::string obj_title(const terminal::Object* obj) {
+const std::string obj_title(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).title;
+  return obj_map[obj].title;
 }
 
-std::string obj_text(const terminal::Object* obj) {
+const std::string obj_text(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).text;
+  return obj_map[obj].text;
 }
 
-int obj_text_color(const terminal::Object* obj) {
+const int obj_text_color(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).text_color;
+  return obj_map[obj].text_color;
 }
 
-int obj_fill_color(const terminal::Object* obj) {
+const int obj_fill_color(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).fill_color;
+  return obj_map[obj].fill_color;
 }
 
-int obj_border(const terminal::Object* obj) {
+const int obj_border(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).border;
+  return obj_map[obj].border;
 }
 
-int obj_flags(const terminal::Object* obj) {
+const int obj_flags(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).flags;
+  return obj_map[obj].flags;
 }
 
 }  // namespace terminal_manager

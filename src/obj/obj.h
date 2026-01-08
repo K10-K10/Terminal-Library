@@ -11,10 +11,7 @@
 #include "obj/render.h"
 
 namespace terminal {
-class Field;
 class Object {
-  friend Field;
-
  public:
   Object(const std::string& title, const std::string& text, const int& row,
          const int& col, const int& height = 0, const int& width = 0,
@@ -22,7 +19,7 @@ class Object {
   Object& operator=(const std::string& new_text);
   // 0-show,1-x,2-y,3-height,4-width,5-text_width,6-text_height,7-text_color,8-fill_color,9-border,flags...
   int operator[](const int& num);
-  std::string& operator()(const int& type = 0);
+  std::string operator()(const int& type = 0);
   ~Object();
 
   Object& clear();
@@ -48,13 +45,6 @@ class Object {
   void refresh();
   void text_size();
   int show_border();
-  // int border_flag = 0;  // 0-None, 1-singe, 2-double, 3-curved
-  // std::string title;
-  // std::string text;
-  // int text_color = -1;
-  // int fill_color = -1;
-  // int text_height = 1;
-  // int text_width = 0;
 };
 
 }  // namespace terminal

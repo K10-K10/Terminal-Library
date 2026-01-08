@@ -36,24 +36,24 @@ extern std::thread draw_thread;
 
 inline int selected_obj_id = -1;
 
-void register_object(terminal::Object* obj, const ObjData& data);
-void update(const terminal::Object* obj, const ObjData& data);
-void unregister_object(terminal::Object* obj);
+void register_object(int id, const ObjData& data);
+void update(const int id, const ObjData& data);
+void unregister_object(int id);
 
-inline std::map<terminal::Object*, ObjData> obj_map;
+inline std::map<int, ObjData> obj_map;
 
-int obj_generation(terminal::Object* obj);
-int obj_x(terminal::Object* obj);
-int obj_y(terminal::Object* obj);
-int obj_width(terminal::Object* obj);
-int obj_height(terminal::Object* obj);
-bool is_showing(const terminal::Object* obj);
-std::string obj_title(const terminal::Object* obj);
-std::string obj_text(const terminal::Object* obj);
-int obj_text_color(const terminal::Object* obj);
-int obj_fill_color(const terminal::Object* obj);
-int obj_border(const terminal::Object* obj);
-int obj_flags(const terminal::Object* obj);
+const int obj_generation(int id);
+const int obj_x(int id);
+const int obj_y(int id);
+const int obj_width(int id);
+const int obj_height(int id);
+const bool is_showing(const int id);
+const std::string obj_title(const int id);
+const std::string obj_text(const int id);
+const int obj_text_color(const int id);
+const int obj_fill_color(const int id);
+const int obj_border(const int id);
+const int obj_flags(const int id);
 
 }  // namespace terminal_manager
 

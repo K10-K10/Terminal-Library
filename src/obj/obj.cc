@@ -22,64 +22,65 @@ Object::Object(const std::string& title, const std::string& text,
   self_data.show = false;
   if (terminal_manager::selected_obj_id == -1)
     terminal_manager::selected_obj_id = self_id;
-  terminal_manager::register_object(this, self_data);
+  terminal_manager::register_object(self_id, self_data);
   text_size();
 }
 
 Object::~Object() {
   --cnt;
-  if (terminal_manager::is_showing(this)) hide();
-  terminal_manager::unregister_object(this);
+  if (terminal_manager::is_showing(self_id)) hide();
+  terminal_manager::unregister_object(self_id);
 }
 
 Object& Object::operator=(const std::string& new_text) {
-  bool was_show_flag = terminal_manager::is_showing(this);
-  if (terminal_manager::is_showing(this)) hide();
+  bool was_show_flag = terminal_manager::is_showing(self_id);
+  if (terminal_manager::is_showing(self_id)) hide();
   self_data.text = new_text;
   text_size();
   if (was_show_flag) show();
-  terminal_manager::update(this, self_data);
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
 int Object::operator[](const int& num) {
   switch (num) {
     case 0:
-      return terminal_manager::is_showing(this) ? 1 : 0;
+      return terminal_manager::is_showing(self_id) ? 1 : 0;
     case 1:
-      return terminal_manager::obj_x(this);
+      return terminal_manager::obj_x(self_id);
     case 2:
-      return terminal_manager::obj_y(this);
+      return terminal_manager::obj_y(self_id);
     case 3:
-      return terminal_manager::obj_height(this);
+      return terminal_manager::obj_height(self_id);
     case 4:
-      return terminal_manager::obj_width(this);
+      return terminal_manager::obj_width(self_id);
     case 5:
-      return self_data.text_color;
+      return terminal_manager::obj_text_color(self_id);
     case 6:
-      return self_data.fill_color;
+      return terminal_manager::obj_fill_color(self_id);
     case 7:
-      return self_data.border;
+      return terminal_manager::obj_border(self_id);
     default:
       throw std::out_of_range("Object::operator[] invalid index");
   }
 }
 
-std::string& Object::operator()(const int& type) {
+std::string Object::operator()(const int& type) {
   if (type == 0)
-    return title;
+    return terminal_manager::obj_title(self_id);
   else if (type == 1)
-    return text;
+    return terminal_manager::obj_text(self_id);
   else
     throw std::out_of_range("Object::operator() invalid type");
 }
 
 Object& Object::clear() {
-  text = "";
-  text_color = -1;
-  fill_color = -1;
-  flags = 0;
+  self_data.text = "";
+  self_data.text_color = -1;
+  self_data.fill_color = -1;
+  self_data.flags = 0;
   refresh();
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
@@ -88,48 +89,53 @@ Object& Object::clear() {
 // =======================================================
 Object& Object::show() {
   int col = self_data.y;
-  if (flags & (1 << 0))  // Italic
+  if (terminal_manager::obj_flags(self_id) & (1 << 0))  // Italic
     std::cout << "\e[3m";
-  if (flags & (1 << 1))  // under_bar
+  if (terminal_manager::obj_flags(self_id) & (1 << 1))  // under_bar
     std::cout << "\e[4m";
-  if (flags & (1 << 2)) std::cout << "\e[1m";  // bold
+  if (terminal_manager::obj_flags(self_id) & (1 << 2))
+    std::cout << "\e[1m";  // bold
   text_size();
   self_data.show = true;
-  terminal_manager::update(this, self_data);
+  terminal_manager::update(self_id, self_data);
   show_border();
   int text_start_col = col + 2;
-  terminal::utils::MoveTo(terminal_manager::obj_x(this), text_start_col);
+  terminal::utils::MoveTo(terminal_manager::obj_x(self_id), text_start_col);
   for (size_t i = 0;
-       i < std::min(title.size(),
-                    static_cast<size_t>(terminal_manager::obj_width(this) - 1));
+       i <
+       std::min(terminal_manager::obj_title(self_id).size(),
+                static_cast<size_t>(terminal_manager::obj_width(self_id) - 1));
        ++i) {
-    std::cout << title[i];
+    std::cout << terminal_manager::obj_title(self_id)[i];
   }
 
-  int text_start_row = terminal_manager::obj_x(this) + 2;
+  int text_start_row = terminal_manager::obj_x(self_id) + 2;
   terminal::utils::MoveTo(text_start_row, text_start_col);
   int current_row = text_start_row;
   int current_col = text_start_col;
   size_t start = 0;
   while (true) {
-    if (current_row >=
-        terminal_manager::obj_x(this) + terminal_manager::obj_height(this) - 1)
+    if (current_row >= terminal_manager::obj_x(self_id) +
+                           terminal_manager::obj_height(self_id) - 1)
       break;
-    size_t end = text.find('\n', start);
-    std::string line = (end == std::string::npos)
-                           ? text.substr(start)
-                           : text.substr(start, end - start);
+    size_t end = terminal_manager::obj_text(self_id).find('\n', start);
+    std::string line =
+        (end == std::string::npos)
+            ? terminal_manager::obj_text(self_id).substr(start)
+            : terminal_manager::obj_text(self_id).substr(start, end - start);
     std::cout << "\e[" << current_row << ";" << text_start_col << "H";
-    if (text_color >= 0) std::cout << "\e[" << text_color << "m";
-    if (fill_color >= 0) std::cout << "\e[" << fill_color << "m";
-    std::cout << line.substr(0, terminal_manager::obj_width(this) - 2);
+    if (terminal_manager::obj_text_color(self_id) >= 0)
+      std::cout << "\e[" << terminal_manager::obj_text_color(self_id) << "m";
+    if (terminal_manager::obj_fill_color(self_id) >= 0)
+      std::cout << "\e[" << terminal_manager::obj_fill_color(self_id) << "m";
+    std::cout << line.substr(0, terminal_manager::obj_width(self_id) - 2);
     if (end == std::string::npos) break;
     start = end + 1;
     current_row++;
   }
   std::cout << "\e[0m" << std::flush;
   self_data.show = true;
-  terminal_manager::update(this,
+  terminal_manager::update(self_id,
                            self_data);  // TODO(K10-K10): update in field class?
   return *this;
 }
@@ -138,21 +144,21 @@ Object& Object::show() {
 // HIDE — correctly erases multi-line text
 // =======================================================
 Object& Object::hide() {
-  if (!terminal_manager::is_showing(this)) return *this;
+  if (!terminal_manager::is_showing(self_id)) return *this;
   text_size();
-  int r = terminal_manager::obj_x(this);
-  int c = terminal_manager::obj_y(this);
-  for (int j = 0; j < terminal_manager::obj_height(this); ++j) {
-    terminal::utils::MoveTo(terminal_manager::obj_x(this) + j,
-                            terminal_manager::obj_y(this));
-    for (int i = 0; i < terminal_manager::obj_width(this); ++i) {
+  int r = terminal_manager::obj_x(self_id);
+  int c = terminal_manager::obj_y(self_id);
+  for (int j = 0; j < terminal_manager::obj_height(self_id); ++j) {
+    terminal::utils::MoveTo(terminal_manager::obj_x(self_id) + j,
+                            terminal_manager::obj_y(self_id));
+    for (int i = 0; i < terminal_manager::obj_width(self_id); ++i) {
       std::cout << ' ';
     }
   }
 
   std::cout << std::flush;
   self_data.show = false;
-  terminal_manager::update(this, self_data);
+  terminal_manager::update(self_id, self_data);
 
   return *this;
 }
@@ -160,12 +166,12 @@ Object& Object::hide() {
 // =======================================================
 
 Object& Object::move(const int& new_row, const int& new_col) {
-  bool was_showing = terminal_manager::is_showing(this);
+  bool was_showing = terminal_manager::is_showing(self_id);
   if (was_showing) hide();
   self_data.x = new_row;
   self_data.y = new_col;
   if (was_showing) show();
-  terminal_manager::update(this, self_data);
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
@@ -174,39 +180,44 @@ Object& Object::resize(const int& new_height, const int& new_width,
   hide();
   self_data.w = new_width;
   self_data.h = new_height;
-  border_flag = border_type;
+  self_data.border = border_type;
   refresh();
-  terminal_manager::update(this, self_data);
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
 Object& Object::resize(const int& border_type) {
-  border_flag = border_type;
+  self_data.border = border_type;
   refresh();
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
 Object& Object::change_text_color(const int& color) {
-  text_color = color;
+  self_data.text_color = color;
   refresh();
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
 Object& Object::change_fill_color(const int& color) {
-  fill_color = color;
+  self_data.fill_color = color;
   refresh();
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
 Object& Object::change_text_color(const std::string& color) {
-  text_color = convert_color_name(color, true);
+  self_data.text_color = convert_color_name(color, true);
   refresh();
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
 Object& Object::change_fill_color(const std::string& color) {
-  fill_color = convert_color_name(color, false);
+  self_data.fill_color = convert_color_name(color, false);
   refresh();
+  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
@@ -233,19 +244,19 @@ int Object::convert_color_name(const std::string& name, const bool& is_text) {
 
 void Object::refresh() {
   text_size();
-  if (terminal_manager::is_showing(this)) hide();
+  if (terminal_manager::is_showing(self_id)) hide();
   show();
 }
 
 int Object::show_border() {
-  if (border_flag == 0) return 0;
+  if (terminal_manager::obj_border(self_id) == 0) return 0;
 
-  if (border_flag != 1) return -1;
+  if (terminal_manager::obj_border(self_id) != 1) return -1;
 
-  int top = terminal_manager::obj_x(this);
-  int left = terminal_manager::obj_y(this);
-  int bottom = top + terminal_manager::obj_height(this);
-  int right = left + terminal_manager::obj_width(this);
+  int top = terminal_manager::obj_x(self_id);
+  int left = terminal_manager::obj_y(self_id);
+  int bottom = top + terminal_manager::obj_height(self_id);
+  int right = left + terminal_manager::obj_width(self_id);
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);
@@ -271,24 +282,4 @@ int Object::show_border() {
   return 0;
 }
 
-// =======================================================
-// text_size — better multi-line support
-// =======================================================
-void Object::text_size() {
-  text_height = 1;
-  text_width = 0;
-
-  int current_text_width = 0;
-
-  for (char c : text) {
-    if (c == '\n') {
-      text_width = std::max(text_width, current_text_width);
-      text_height++;
-      current_text_width = 0;
-    } else {
-      current_text_width++;
-    }
-  }
-  text_width = std::max(text_width, current_text_width);
-}
 }  // namespace terminal
