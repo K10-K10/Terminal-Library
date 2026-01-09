@@ -27,6 +27,19 @@ void unregister_object(int obj) {
   obj_map.erase(obj);
 }
 
+// ===
+// input obj_map
+// ===
+
+void set_show(int obj, bool flag) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  obj_map[obj].show = flag;
+}
+
+// ===
+// output obj_map data
+// ===
+
 const int obj_generation(int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].gen;
@@ -52,7 +65,7 @@ const int obj_height(int obj) {
   return obj_map[obj].h;
 }
 
-const bool is_showing(const int obj) {
+const bool obj_showing(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].show;
 }
@@ -86,5 +99,9 @@ const int obj_flags(const int obj) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   return obj_map[obj].flags;
 }
+
+// ===
+// end output functions
+// ===
 
 }  // namespace terminal_manager

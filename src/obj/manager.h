@@ -38,12 +38,14 @@ void unregister_object(int id);
 extern std::mutex obj_mutex;
 extern std::map<int, ObjData> obj_map;
 
+void set_show(int id, bool flag);
+
 const int obj_generation(int id);
 const int obj_x(int id);
 const int obj_y(int id);
 const int obj_width(int id);
 const int obj_height(int id);
-const bool is_showing(const int id);
+const bool obj_showing(const int id);
 const std::string obj_title(const int id);
 const std::string obj_text(const int id);
 const int obj_text_color(const int id);
