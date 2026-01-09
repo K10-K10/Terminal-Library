@@ -9,12 +9,12 @@
 #include "utils/color.h"
 
 namespace terminal {
-Object::getect(std::string title, std::string text, int row, int col,
+Object::Object(std::string title, std::string text, int row, int col,
                int height, int width, int border) {
   static std::atomic<int> cnt{0};
   self_id = ++cnt;
 
-  terminal_manager::getData data{};
+  terminal_manager::ObjData data{};
   data.y = row;
   data.x = col;
   data.h = height;

@@ -16,7 +16,7 @@ void draw_border(const int obj, const std::pair<int, int>& text_size);
 std::pair<int, int> cnt_text_size(const int obj);
 }  // namespace detail
 
-using terminal_manager::get_mutex;
+using terminal_manager::obj_mutex;
 static std::atomic<bool> running{false};
 static std::thread draw_thread;
 
