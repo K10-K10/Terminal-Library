@@ -16,7 +16,7 @@ void draw_border(const int obj, const std::pair<int, int>& text_size);
 std::pair<int, int> cnt_text_size(const int obj);
 }  // namespace detail
 
-using terminal_manager::obj_mutex;
+using terminal_manager::get_mutex;
 static std::atomic<bool> running{false};
 static std::thread draw_thread;
 
@@ -27,8 +27,8 @@ static void obj_drawing() {
     {
       std::lock_guard<std::mutex> lock(obj_mutex);
       for (const auto& [id, data] : obj_map) {
+        std::cerr << "[render] id=" << id << " show=" << data.show << "\n";
         if (!data.show) continue;
-        std::cerr << id << "\n";
         std::pair<int, int> text_size = detail::cnt_text_size(id);
         detail::draw_border(id, text_size);
         detail::draw_title(id);
@@ -52,64 +52,53 @@ void stop() {
 namespace detail {
 void draw_title(const int obj) {
   // Implementation for drawing title
-  if (terminal_manager::obj_title(obj).empty()) return;
+  if (terminal_manager::get_title(obj).empty()) return;
 
-  int title_start_col = terminal_manager::obj_y(obj) + 2;
-  terminal::utils::MoveTo(terminal_manager::obj_x(obj), title_start_col);
+  int title_start_col = terminal_manager::get_y(obj) + 2;
+  terminal::utils::MoveTo(terminal_manager::get_x(obj), title_start_col);
   for (size_t i = 0;
-       i < std::min(terminal_manager::obj_title(obj).size(),
-                    static_cast<size_t>(terminal_manager::obj_width(obj) - 1));
+       i < std::min(terminal_manager::get_title(obj).size(),
+                    static_cast<size_t>(terminal_manager::get_width(obj) - 1));
        ++i) {
-    std::cout << terminal_manager::obj_title(obj)[i];
+    std::cout << terminal_manager::get_title(obj)[i];
   }
 }
 
-void draw_text(const int obj, const std::pair<int, int>& text_size) {
-  // Implementation for drawing text
-  if (terminal_manager::obj_flags(obj) & (1 << 0))  // Italic
-    std::cout << "\e[3m";
-  if (terminal_manager::obj_flags(obj) & (1 << 1))  // under_bar
-    std::cout << "\e[4m";
-  if (terminal_manager::obj_flags(obj) & (1 << 2))
-    std::cout << "\e[1m";  // bold
-  detail::cnt_text_size(obj);
-  int text_start_col = terminal_manager::obj_x(obj) + 2;
-  int text_start_row = terminal_manager::obj_y(obj) + 2;
-  terminal::utils::MoveTo(text_start_col, text_start_row);
-  int current_col = text_start_col;
-  int current_row = text_start_row;
-  size_t start = 0;
-  while (true) {
-    if (current_col >=
-        terminal_manager::obj_x(obj) + terminal_manager::obj_height(obj) - 1)
-      break;
-    size_t end = terminal_manager::obj_text(obj).find('\n', start);
+void draw_text(const int obj, const std::pair<int, int>&) {  // TODO: add style
+  int start_row = terminal_manager::get_y(obj) + 2;
+  int start_col = terminal_manager::get_x(obj) + 2;
+
+  int row = start_row;
+  size_t pos = 0;
+
+  while (row <
+         terminal_manager::get_y(obj) + terminal_manager::get_height(obj) - 1) {
+    size_t end = terminal_manager::get_text(obj).find('\n', pos);
     std::string line =
         (end == std::string::npos)
-            ? terminal_manager::obj_text(obj).substr(start)
-            : terminal_manager::obj_text(obj).substr(start, end - start);
-    std::cout << "\e[" << current_col << ";" << text_start_row << "H";
-    if (terminal_manager::obj_text_color(obj) >= 0)
-      std::cout << "\e[" << terminal_manager::obj_text_color(obj) << "m";
-    if (terminal_manager::obj_fill_color(obj) >= 0)
-      std::cout << "\e[" << terminal_manager::obj_fill_color(obj) << "m";
-    std::cout << line.substr(0, terminal_manager::obj_width(obj) - 2);
+            ? terminal_manager::get_text(obj).substr(pos)
+            : terminal_manager::get_text(obj).substr(pos, end - pos);
+
+    terminal::utils::MoveTo(row, start_col);
+    std::cout << line.substr(0, terminal_manager::get_width(obj) - 2);
+
     if (end == std::string::npos) break;
-    start = end + 1;
-    current_col++;
+    pos = end + 1;
+    row++;
   }
+
   std::cout << "\e[0m" << std::flush;
 }
 
 void draw_border(const int obj, const std::pair<int, int>& text_size) {
   // Implementation for drawing border
-  if (terminal_manager::obj_border(obj) == 0) return;
-  if (terminal_manager::obj_border(obj) != 1) return;
+  if (terminal_manager::get_border(obj) == 0) return;
+  if (terminal_manager::get_border(obj) != 1) return;
 
-  int top = terminal_manager::obj_x(obj);
-  int left = terminal_manager::obj_y(obj);
-  int bottom = top + terminal_manager::obj_height(obj);
-  int right = left + terminal_manager::obj_width(obj);
+  int top = terminal_manager::get_x(obj);
+  int left = terminal_manager::get_y(obj);
+  int bottom = top + terminal_manager::get_height(obj);
+  int right = left + terminal_manager::get_width(obj);
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);
