@@ -9,11 +9,11 @@
 #include "utils/color.h"
 
 namespace terminal {
-Object::Object(std::string title, std::string text, int row, int col,
-               int height, int width, int border) {
+Object::Object(const std::string& title, const std::string& text,
+               const int& row, const int& col, const int& height,
+               const int& width, const int& border) {
   static std::atomic<int> cnt{0};
   self_id = ++cnt;
-
   terminal_manager::ObjData data{};
   data.y = row;
   data.x = col;
@@ -36,9 +36,8 @@ Object::~Object() {
 Object& Object::operator=(const std::string& new_text) {
   bool was_show_flag = terminal_manager::get_showing(self_id);
   if (terminal_manager::get_showing(self_id)) hide();
-  self_data.text = new_text;
+  terminal_manager::set_text(self_id, new_text);
   if (was_show_flag) show();
-  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
@@ -75,11 +74,11 @@ std::string Object::operator()(const int& type) {
 }
 
 Object& Object::clear() {
-  self_data.text = "";
-  self_data.text_color = -1;
-  self_data.fill_color = -1;
-  self_data.flags = 0;
-  terminal_manager::update(self_id, self_data);
+  terminal_manager::set_text(self_id, "");
+  terminal_manager::set_title(self_id, "");
+  terminal_manager::set_text_color(self_id, -1);
+  terminal_manager::set_fill_color(self_id, -1);
+  terminal_manager::set_flags(self_id, 0);
   return *this;
 }
 
@@ -87,8 +86,7 @@ Object& Object::clear() {
 // SHOW — now supports multi-line text
 // =======================================================
 Object& Object::show() {
-  self_data.show = true;
-  terminal_manager::update(self_id, self_data);
+  terminal_manager::set_show(self_id, true);
   return *this;
 }
 
@@ -96,9 +94,7 @@ Object& Object::show() {
 // HIDE — correctly erases multi-line text
 // =======================================================
 Object& Object::hide() {
-  if (!terminal_manager::get_showing(self_id)) return *this;
-  self_data.show = false;
-  terminal_manager::update(self_id, self_data);
+  terminal_manager::set_show(self_id, false);
   return *this;
 }
 
@@ -107,50 +103,44 @@ Object& Object::hide() {
 Object& Object::move(const int& new_row, const int& new_col) {
   bool was_showing = terminal_manager::get_showing(self_id);
   if (was_showing) hide();
-  self_data.x = new_row;
-  self_data.y = new_col;
+  terminal_manager::set_x(self_id, new_row);
+  terminal_manager::set_y(self_id, new_col);
   if (was_showing) show();
-  terminal_manager::update(self_id, self_data);
   return *this;
 }
 
 Object& Object::resize(const int& new_height, const int& new_width,
                        const int& border_type) {
-  hide();
-  self_data.w = new_width;
-  self_data.h = new_height;
-  self_data.border = border_type;
-  terminal_manager::update(self_id, self_data);
+  terminal_manager::set_width(self_id, new_width);
+  terminal_manager::set_height(self_id, new_height);
+  terminal_manager::set_border(self_id, border_type);
   return *this;
 }
 
 Object& Object::resize(const int& border_type) {
-  self_data.border = border_type;
-  terminal_manager::update(self_id, self_data);
+  terminal_manager::set_border(self_id, border_type);
   return *this;
 }
 
 Object& Object::change_text_color(const int& color) {
-  self_data.text_color = color;
-  terminal_manager::update(self_id, self_data);
+  terminal_manager::set_text_color(self_id, color);
   return *this;
 }
 
 Object& Object::change_fill_color(const int& color) {
-  self_data.fill_color = color;
-  terminal_manager::update(self_id, self_data);
+  terminal_manager::set_fill_color(self_id, color);
   return *this;
 }
 
 Object& Object::change_text_color(const std::string& color) {
-  self_data.text_color = convert_color_name(color, true);
-  terminal_manager::update(self_id, self_data);
+  int new_color = convert_color_name(color, true);
+  terminal_manager::set_text_color(self_id, new_color);
   return *this;
 }
 
 Object& Object::change_fill_color(const std::string& color) {
-  self_data.fill_color = convert_color_name(color, false);
-  terminal_manager::update(self_id, self_data);
+  int new_color = convert_color_name(color, false);
+  terminal_manager::set_fill_color(self_id, new_color);
   return *this;
 }
 
