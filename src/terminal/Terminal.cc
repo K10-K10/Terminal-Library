@@ -6,8 +6,8 @@
 namespace terminal {
 
 void Terminal::init() {
+  utils::clear();
   terminal_manager::render::start();
-  utils::InitCursor();
 }
 
 void Terminal::shutdown() { terminal_manager::render::stop(); }
