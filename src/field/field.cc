@@ -15,13 +15,6 @@ Field& Field::operator[](terminal::Object& obj) {
 
 Field Field::operator()() { return *this; }
 
-void Field::init() { terminal_manager::render::start(); }
-
-void Field::exit() {
-  hide();
-  terminal_manager::render::stop();
-}
-
 void Field::show() {
   for (const auto& pair : field_map) {
     int obj = pair.second;
