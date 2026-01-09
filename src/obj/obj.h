@@ -41,7 +41,6 @@ class Object {
  private:
   inline static int cnt = 0;
   int self_id;
-  terminal_manager::ObjData self_data;
   int convert_color_name(const std::string& name, const bool& is_text);
 };
 

@@ -10,7 +10,7 @@
 namespace terminal {
 Field& Field::operator[](terminal::Object& obj) {
   field_map[id] = obj.self_id;
-  std::cerr << id << "\n";
+  std::cerr << "field adding obj id" << obj.self_id << "\n";
   ++id;
   return *this;
 }
@@ -18,16 +18,14 @@ Field& Field::operator[](terminal::Object& obj) {
 Field Field::operator()() { return *this; }
 
 void Field::show() {
-  for (const auto& pair : field_map) {
-    int obj = pair.second;
-    terminal_manager::obj_map[obj].show = true;
+  for (const auto& [_, obj] : field_map) {
+    terminal_manager::set_show(obj, true);
   }
 }
 
-void Field::hide() {  // TODO(K10-K10): doesn't work
-  for (const auto& pair : field_map) {
-    int obj = pair.second;
-    terminal_manager::obj_map[obj].show = false;
+void Field::hide() {
+  for (const auto& [_, obj] : field_map) {
+    terminal_manager::set_show(obj, false);
   }
 }
 
