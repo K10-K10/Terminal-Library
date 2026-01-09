@@ -6,6 +6,7 @@
 #include <thread>
 #include <utility>
 
+#include "obj/manager.h"
 #include "utils/base.h"
 
 namespace terminal_manager::render {
@@ -22,14 +23,12 @@ static std::thread draw_thread;
 
 static void obj_drawing() {
   using namespace std::chrono_literals;
-  std::cerr << "render tick, objects=" << obj_map.size() << "\n";
   while (running.load(std::memory_order_relaxed)) {
     {
       std::lock_guard<std::mutex> lock(obj_mutex);
       for (const auto& [id, data] : obj_map) {
-        std::cerr << "[render] id=" << id << " show=" << data.show << "\n";
         if (!data.show) continue;
-        std::pair<int, int> text_size = detail::cnt_text_size(id);
+        auto text_size = detail::cnt_text_size(id);
         detail::draw_border(id, text_size);
         detail::draw_title(id);
         detail::draw_text(id, text_size);
@@ -51,34 +50,30 @@ void stop() {
 
 namespace detail {
 void draw_title(const int obj) {
-  // Implementation for drawing title
-  if (terminal_manager::get_title(obj).empty()) return;
-
-  int title_start_col = terminal_manager::get_y(obj) + 2;
-  terminal::utils::MoveTo(terminal_manager::get_x(obj), title_start_col);
+  const auto& title = terminal_manager::get_title(obj);
+  if (title.empty()) return;
+  int row = terminal_manager::get_y(obj);
+  int col = terminal_manager::get_x(obj) + 2;
+  terminal::utils::MoveTo(row, col);
   for (size_t i = 0;
-       i < std::min(terminal_manager::get_title(obj).size(),
-                    static_cast<size_t>(terminal_manager::get_width(obj) - 1));
+       i < std::min(title.size(),
+                    static_cast<size_t>(terminal_manager::get_width(obj) - 2));
        ++i) {
-    std::cout << terminal_manager::get_title(obj)[i];
+    std::cout << title[i];
   }
 }
 
-void draw_text(const int obj, const std::pair<int, int>&) {  // TODO: add style
-  int start_row = terminal_manager::get_y(obj) + 2;
-  int start_col = terminal_manager::get_x(obj) + 2;
-
+void draw_text(const int obj, const std::pair<int, int>&) {
+  int start_row = terminal_manager::get_y(obj) + 1;
+  int start_col = terminal_manager::get_x(obj) + 1;
   int row = start_row;
   size_t pos = 0;
-
+  const auto& text = terminal_manager::get_text(obj);
   while (row <
          terminal_manager::get_y(obj) + terminal_manager::get_height(obj) - 1) {
-    size_t end = terminal_manager::get_text(obj).find('\n', pos);
-    std::string line =
-        (end == std::string::npos)
-            ? terminal_manager::get_text(obj).substr(pos)
-            : terminal_manager::get_text(obj).substr(pos, end - pos);
-
+    size_t end = text.find('\n', pos);
+    std::string line = (end == std::string::npos) ? text.substr(pos)
+                                                  : text.substr(pos, end - pos);
     terminal::utils::MoveTo(row, start_col);
     std::cout << line.substr(0, terminal_manager::get_width(obj) - 2);
 
@@ -86,8 +81,6 @@ void draw_text(const int obj, const std::pair<int, int>&) {  // TODO: add style
     pos = end + 1;
     row++;
   }
-
-  std::cout << "\e[0m" << std::flush;
 }
 
 void draw_border(const int obj, const std::pair<int, int>& text_size) {
@@ -95,8 +88,8 @@ void draw_border(const int obj, const std::pair<int, int>& text_size) {
   if (terminal_manager::get_border(obj) == 0) return;
   if (terminal_manager::get_border(obj) != 1) return;
 
-  int top = terminal_manager::get_x(obj);
-  int left = terminal_manager::get_y(obj);
+  int top = terminal_manager::get_y(obj);
+  int left = terminal_manager::get_x(obj);
   int bottom = top + terminal_manager::get_height(obj);
   int right = left + terminal_manager::get_width(obj);
 
