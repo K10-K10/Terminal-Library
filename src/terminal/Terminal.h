@@ -4,7 +4,7 @@
 
 namespace terminal {
 
-class App {
+class Terminal {
  public:
   static void init();
   static void shutdown();

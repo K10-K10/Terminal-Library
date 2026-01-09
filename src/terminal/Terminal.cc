@@ -5,11 +5,11 @@
 
 namespace terminal {
 
-void App::init() {
+void Terminal::init() {
   terminal_manager::render::start();
   utils::InitCursor();
 }
 
-void App::shutdown() { terminal_manager::render::stop(); }
+void Terminal::shutdown() { terminal_manager::render::stop(); }
 
 }  // namespace terminal
