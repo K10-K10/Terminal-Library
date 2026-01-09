@@ -1,5 +1,6 @@
 #include "obj/manager.h"
 
+#include <iostream>
 #include <map>
 #include <mutex>
 #include <string>
@@ -198,6 +199,32 @@ const int get_flags(int id) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   if (auto* o = find_obj(id)) return o->flags;
   return 0;
+}
+
+void dump_all_objects() {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+
+  std::cerr << "==== terminal_manager::dump_all_objects ====\n";
+  std::cerr << "object count = " << obj_map.size() << "\n";
+
+  for (const auto& [id, d] : obj_map) {
+    std::cerr << "------------------------------------------\n"
+              << "id          : " << id << "\n"
+              << "gen         : " << d.gen << "\n"
+              << "show        : " << d.show << "\n"
+              << "x           : " << d.x << "\n"
+              << "y           : " << d.y << "\n"
+              << "width       : " << d.w << "\n"
+              << "height      : " << d.h << "\n"
+              << "border      : " << d.border << "\n"
+              << "flags       : " << d.flags << "\n"
+              << "text_color  : " << d.text_color << "\n"
+              << "fill_color  : " << d.fill_color << "\n"
+              << "title       : \"" << d.title << "\"\n"
+              << "text        : \"" << d.text << "\"\n";
+  }
+
+  std::cerr << "==========================================\n";
 }
 
 }  // namespace terminal_manager
