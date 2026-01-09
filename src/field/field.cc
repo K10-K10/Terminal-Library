@@ -4,11 +4,13 @@
 #include <map>
 #include <string>
 
+#include "obj/manager.h"
 #include "obj/render.h"
 
 namespace terminal {
 Field& Field::operator[](terminal::Object& obj) {
   field_map[id] = obj.self_id;
+  std::cerr << id << "\n";
   ++id;
   return *this;
 }

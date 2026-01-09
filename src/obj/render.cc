@@ -15,17 +15,20 @@ void draw_text(const int obj, const std::pair<int, int>& text_size);
 void draw_border(const int obj, const std::pair<int, int>& text_size);
 std::pair<int, int> cnt_text_size(const int obj);
 }  // namespace detail
+
 using terminal_manager::obj_mutex;
 static std::atomic<bool> running{false};
 static std::thread draw_thread;
+
 static void obj_drawing() {
   using namespace std::chrono_literals;
-
+  std::cerr << "render tick, objects=" << obj_map.size() << "\n";
   while (running.load(std::memory_order_relaxed)) {
     {
       std::lock_guard<std::mutex> lock(obj_mutex);
       for (const auto& [id, data] : obj_map) {
         if (!data.show) continue;
+        std::cerr << id << "\n";
         std::pair<int, int> text_size = detail::cnt_text_size(id);
         detail::draw_border(id, text_size);
         detail::draw_title(id);
