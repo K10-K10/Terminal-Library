@@ -9,15 +9,15 @@ namespace terminal_manager {
 // =====================
 // globals
 // =====================
-std::mutex get_mutex;
-std::map<int, ObjData> get_map;
+std::mutex obj_mutex;
+std::map<int, ObjData> obj_map;
 
 // =====================
 // internal helper
 // =====================
 static ObjData* find_obj(int id) {
-  auto it = get_map.find(id);
-  if (it == get_map.end()) return nullptr;
+  auto it = obj_map.find(id);
+  if (it == obj_map.end()) return nullptr;
   return &it->second;
 }
 
@@ -26,12 +26,12 @@ static ObjData* find_obj(int id) {
 // =====================
 void register_object(int id, const ObjData& data) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  get_map[id] = data;
+  obj_map[id] = data;
 }
 
 void unregister_object(int id) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  get_map.erase(id);
+  obj_map.erase(id);
 }
 
 // =====================
@@ -164,16 +164,16 @@ const bool get_showing(int id) {
   return false;
 }
 
-const std::string& get_title(int id) {
+const std::string get_title(int id) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   if (auto* o = find_obj(id)) return o->title;
-  return {};
+  return "";
 }
 
-const std::string& get_text(int id) {
+const std::string get_text(int id) {
   std::lock_guard<std::mutex> lock(obj_mutex);
   if (auto* o = find_obj(id)) return o->text;
-  return {};
+  return "";
 }
 
 const int get_text_color(int id) {
