@@ -11,6 +11,7 @@ add_library(terminal
     src/obj/render.cc
     src/utils/base.cc
     src/utils/color.cc
+    src/terminal/Terminal.cc
 )
 
 target_include_directories(terminal PUBLIC
@@ -18,3 +19,10 @@ target_include_directories(terminal PUBLIC
 )
 
 target_compile_features(terminal PUBLIC cxx_std_20)
+
+option(TERMINAL_BUILD_TESTS "Build dev tests" OFF)
+
+if (TERMINAL_BUILD_TESTS AND NOT TARGET terminal_test)
+  add_executable(terminal_test test/main.cpp)
+  target_link_libraries(terminal_test PRIVATE terminal)
+endif()
