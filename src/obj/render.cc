@@ -25,7 +25,6 @@ static void obj_drawing() {
   using namespace std::chrono_literals;
   while (running.load(std::memory_order_relaxed)) {
     {
-      std::lock_guard<std::mutex> lock(obj_mutex);
       for (const auto& [id, data] : obj_map) {
         if (!data.show) continue;
         auto text_size = detail::cnt_text_size(id);
