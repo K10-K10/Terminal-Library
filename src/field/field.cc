@@ -10,8 +10,6 @@
 namespace terminal {
 Field& Field::operator[](terminal::Object& obj) {
   field_map[id] = obj.self_id;
-  std::cerr << "field adding obj id" << obj.self_id << "\n";
-  ++id;
   return *this;
 }
 
