@@ -15,7 +15,7 @@ Key::Key() {
   keypad(stdscr, TRUE);
   nodelay(stdscr, TRUE);
   is_visible = false;
-}
+};
 
 void Key::init() {}
 

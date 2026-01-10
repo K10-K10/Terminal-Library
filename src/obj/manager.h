@@ -9,9 +9,6 @@
 #include <string>
 #include <thread>
 
-namespace terminal {
-class Object;
-}  // namespace terminal
 namespace terminal_manager {
 struct ObjData {
   int gen;
@@ -29,32 +26,41 @@ struct ObjData {
   int flags = 0;
 };
 
-inline std::mutex obj_mutex;
-
 extern std::atomic<bool> running;
 extern std::thread draw_thread;
 
 inline int selected_obj_id = -1;
 
-void register_object(terminal::Object* obj, const ObjData& data);
-void update(const terminal::Object* obj, const ObjData& data);
-void unregister_object(terminal::Object* obj);
+void register_object(int id, const ObjData& data);
+void unregister_object(int id);
 
-inline std::map<terminal::Object*, ObjData> obj_map;
+extern std::mutex obj_mutex;
+extern std::map<int, ObjData> obj_map;
 
-int obj_generation(terminal::Object* obj);
-int obj_x(terminal::Object* obj);
-int obj_y(terminal::Object* obj);
-int obj_width(terminal::Object* obj);
-int obj_height(terminal::Object* obj);
-bool is_showing(const terminal::Object* obj);
-std::string obj_title(const terminal::Object* obj);
-std::string obj_text(const terminal::Object* obj);
-int obj_text_color(const terminal::Object* obj);
-int obj_fill_color(const terminal::Object* obj);
-int obj_border(const terminal::Object* obj);
-int obj_flags(const terminal::Object* obj);
+void set_x(int id, int x);
+void set_y(int id, int y);
+void set_width(int id, int width);
+void set_height(int id, int height);
+void set_show(int id, bool flag);
+void set_title(int id, std::string title);
+void set_text(int id, std::string text);
+void set_text_color(int id, int value);
+void set_fill_color(int id, int value);
+void set_border(int id, int border);
+void set_flags(int id, int flags);
 
+const int get_generation(int id);
+const int get_x(int id);
+const int get_y(int id);
+const int get_width(int id);
+const int get_height(int id);
+const bool get_showing(const int id);
+const std::string get_title(const int id);
+const std::string get_text(const int id);
+const int get_text_color(const int id);
+const int get_fill_color(const int id);
+const int get_border(const int id);
+const int get_flags(const int id);
 }  // namespace terminal_manager
 
 #endif  // TERMINAL_LIBRARY_OBJ_MANAGER_H_
