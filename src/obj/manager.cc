@@ -1,92 +1,203 @@
 #include "obj/manager.h"
 
-#include <atomic>
-#include <chrono>
 #include <map>
 #include <mutex>
 #include <string>
-#include <thread>
-
-#include "obj/obj.h"
-
-namespace terminal {  // namespace terminal
-class Object;
-}  // namespace terminal
 
 namespace terminal_manager {
 
-void register_object(terminal::Object* obj, const ObjData& data) {
-  std::lock_guard<std::mutex> lock(obj_mutex);
-  obj_map[obj] = data;
+// =====================
+// globals
+// =====================
+std::mutex obj_mutex;
+std::map<int, ObjData> obj_map;
+
+// =====================
+// internal helper
+// =====================
+static ObjData* find_obj(int id) {
+  auto it = obj_map.find(id);
+  if (it == obj_map.end()) return nullptr;
+  return &it->second;
 }
 
-void update(const terminal::Object* obj, const ObjData& data) {
+// =====================
+// register / unregister
+// =====================
+void register_object(int id, const ObjData& data) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  obj_map[const_cast<terminal::Object*>(obj)] = data;
+  obj_map[id] = data;
 }
 
-void unregister_object(terminal::Object* obj) {
+void unregister_object(int id) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  obj_map.erase(obj);
+  obj_map.erase(id);
 }
 
-int obj_generation(terminal::Object* obj) {
+// =====================
+// setters
+// =====================
+void set_x(int id, int x) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map[obj].gen;
+  if (auto* o = find_obj(id)) {
+    o->x = x;
+    o->gen++;
+  }
 }
 
-int obj_x(terminal::Object* obj) {
+void set_y(int id, int y) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map[obj].x;
+  if (auto* o = find_obj(id)) {
+    o->y = y;
+    o->gen++;
+  }
 }
 
-int obj_y(terminal::Object* obj) {
+void set_width(int id, int width) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map[obj].y;
-}
-int obj_width(terminal::Object* obj) {
-  std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map[obj].w;
-}
-
-int obj_height(terminal::Object* obj) {
-  std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map[obj].h;
+  if (auto* o = find_obj(id)) {
+    o->w = width;
+    o->gen++;
+  }
 }
 
-bool is_showing(const terminal::Object* obj) {
+void set_height(int id, int height) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).show;
+  if (auto* o = find_obj(id)) {
+    o->h = height;
+    o->gen++;
+  }
 }
 
-std::string obj_title(const terminal::Object* obj) {
+void set_show(int id, bool flag) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).title;
+  if (auto* o = find_obj(id)) {
+    o->show = flag;
+    o->gen++;
+  }
 }
 
-std::string obj_text(const terminal::Object* obj) {
+void set_title(int id, std::string title) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).text;
+  if (auto* o = find_obj(id)) {
+    o->title = std::move(title);
+    o->gen++;
+  }
 }
 
-int obj_text_color(const terminal::Object* obj) {
+void set_text(int id, std::string text) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).text_color;
+  if (auto* o = find_obj(id)) {
+    o->text = std::move(text);
+    o->gen++;
+  }
 }
 
-int obj_fill_color(const terminal::Object* obj) {
+void set_text_color(int id, int value) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).fill_color;
+  if (auto* o = find_obj(id)) {
+    o->text_color = value;
+    o->gen++;
+  }
 }
 
-int obj_border(const terminal::Object* obj) {
+void set_fill_color(int id, int value) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).border;
+  if (auto* o = find_obj(id)) {
+    o->fill_color = value;
+    o->gen++;
+  }
 }
 
-int obj_flags(const terminal::Object* obj) {
+void set_border(int id, int border) {
   std::lock_guard<std::mutex> lock(obj_mutex);
-  return obj_map.at(const_cast<terminal::Object*>(obj)).flags;
+  if (auto* o = find_obj(id)) {
+    o->border = border;
+    o->gen++;
+  }
+}
+
+void set_flags(int id, int flags) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) {
+    o->flags = flags;
+    o->gen++;
+  }
+}
+
+// =====================
+// getters
+// =====================
+const int get_generation(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->gen;
+  return 0;
+}
+
+const int get_x(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->x;
+  return 0;
+}
+
+const int get_y(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->y;
+  return 0;
+}
+
+const int get_width(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->w;
+  return 0;
+}
+
+const int get_height(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->h;
+  return 0;
+}
+
+const bool get_showing(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->show;
+  return false;
+}
+
+const std::string get_title(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->title;
+  return "";
+}
+
+const std::string get_text(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->text;
+  return "";
+}
+
+const int get_text_color(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->text_color;
+  return -1;
+}
+
+const int get_fill_color(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->fill_color;
+  return -1;
+}
+
+const int get_border(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->border;
+  return 0;
+}
+
+const int get_flags(int id) {
+  std::lock_guard<std::mutex> lock(obj_mutex);
+  if (auto* o = find_obj(id)) return o->flags;
+  return 0;
 }
 
 }  // namespace terminal_manager
