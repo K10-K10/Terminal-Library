@@ -61,10 +61,6 @@ const int get_text_color(const int id);
 const int get_fill_color(const int id);
 const int get_border(const int id);
 const int get_flags(const int id);
-
-// debug
-void dump_all_objects();
-
 }  // namespace terminal_manager
 
 #endif  // TERMINAL_LIBRARY_OBJ_MANAGER_H_
