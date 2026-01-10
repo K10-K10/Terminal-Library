@@ -13,9 +13,8 @@ add_library(terminal
     src/utils/color.cc
 )
 
-target_include_directories(terminal
-    PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+target_include_directories(terminal PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 target_compile_features(terminal PUBLIC cxx_std_20)
