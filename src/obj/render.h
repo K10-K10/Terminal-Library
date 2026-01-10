@@ -7,9 +7,9 @@
 
 #include "obj/manager.h"
 namespace terminal_manager::render {
-void start();
+void start(int fps = 60);
 void stop();
-static void obj_drawing();
+static void obj_drawing(int fps);
 
 namespace detail {
 void draw_text(const int obj, const std::pair<int, int>& text_size);
