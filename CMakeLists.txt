@@ -8,14 +8,18 @@ file(GLOB_RECURSE LIB_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/**/*.cc"
 )
 
-add_library(terminalLib ${LIB_SOURCES})
-
-target_include_directories(terminalLib PUBLIC
+target_include_directories(terminal PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-add_executable(testRunner
+add_executable(test
     test/main.cpp
 )
 
-target_link_libraries(testRunner PRIVATE terminalLib)
+target_link_libraries(test PRIVATE terminalLib)
+
+add_executable(test
+    test/main.cpp
+)
+
+target_link_libraries(test PRIVATE terminal)
