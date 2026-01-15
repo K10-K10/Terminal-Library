@@ -21,8 +21,10 @@ using terminal_manager::obj_mutex;
 static std::atomic<bool> running{false};
 static std::thread draw_thread;
 
-static void obj_drawing() {
+static void obj_drawing(int fps) {
   using namespace std::chrono_literals;
+  if (fps <= 0) fps = 60;
+  auto frame_time = std::chrono::milliseconds(1000 / fps);
   while (running.load(std::memory_order_relaxed)) {
     {
       for (const auto& [id, data] : obj_map) {
@@ -33,13 +35,14 @@ static void obj_drawing() {
         detail::draw_text(id, text_size);
       }
     }
-    std::this_thread::sleep_for(16ms);
+    constexpr auto fps_s = 16ms;
+    std::this_thread::sleep_for(frame_time);
   }
 }
 
-void start() {
+void start(int fps) {
   if (running.exchange(true)) return;
-  draw_thread = std::thread(obj_drawing);
+  draw_thread = std::thread(obj_drawing, fps);
 }
 
 void stop() {
