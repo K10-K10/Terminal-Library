@@ -17,6 +17,9 @@ void Terminal::init(int fps) {
   terminal_manager::render::start(fps);
 }
 
-void Terminal::shutdown() { terminal_manager::render::stop(); }
+void Terminal::shutdown() {
+  terminal_manager::render::stop();
+  std::cout << "\x1b[?1049l" << std::flush;
+}
 
 }  // namespace terminal
