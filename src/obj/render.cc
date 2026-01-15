@@ -27,6 +27,7 @@ static void obj_drawing(int fps) {
   auto frame_time = std::chrono::milliseconds(1000 / fps);
   while (running.load(std::memory_order_relaxed)) {
     {
+      terminal::utils::clear();
       for (const auto& [id, data] : obj_map) {
         if (!data.show) continue;
         auto text_size = detail::cnt_text_size(id);
