@@ -7,6 +7,7 @@ namespace terminal {
 class Terminal {
  public:
   static void init();
+  static void init(int fps);
   static void shutdown();
 };
 
