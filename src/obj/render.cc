@@ -27,6 +27,11 @@ static void obj_drawing(int fps) {
   auto frame_time = std::chrono::milliseconds(1000 / fps);
   while (running.load(std::memory_order_relaxed)) {
     {
+      if (sig_flag == SIGWINCH) {
+        sig_flag = 0;
+        terminal::utils::terminal_row = terminal::utils::GetTerminalRows();
+        terminal::utils::terminal_col = terminal::utils::GetTerminalColumns();
+      }
       terminal::utils::clear();
       for (const auto& [id, data] : obj_map) {
         if (!data.show) continue;

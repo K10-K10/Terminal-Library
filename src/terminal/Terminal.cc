@@ -7,8 +7,7 @@
 #include "utils/base.h"
 #include "utils/internal.h"
 namespace {
-volatile std::sig_atomic_t resize_flag = 0;
-void handler(int signum) { resize_flag = 1; }
+void handler(int signum) { _terminal_manager::sig_flag = signum; }
 }  // namespace
 
 namespace terminal {

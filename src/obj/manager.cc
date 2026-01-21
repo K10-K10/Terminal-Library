@@ -1,10 +1,13 @@
 #include "obj/manager.h"
 
+#include <csignal>
 #include <map>
 #include <mutex>
 #include <string>
 
 namespace _terminal_manager {
+
+inline volatile std::sig_atomic_t sig_flag = 0;
 
 // =====================
 // globals

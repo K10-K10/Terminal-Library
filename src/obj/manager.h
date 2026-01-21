@@ -4,6 +4,7 @@
 #define TERMINAL_LIBRARY_OBJ_MANAGER_H_
 
 #include <atomic>
+#include <csignal>
 #include <map>
 #include <mutex>
 #include <string>
@@ -25,6 +26,8 @@ struct ObjData {
   // 0-italic 1-under 2-text_width
   int flags = 0;
 };
+
+extern volatile std::sig_atomic_t sig_flag;
 
 extern std::atomic<bool> running;
 extern std::thread draw_thread;
