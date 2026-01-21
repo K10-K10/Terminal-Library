@@ -9,9 +9,9 @@
 #include "utils/color.h"
 
 namespace terminal {
-Object::Object(const std::string& title, const std::string& text,
-               const int& row, const int& col, const int& height,
-               const int& width, const int& border) {
+Object::Object(const std::string& title, const std::string& text, const int row,
+               const int col, const int height, const int width,
+               const int border) {
   static std::atomic<int> cnt{0};
   self_id = ++cnt;
   _terminal_manager::ObjData data{};

@@ -14,9 +14,9 @@ class Object {
   friend class Field;
 
  public:
-  Object(const std::string& title, const std::string& text, const int& row,
-         const int& col, const int& height = 0, const int& width = 0,
-         const int& border = 0);
+  Object(const std::string& title, const std::string& text, const int row,
+         const int col, const int height = 0, const int width = 0,
+         const int border = 0);
   Object& operator=(const std::string& new_text);
   // 0-show,1-x,2-y,3-height,4-width,5-text_width,6-text_height,7-text_color,8-fill_color,9-border,flags...
   int operator[](const int& num);
