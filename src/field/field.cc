@@ -17,13 +17,13 @@ Field Field::operator()() { return *this; }
 
 void Field::show() {
   for (const auto& [_, obj] : field_map) {
-    terminal_manager::set_show(obj, true);
+    _terminal_manager::set_show(obj, true);
   }
 }
 
 void Field::hide() {
   for (const auto& [_, obj] : field_map) {
-    terminal_manager::set_show(obj, false);
+    _terminal_manager::set_show(obj, false);
   }
 }
 

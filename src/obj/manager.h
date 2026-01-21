@@ -9,7 +9,7 @@
 #include <string>
 #include <thread>
 
-namespace terminal_manager {
+namespace _terminal_manager {
 struct ObjData {
   int gen;
   int x;
@@ -61,6 +61,6 @@ const int get_text_color(const int id);
 const int get_fill_color(const int id);
 const int get_border(const int id);
 const int get_flags(const int id);
-}  // namespace terminal_manager
+}  // namespace _terminal_manager
 
 #endif  // TERMINAL_LIBRARY_OBJ_MANAGER_H_

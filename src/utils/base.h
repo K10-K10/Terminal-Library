@@ -5,6 +5,7 @@
 
 namespace terminal {
 namespace utils {
+
 // Clear screen
 void clear();
 

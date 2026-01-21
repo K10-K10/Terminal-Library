@@ -4,7 +4,7 @@
 #include <mutex>
 #include <string>
 
-namespace terminal_manager {
+namespace _terminal_manager {
 
 // =====================
 // globals
@@ -200,4 +200,4 @@ const int get_flags(int id) {
   return 0;
 }
 
-}  // namespace terminal_manager
+}  // namespace _terminal_manager
