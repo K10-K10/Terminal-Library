@@ -3,6 +3,8 @@
 #ifndef TERMINAL_LIBRARY_UTILS_BASE_H_
 #define TERMINAL_LIBRARY_UTILS_BASE_H_
 
+#define FULL -1
+
 namespace terminal {
 namespace utils {
 

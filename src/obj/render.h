@@ -12,6 +12,8 @@ void stop();
 static void obj_drawing(int fps);
 
 namespace detail {
+inline int terminal_row = 0;
+inline int terminal_col = 0;
 void draw_text(const int obj, const std::pair<int, int>& text_size);
 void draw_title(const int obj);
 void draw_border(const int obj, const std::pair<int, int>& text_size);

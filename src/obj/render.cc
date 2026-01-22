@@ -25,12 +25,14 @@ static void obj_drawing(int fps) {
   using namespace std::chrono_literals;
   if (fps <= 0) fps = 60;
   auto frame_time = std::chrono::milliseconds(1000 / fps);
+  detail::terminal_row = terminal::utils::GetTerminalRows();
+  detail::terminal_col = terminal::utils::GetTerminalColumns();
   while (running.load(std::memory_order_relaxed)) {
     {
       if (sig_flag == SIGWINCH) {
         sig_flag = 0;
-        terminal::utils::terminal_row = terminal::utils::GetTerminalRows();
-        terminal::utils::terminal_col = terminal::utils::GetTerminalColumns();
+        detail::terminal_row = terminal::utils::GetTerminalRows();
+        detail::terminal_col = terminal::utils::GetTerminalColumns();
       }
       terminal::utils::clear();
       for (const auto& [id, data] : obj_map) {
@@ -98,8 +100,12 @@ void draw_border(const int obj, const std::pair<int, int>& text_size) {
 
   int top = _terminal_manager::get_y(obj);
   int left = _terminal_manager::get_x(obj);
-  int bottom = top + _terminal_manager::get_height(obj);
-  int right = left + _terminal_manager::get_width(obj);
+  int bottom = top + (_terminal_manager::get_height(obj) == FULL
+                          ? detail::terminal_row
+                          : _terminal_manager::get_height(obj));
+  int right = left + (_terminal_manager::get_width(obj) == FULL
+                          ? detail::terminal_col
+                          : _terminal_manager::get_width(obj));
 
   // ┌───┐
   terminal::utils::MoveTo(top, left);
