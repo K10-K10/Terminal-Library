@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "obj/manager.h"
+#include "terminal/Terminal.h"
 #include "utils/base.h"
 
 namespace _terminal_manager::render {
@@ -33,6 +34,10 @@ static void obj_drawing(int fps) {
         sig_flag = 0;
         detail::terminal_row = terminal::utils::GetTerminalRows();
         detail::terminal_col = terminal::utils::GetTerminalColumns();
+      }
+      if (sig_flag == SIGINT) {
+        _terminal_manager::render::stop();
+        terminal::Terminal::shutdown();
       }
       terminal::utils::clear();
       for (const auto& [id, data] : obj_map) {
