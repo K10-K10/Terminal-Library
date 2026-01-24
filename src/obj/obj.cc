@@ -122,23 +122,23 @@ Object& Object::resize(const int& border_type) {
   return *this;
 }
 
-Object& Object::change_text_color(const int& color) {
+Object& Object::changeTextColor(const int& color) {
   _terminal_manager::set_text_color(self_id, color);
   return *this;
 }
 
-Object& Object::change_fill_color(const int& color) {
+Object& Object::changeFillColor(const int& color) {
   _terminal_manager::set_fill_color(self_id, color);
   return *this;
 }
 
-Object& Object::change_text_color(const std::string& color) {
+Object& Object::changeTextColor(const std::string& color) {
   int new_color = convert_color_name(color, true);
   _terminal_manager::set_text_color(self_id, new_color);
   return *this;
 }
 
-Object& Object::change_fill_color(const std::string& color) {
+Object& Object::changeFillColor(const std::string& color) {
   int new_color = convert_color_name(color, false);
   _terminal_manager::set_fill_color(self_id, new_color);
   return *this;

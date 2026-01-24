@@ -26,14 +26,14 @@ static void obj_drawing(int fps) {
   using namespace std::chrono_literals;
   if (fps <= 0) fps = 60;
   auto frame_time = std::chrono::milliseconds(1000 / fps);
-  detail::terminal_row = terminal::utils::GetTerminalRows();
-  detail::terminal_col = terminal::utils::GetTerminalColumns();
+  detail::terminal_row = terminal::utils::getTerminalRows();
+  detail::terminal_col = terminal::utils::getTerminalColumns();
   while (running.load(std::memory_order_relaxed)) {
     {
       if (sig_flag == SIGWINCH) {
         sig_flag = 0;
-        detail::terminal_row = terminal::utils::GetTerminalRows();
-        detail::terminal_col = terminal::utils::GetTerminalColumns();
+        detail::terminal_row = terminal::utils::getTerminalRows();
+        detail::terminal_col = terminal::utils::getTerminalColumns();
       }
       if (sig_flag == SIGINT) {
         _terminal_manager::render::stop();
@@ -69,7 +69,7 @@ void draw_title(const int obj) {
   if (title.empty()) return;
   int row = _terminal_manager::get_y(obj);
   int col = _terminal_manager::get_x(obj) + 2;
-  terminal::utils::MoveTo(row, col);
+  terminal::utils::moveTo(row, col);
   for (size_t i = 0;
        i < std::min(title.size(),
                     static_cast<size_t>(_terminal_manager::get_width(obj) - 2));
@@ -89,7 +89,7 @@ void draw_text(const int obj, const std::pair<int, int>&) {
     size_t end = text.find('\n', pos);
     std::string line = (end == std::string::npos) ? text.substr(pos)
                                                   : text.substr(pos, end - pos);
-    terminal::utils::MoveTo(row, start_col);
+    terminal::utils::moveTo(row, start_col);
     std::cout << line.substr(0, _terminal_manager::get_width(obj) - 2);
 
     if (end == std::string::npos) break;
@@ -113,21 +113,21 @@ void draw_border(const int obj, const std::pair<int, int>& text_size) {
                           : _terminal_manager::get_width(obj));
 
   // ┌───┐
-  terminal::utils::MoveTo(top, left);
+  terminal::utils::moveTo(top, left);
   std::cout << "┌";
   for (int c = left + 1; c < right - 1; ++c) std::cout << "─";
   std::cout << "┐";
 
   // │   │
   for (int r = top + 1; r < bottom - 1; ++r) {
-    terminal::utils::MoveTo(r, left);
+    terminal::utils::moveTo(r, left);
     std::cout << "│";
-    terminal::utils::MoveTo(r, right - 1);
+    terminal::utils::moveTo(r, right - 1);
     std::cout << "│";
   }
 
   // └───┘
-  terminal::utils::MoveTo(bottom - 1, left);
+  terminal::utils::moveTo(bottom - 1, left);
   std::cout << "└";
   for (int c = left + 1; c < right - 1; ++c) std::cout << "─";
   std::cout << "┘";

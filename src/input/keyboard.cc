@@ -80,7 +80,7 @@ bool Key::read() {
       break;
   }
 
-  if (is_visible) terminal::utils::BackSpace();
+  if (is_visible) terminal::utils::backSpace();
   return true;
 }
 

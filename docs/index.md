@@ -4,7 +4,7 @@ Basic controls of terminal.
 ## Function
 
 ```cpp
-terminal::utils::BackSpace(int n);
+terminal::utils::backSpace(int n);
 ```
 
 Delete n characters from within the line.

@@ -36,10 +36,10 @@ class Object {
                  const int& border_type);
   Object& resize(const int& border_type);
 
-  Object& change_text_color(const int& color);
-  Object& change_fill_color(const int& color);
-  Object& change_text_color(const std::string& color);
-  Object& change_fill_color(const std::string& color);
+  Object& changeTextColor(const int& color);
+  Object& changeFillColor(const int& color);
+  Object& changeTextColor(const std::string& color);
+  Object& changeFillColor(const std::string& color);
 
  private:
   inline static int cnt = 0;

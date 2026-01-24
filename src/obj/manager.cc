@@ -129,7 +129,7 @@ void set_flags(int id, int flags) {
 }
 
 // =====================
-// getters
+// getTers
 // =====================
 const int get_generation(int id) {
   std::lock_guard<std::mutex> lock(obj_mutex);
