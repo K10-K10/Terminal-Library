@@ -27,5 +27,5 @@ void Field::hide() {
   }
 }
 
-Field::~Field() { std::cout << std::endl; }
+Field::~Field() { std::cout << std::flush; }
 }  // namespace terminal

@@ -27,8 +27,8 @@ void Terminal::init(int fps) {
 void Terminal::shutdown() {
   _terminal_manager::render::stop();
   terminal::utils::clear();
+  std::cout << "\x1b[?25h";
   std::cout << "\x1b[?1049l" << std::flush;
-  std::cout << std::flush;
 }
 
 }  // namespace terminal
