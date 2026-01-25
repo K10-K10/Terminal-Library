@@ -1,2 +1,3 @@
 # TUI Library 
-This is TUI Libraty 
+
+This is TUI library.
