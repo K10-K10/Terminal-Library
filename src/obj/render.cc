@@ -36,8 +36,11 @@ static void obj_drawing(int fps) {
         detail::terminal_col = terminal::utils::getTerminalColumns();
       }
       if (sig_flag == SIGINT) {
-        _terminal_manager::render::stop();
-        terminal::Terminal::shutdown();
+        sig_flag = 0;
+        terminal::utils::clear();
+        std::cout << "\x1b[?25h";
+        std::cout << "\x1b[?1049l" << std::flush;
+        running.store(false);
       }
       terminal::utils::clear();
       for (const auto& [id, data] : obj_map) {
@@ -79,22 +82,30 @@ void draw_title(const int obj) {
 }
 
 void draw_text(const int obj, const std::pair<int, int>&) {
-  int start_row = _terminal_manager::get_y(obj) + 1;
-  int start_col = _terminal_manager::get_x(obj) + 1;
-  int row = start_row;
-  size_t pos = 0;
   const auto& text = _terminal_manager::get_text(obj);
-  while (row < _terminal_manager::get_y(obj) +
-                   _terminal_manager::get_height(obj) - 1) {
-    size_t end = text.find('\n', pos);
-    std::string line = (end == std::string::npos) ? text.substr(pos)
-                                                  : text.substr(pos, end - pos);
-    terminal::utils::moveTo(row, start_col);
-    std::cout << line.substr(0, _terminal_manager::get_width(obj) - 2);
+  int row = _terminal_manager::get_y(obj) + 1;
+  int col = _terminal_manager::get_x(obj) + 1;
+  terminal::utils::moveTo(row, col);
+  int current_row = row;
+  int current_col = col;
 
-    if (end == std::string::npos) break;
-    pos = end + 1;
-    row++;
+  for (char c : text) {
+    if (current_row == row + _terminal_manager::get_height(obj) - 2) break;
+    if (c == '\n') {
+      current_row++;
+      current_col = col;
+      terminal::utils::moveTo(current_row, current_col);
+    } else {
+      std::cout << c;
+      current_col++;
+      if (current_col >= col + (_terminal_manager::get_width(obj) == FULL
+                                    ? detail::terminal_col - 2
+                                    : _terminal_manager::get_width(obj) - 2)) {
+        current_row++;
+        current_col = col;
+        terminal::utils::moveTo(current_row, current_col);
+      }
+    }
   }
 }
 
