@@ -100,7 +100,7 @@ int getTerminalRows() {
   return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_row : -1;
 }
 
-void getCursorPosition(int& row, int& col) {
+std::pair<int, int> getCursorPosition() {
   struct termios oldt, newt;
 
   tcgetattr(STDIN_FILENO, &oldt);

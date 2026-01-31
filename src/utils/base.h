@@ -3,6 +3,8 @@
 #ifndef TERMINAL_LIBRARY_UTILS_BASE_H_
 #define TERMINAL_LIBRARY_UTILS_BASE_H_
 
+#include <utility>
+
 #define FULL -1
 
 namespace terminal {
@@ -34,7 +36,7 @@ int getTerminalColumns();
 int getTerminalRows();
 
 // Get current cursor position (row, col)
-void getCursorPosition(int& row, int& col);
+std::pair<int, int> getCursorPosition();
 
 // scroll
 void upScroll(const int& num);
