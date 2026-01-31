@@ -22,6 +22,7 @@ class Object {
          const std::pair<int, int>& size = {0, 0}, const int border = 0);
   Object& operator=(const std::string& new_text);
   Object& operator+=(const std::string& append_text);
+  Object& operator+=(const char);
   // 0-show,1-x,2-y,3-height,4-width,5-text_width,6-text_height,7-text_color,8-fill_color,9-border,flags...
   int operator[](const int& num);
   std::string operator()(const int& type = 0);

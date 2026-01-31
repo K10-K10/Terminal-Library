@@ -51,6 +51,16 @@ Object& Object::operator+=(const std::string& append_text) {
   return *this;
 }
 
+Object& Object::operator+=(const char append_char) {
+  bool was_show_flag = _terminal_manager::get_showing(self_id);
+  if (_terminal_manager::get_showing(self_id)) hide();
+  std::string current_text = _terminal_manager::get_text(self_id);
+  current_text += append_char;
+  _terminal_manager::set_text(self_id, current_text);
+  if (was_show_flag) show();
+  return *this;
+}
+
 int Object::operator[](const int& num) {
   switch (num) {
     case 0:
