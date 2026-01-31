@@ -80,14 +80,14 @@ void downForBeginOfLine(const int& num) {
   }
 }
 
-void lTo(const int& num) {
-  if (num > 0) {
-    std::cout << "\e[" << num << "G" << std::flush;
+void lTo(int num) {
+  if (num >= 0) {
+    std::cout << "\e[" << ++num << "G" << std::flush;
   }
 }
 
-void moveTo(const int& row, const int& col) {
-  std::cout << "\e[" << (row + 1) << ";" << (col + 1) << "H";
+void moveTo(int row, int col) {
+  std::cout << "\e[" << (row + 1) << ";" << (col + 1) << "H" << std::flush;
 }
 
 int getTerminalColumns() {
