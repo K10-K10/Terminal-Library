@@ -17,14 +17,14 @@ void clear() {
 #endif
 }
 
-void BackSpace() {
+void backSpace() {
   std::cout << "\e[1D";
   std::cout << ' ';
   std::cout << "\e[1D";
   std::cout.flush();
 }
 
-void BackSpace(const int& count) {
+void backSpace(const int& count) {
   if (count <= 0) return;
 
   // Move cursor left
@@ -38,7 +38,7 @@ void BackSpace(const int& count) {
   std::cout.flush();
 }
 
-void InitCursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
+void initCursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
 
 void UpFor(const int& num) {
   if (num > 0) {
@@ -46,25 +46,25 @@ void UpFor(const int& num) {
   }
 }
 
-void DownFor(const int& num) {
+void downFor(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "B" << std::flush;
   }
 }
 
-void RFor(const int& num) {
+void rFor(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "C" << std::flush;
   }
 }
 
-void LFor(const int& num) {
+void lFor(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "D" << std::flush;
   }
 }
 
-void UpForBeginOfLine(const int& num) {
+void upForBeginOfLine(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "E" << std::flush;
   } else {
@@ -72,7 +72,7 @@ void UpForBeginOfLine(const int& num) {
   }
 }
 
-void DownForBeginOfLine(const int& num) {
+void downForBeginOfLine(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "F" << std::flush;
   } else {
@@ -80,27 +80,27 @@ void DownForBeginOfLine(const int& num) {
   }
 }
 
-void LTo(const int& num) {
+void lTo(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "G" << std::flush;
   }
 }
 
-void MoveTo(const int& row, const int& col) {
+void moveTo(const int& row, const int& col) {
   std::cout << "\e[" << (row + 1) << ";" << (col + 1) << "H";
 }
 
-int GetTerminalColumns() {
+int getTerminalColumns() {
   struct winsize w;
   return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_col : -1;
 }
 
-int GetTerminalRows() {
+int getTerminalRows() {
   struct winsize w;
   return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_row : -1;
 }
 
-void GetCursorPosition(int& row, int& col) {
+void getCursorPosition(int& row, int& col) {
   struct termios oldt, newt;
 
   tcgetattr(STDIN_FILENO, &oldt);
@@ -123,7 +123,7 @@ void GetCursorPosition(int& row, int& col) {
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
 
-void UpScroll(const int& num) {
+void upScroll(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "S" << std::flush;
   } else {
@@ -132,7 +132,7 @@ void UpScroll(const int& num) {
   }
 }
 
-void DownScroll(const int& num) {
+void downScroll(const int& num) {
   if (num > 0) {
     std::cout << "\e[" << num << "T" << std::flush;
   } else {
@@ -141,39 +141,39 @@ void DownScroll(const int& num) {
   }
 }
 
-void print_bold(const char* str) {
+void printBold(const char* str) {
   std::cout << "\e[1m" << str << "\e[0m" << std::flush;
 }
 
-void print_thick(const char* str) {
+void printThick(const char* str) {
   std::cout << "\e[2m" << str << "\e[0m" << std::flush;
 }
 
-void print_italic(const char* str) {
+void printItalic(const char* str) {
   std::cout << "\e[3m" << str << "\e[0m" << std::flush;
 }
 
-void print_under_line(const char* str) {
+void printUnderline(const char* str) {
   std::cout << "\e[4m" << str << "\e[0m" << std::flush;
 }
 
-void print_blink(const char* str) {
+void printBlink(const char* str) {
   std::cout << "\e[5m" << str << "\e[0m" << std::flush;
 }
 
-void print_fast_blink(const char* str) {
+void printFastBlink(const char* str) {
   std::cout << "\e[5m" << str << "\e[0m" << std::flush;
 }
 
-void print_reverse(const char* str) {
+void printReverse(const char* str) {
   std::cout << "\e[7m" << str << "\e[0m" << std::flush;
 }
 
-void print_hide(const char* str) {
+void printHide(const char* str) {
   std::cout << "\e[8m" << str << "\e[0m" << std::flush;
 }
 
-void print_cancel(const char* str) {
+void printCancel(const char* str) {
   std::cout << "\e[9m" << str << "\e[0m" << std::flush;
 }
 }  // namespace utils

@@ -1,10 +1,13 @@
 #include "obj/manager.h"
 
+#include <csignal>
 #include <map>
 #include <mutex>
 #include <string>
 
-namespace terminal_manager {
+namespace _terminal_manager {
+
+inline volatile std::sig_atomic_t sig_flag = 0;
 
 // =====================
 // globals
@@ -126,7 +129,7 @@ void set_flags(int id, int flags) {
 }
 
 // =====================
-// getters
+// getTers
 // =====================
 const int get_generation(int id) {
   std::lock_guard<std::mutex> lock(obj_mutex);
@@ -200,4 +203,4 @@ const int get_flags(int id) {
   return 0;
 }
 
-}  // namespace terminal_manager
+}  // namespace _terminal_manager
