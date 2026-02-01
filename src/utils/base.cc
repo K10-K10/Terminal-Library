@@ -90,14 +90,12 @@ void moveTo(int row, int col) {
   std::cout << "\e[" << (row + 1) << ";" << (col + 1) << "H" << std::flush;
 }
 
-int getTerminalColumns() {
+std::pair<int, int> getTerminalSize() {
   struct winsize w;
-  return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_col : -1;
-}
-
-int getTerminalRows() {
-  struct winsize w;
-  return (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) ? w.ws_row : -1;
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) {
+    return {w.ws_row, w.ws_col};
+  }
+  return {-1, -1};
 }
 
 std::pair<int, int> getCursorPosition() {
@@ -110,7 +108,7 @@ std::pair<int, int> getCursorPosition() {
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
   std::cout << "\e[6n" << std::flush;
-
+  int row = 0, col = 0;
   char ch;
   if (std::cin.get(ch) && ch == '\e') {
     std::cin.get(ch);  // '['
@@ -121,6 +119,7 @@ std::pair<int, int> getCursorPosition() {
   }
 
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+  return {row - 1, col - 1};
 }
 
 void upScroll(const int& num) {

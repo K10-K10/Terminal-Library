@@ -32,8 +32,7 @@ void lTo(const int& num);
 void moveTo(const int& row, const int& col);
 
 // Terminal size
-int getTerminalColumns();
-int getTerminalRows();
+std::pair<int, int> getTerminalSize();
 
 // Get current cursor position (row, col)
 std::pair<int, int> getCursorPosition();
