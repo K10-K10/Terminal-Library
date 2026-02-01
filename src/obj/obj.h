@@ -33,6 +33,10 @@ class Object {
   Object& show();
   Object& hide();
 
+  Object& title(const std::string& new_title);
+
+  Object& text(const std::string& new_text);
+
   Object& move(const int& new_row, const int& new_col);
   Object& resize(const int& new_height, const int& new_width,
                  const int& border_type);

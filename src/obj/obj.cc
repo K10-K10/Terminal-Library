@@ -120,6 +120,22 @@ Object& Object::hide() {
 
 // =======================================================
 
+Object& Object::title(const std::string& new_title) {
+  bool was_showing = _terminal_manager::get_showing(self_id);
+  if (was_showing) hide();
+  _terminal_manager::set_title(self_id, new_title);
+  if (was_showing) show();
+  return *this;
+}
+
+Object& Object::text(const std::string& new_text) {
+  bool was_showing = _terminal_manager::get_showing(self_id);
+  if (was_showing) hide();
+  _terminal_manager::set_text(self_id, new_text);
+  if (was_showing) show();
+  return *this;
+}
+
 Object& Object::move(const int& new_row, const int& new_col) {
   bool was_showing = _terminal_manager::get_showing(self_id);
   if (was_showing) hide();
