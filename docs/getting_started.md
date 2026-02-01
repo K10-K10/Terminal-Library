@@ -11,6 +11,10 @@ To get started with the Terminal Library, follow these steps:
 
 2. **Include the Library**: Make sure to include the necessary header files in your C++ project.
 
+```cpp
+#include "terminal/Terminal.h"
+```
+
 cmake
 ```
 add_subdirectory($This library path$)
@@ -31,3 +35,8 @@ add_subdirectory(lib/Terminal-Library)
 add_executable(app src/main.cpp)
 target_link_libraries(app PRIVATE terminal)
 ```
+
+## namespace
+All functionalities of the library are encapsulated within the `terminal` namespace.
+
+In `terminal` namespace, you will find various modules such as `utils`, `input` that provide specific functionalities for building TUIs.
