@@ -26,14 +26,14 @@ static void obj_drawing(int fps) {
   using namespace std::chrono_literals;
   if (fps <= 0) fps = 60;
   auto frame_time = std::chrono::milliseconds(1000 / fps);
-  detail::terminal_row = terminal::utils::getTerminalRows();
-  detail::terminal_col = terminal::utils::getTerminalColumns();
+  detail::terminal_row = terminal::utils::getTerminalSize().first;
+  detail::terminal_col = terminal::utils::getTerminalSize().second;
   while (running.load(std::memory_order_relaxed)) {
     {
       if (sig_flag == SIGWINCH) {
         sig_flag = 0;
-        detail::terminal_row = terminal::utils::getTerminalRows();
-        detail::terminal_col = terminal::utils::getTerminalColumns();
+        detail::terminal_row = terminal::utils::getTerminalSize().first;
+        detail::terminal_col = terminal::utils::getTerminalSize().second;
       }
       if (sig_flag == SIGINT) {
         sig_flag = 0;

@@ -15,21 +15,21 @@ void clear();
 
 // Erase backward characters
 void backSpace();
-void backSpace(const int& count);
+void backSpace(int count);
 
 // Reset cursor & clear screen
 void initCursor();
 
 // Move cursor to row/col
-void UpFor(const int& num);
-void downFor(const int& num);
-void lFor(const int& num);
-void rFor(const int& num);
-void upForBeginOfLine(const int& num);
-void downForBeginOfLine(const int& num);
-void lTo(const int& num);
+void UpFor(int);
+void downFor(int);
+void lFor(int);
+void rFor(int);
+void upForBeginOfLine(int);
+void downForBeginOfLine(int);
+void lTo(int);
 
-void moveTo(const int& row, const int& col);
+void moveTo(int row, int col);
 
 // Terminal size
 std::pair<int, int> getTerminalSize();
@@ -38,8 +38,8 @@ std::pair<int, int> getTerminalSize();
 std::pair<int, int> getCursorPosition();
 
 // scroll
-void upScroll(const int& num);
-void downScroll(const int& num);
+void upScroll(int);
+void downScroll(int);
 
 // print
 void printBold(const char* str);
