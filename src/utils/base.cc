@@ -24,7 +24,7 @@ void backSpace() {
   std::cout.flush();
 }
 
-void backSpace(const int& count) {
+void backSpace(int count) {
   if (count <= 0) return;
 
   // Move cursor left
@@ -40,31 +40,31 @@ void backSpace(const int& count) {
 
 void initCursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
 
-void UpFor(const int& num) {
+void UpFor(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "A" << std::flush;
   }
 }
 
-void downFor(const int& num) {
+void downFor(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "B" << std::flush;
   }
 }
 
-void rFor(const int& num) {
+void rFor(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "C" << std::flush;
   }
 }
 
-void lFor(const int& num) {
+void lFor(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "D" << std::flush;
   }
 }
 
-void upForBeginOfLine(const int& num) {
+void upForBeginOfLine(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "E" << std::flush;
   } else {
@@ -72,7 +72,7 @@ void upForBeginOfLine(const int& num) {
   }
 }
 
-void downForBeginOfLine(const int& num) {
+void downForBeginOfLine(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "F" << std::flush;
   } else {
@@ -122,7 +122,7 @@ std::pair<int, int> getCursorPosition() {
   return {row - 1, col - 1};
 }
 
-void upScroll(const int& num) {
+void upScroll(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "S" << std::flush;
   } else {
@@ -131,7 +131,7 @@ void upScroll(const int& num) {
   }
 }
 
-void downScroll(const int& num) {
+void downScroll(int num) {
   if (num > 0) {
     std::cout << "\e[" << num << "T" << std::flush;
   } else {

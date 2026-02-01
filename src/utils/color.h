@@ -27,8 +27,8 @@ enum FillColor {
   fill_gray = 47
 };
 
-int princColor(const int& txt_color, const char* str);
-int princColor(const int& txt_color, const int& fill_color, const char* str);
+int printColor(int txt_color, const char* str);
+int printColor(int txt_color, int fill_color, const char* str);
 
 }  // namespace terminal
 

@@ -5,7 +5,6 @@
 
 #include "obj/render.h"
 #include "utils/base.h"
-#include "utils/internal.h"
 namespace {
 void handler(int signum) { _terminal_manager::sig_flag = signum; }
 }  // namespace
