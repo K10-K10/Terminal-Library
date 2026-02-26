@@ -20,6 +20,6 @@ void PasswordInput(std::string &Password) {
   //	}
   // }
 }
-} // namespace terminal
+}  // namespace terminal
 
-#endif // TERMINAL_LIBRARY__FEAT_FEATURE_H_
+#endif  // TERMINAL_LIBRARY__FEAT_FEATURE_H_
