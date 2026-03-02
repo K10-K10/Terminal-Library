@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace terminal {
+namespace terminal::utils {
 int printColor(int txt_color, const char* str) {
   if (37 >= txt_color && txt_color >= 30) {
     std::cout << "\e[" << txt_color << "m" << str << "\e[0m " << std::flush;
@@ -23,4 +23,4 @@ int printColor(int txt_color, int fill_color, const char* str) {
   }
 }
 
-}  // namespace terminal
+}  // namespace terminal::utils

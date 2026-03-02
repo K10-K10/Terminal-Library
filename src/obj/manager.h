@@ -10,7 +10,7 @@
 #include <string>
 #include <thread>
 
-namespace _terminal_manager {
+namespace __terminal__::__manager__ {
 struct ObjData {
   int gen;
   int x;
@@ -64,6 +64,6 @@ const int get_text_color(const int id);
 const int get_fill_color(const int id);
 const int get_border(const int id);
 const int get_flags(const int id);
-}  // namespace _terminal_manager
+}  // namespace __terminal__::__manager__
 
 #endif  // TERMINAL_LIBRARY_OBJ_MANAGER_H_

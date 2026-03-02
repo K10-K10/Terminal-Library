@@ -2,7 +2,7 @@
 #ifndef TERMINAL_LIBRARY_TERMINAL_TERMINAL_H_
 #define TERMINAL_LIBRARY_TERMINAL_TERMINAL_H_
 
-namespace terminal {
+namespace __terminal__ {
 
 class Terminal {
  public:
@@ -11,6 +11,10 @@ class Terminal {
   static void shutdown();
 };
 
+}  // namespace __terminal__
+
+namespace terminal {
+extern __terminal__::Terminal Terminal;
 }  // namespace terminal
 
 #endif

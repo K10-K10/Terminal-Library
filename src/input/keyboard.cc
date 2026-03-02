@@ -7,7 +7,7 @@
 
 #include "utils/base.h"
 
-namespace terminal::input {
+namespace __terminal__::__input__ {
 Key::Key() {
   initscr();
   cbreak();
@@ -85,4 +85,8 @@ bool Key::read() {
 }
 
 Key::~Key() { endwin(); };
+}  // namespace __terminal__::__input__
+
+namespace terminal::input {
+__terminal__::__input__::Key key;
 }  // namespace terminal::input

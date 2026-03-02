@@ -10,7 +10,7 @@
 #include "terminal/Terminal.h"
 #include "utils/base.h"
 
-namespace _terminal_manager::render {
+namespace __terminal__::__manager__::__render__ {
 namespace detail {
 void draw_title(const int obj);
 void draw_text(const int obj, const std::pair<int, int>& text_size);
@@ -18,7 +18,7 @@ void draw_border(const int obj, const std::pair<int, int>& text_size);
 std::pair<int, int> cnt_text_size(const int obj);
 }  // namespace detail
 
-using _terminal_manager::obj_mutex;
+using __terminal__::__manager__::obj_mutex;
 static std::atomic<bool> running{false};
 static std::thread draw_thread;
 
@@ -68,29 +68,31 @@ void stop() {
 
 namespace detail {
 void draw_title(const int obj) {
-  const auto& title = _terminal_manager::get_title(obj);
+  const auto& title = __terminal__::__manager__::get_title(obj);
   if (title.empty()) return;
-  int row = _terminal_manager::get_y(obj);
-  int col = _terminal_manager::get_x(obj) + 2;
+  int row = __terminal__::__manager__::get_y(obj);
+  int col = __terminal__::__manager__::get_x(obj) + 2;
   terminal::utils::moveTo(row, col);
   for (size_t i = 0;
        i < std::min(title.size(),
-                    static_cast<size_t>(_terminal_manager::get_width(obj) - 2));
+                    static_cast<size_t>(
+                        __terminal__::__manager__::get_width(obj) - 2));
        ++i) {
     std::cout << title[i];
   }
 }
 
 void draw_text(const int obj, const std::pair<int, int>&) {
-  const auto& text = _terminal_manager::get_text(obj);
-  int row = _terminal_manager::get_y(obj) + 1;
-  int col = _terminal_manager::get_x(obj) + 1;
+  const auto& text = __terminal__::__manager__::get_text(obj);
+  int row = __terminal__::__manager__::get_y(obj) + 1;
+  int col = __terminal__::__manager__::get_x(obj) + 1;
   terminal::utils::moveTo(row, col);
   int current_row = row;
   int current_col = col;
 
   for (char c : text) {
-    if (current_row == row + _terminal_manager::get_height(obj) - 2) break;
+    if (current_row == row + __terminal__::__manager__::get_height(obj) - 2)
+      break;
     if (c == '\n') {
       current_row++;
       current_col = col;
@@ -98,9 +100,10 @@ void draw_text(const int obj, const std::pair<int, int>&) {
     } else {
       std::cout << c;
       current_col++;
-      if (current_col >= col + (_terminal_manager::get_width(obj) == FULL
-                                    ? detail::terminal_col - 2
-                                    : _terminal_manager::get_width(obj) - 2)) {
+      if (current_col >=
+          col + (__terminal__::__manager__::get_width(obj) == FULL
+                     ? detail::terminal_col - 2
+                     : __terminal__::__manager__::get_width(obj) - 2)) {
         current_row++;
         current_col = col;
         terminal::utils::moveTo(current_row, current_col);
@@ -111,17 +114,17 @@ void draw_text(const int obj, const std::pair<int, int>&) {
 
 void draw_border(const int obj, const std::pair<int, int>& text_size) {
   // Implementation for drawing border
-  if (_terminal_manager::get_border(obj) == 0) return;
-  if (_terminal_manager::get_border(obj) != 1) return;
+  if (__terminal__::__manager__::get_border(obj) == 0) return;
+  if (__terminal__::__manager__::get_border(obj) != 1) return;
 
-  int top = _terminal_manager::get_y(obj);
-  int left = _terminal_manager::get_x(obj);
-  int bottom = top + (_terminal_manager::get_height(obj) == FULL
+  int top = __terminal__::__manager__::get_y(obj);
+  int left = __terminal__::__manager__::get_x(obj);
+  int bottom = top + (__terminal__::__manager__::get_height(obj) == FULL
                           ? detail::terminal_row
-                          : _terminal_manager::get_height(obj));
-  int right = left + (_terminal_manager::get_width(obj) == FULL
+                          : __terminal__::__manager__::get_height(obj));
+  int right = left + (__terminal__::__manager__::get_width(obj) == FULL
                           ? detail::terminal_col
-                          : _terminal_manager::get_width(obj));
+                          : __terminal__::__manager__::get_width(obj));
 
   // ┌───┐
   terminal::utils::moveTo(top, left);
@@ -167,4 +170,4 @@ std::pair<int, int> cnt_text_size(const int obj) {
   return size;
 }
 }  // namespace detail
-}  // namespace _terminal_manager::render
+}  // namespace __terminal__::__manager__::__render__

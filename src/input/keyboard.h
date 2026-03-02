@@ -3,7 +3,7 @@
 #ifndef TERMINAL_LIBRARY_INPUT_KEYBOARD_H_
 #define TERMINAL_LIBRARY_INPUT_KEYBOARD_H_
 
-namespace terminal::input {
+namespace __terminal__::__input__ {
 enum class KeyCode {
   NONE,
   UNKNOWN,
@@ -42,5 +42,11 @@ class Key {
   enum class Modifier { NONE = 0, SHIFT = 1, CTRL = 2, ALT = 4 } modifier;
 };
 
+}  // namespace __terminal__::__input__
+
+namespace terminal::input {
+extern __terminal__::__input__::Key key;
+using KeyCode = __terminal__::__input__::KeyCode;
 }  // namespace terminal::input
+
 #endif  // TERMINAL_LIBRARY_INPUT_KEYBOARD_H_

@@ -3,7 +3,7 @@
 #ifndef TERMINAL_LIBRARY_UTILS_COLOR_H_
 #define TERMINAL_LIBRARY_UTILS_COLOR_H_
 
-namespace terminal {
+namespace terminal::utils {
 // text
 enum TextColor {
   text_black = 30,
@@ -30,6 +30,6 @@ enum FillColor {
 int printColor(int txt_color, const char* str);
 int printColor(int txt_color, int fill_color, const char* str);
 
-}  // namespace terminal
+}  // namespace terminal::utils
 
 #endif  // TERMINAL_LIBRARY_UTILS_COLOR_H_

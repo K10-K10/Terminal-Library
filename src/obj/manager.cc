@@ -5,7 +5,7 @@
 #include <mutex>
 #include <string>
 
-namespace _terminal_manager {
+namespace __terminal__::__manager__ {
 
 inline volatile std::sig_atomic_t sig_flag = 0;
 
@@ -203,4 +203,4 @@ const int get_flags(int id) {
   return 0;
 }
 
-}  // namespace _terminal_manager
+}  // namespace __terminal__::__manager__
