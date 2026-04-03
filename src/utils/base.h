@@ -1,0 +1,57 @@
+#pragma once
+
+#ifndef TERMINAL_LIBRARY_UTILS_BASE_H_
+#define TERMINAL_LIBRARY_UTILS_BASE_H_
+
+#include <utility>
+
+#define FULL -1
+
+namespace terminal {
+namespace utils {
+
+// Clear screen
+void clear();
+
+// Erase backward characters
+void backSpace();
+void backSpace(int count);
+
+// Reset cursor & clear screen
+void initCursor();
+
+// Move cursor to row/col
+void UpFor(int);
+void downFor(int);
+void lFor(int);
+void rFor(int);
+void upForBeginOfLine(int);
+void downForBeginOfLine(int);
+void lTo(int);
+
+void moveTo(int row, int col);
+
+// Terminal size
+std::pair<int, int> getTerminalSize();
+
+// Get current cursor position (row, col)
+std::pair<int, int> getCursorPosition();
+
+// scroll
+void upScroll(int);
+void downScroll(int);
+
+// print
+void printBold(const char* str);
+void printThick(const char* str);
+void printItalic(const char* str);
+void printUnderline(const char* str);
+void printBlink(const char* str);
+void printFastBlink(const char* str);
+void printReverse(const char* str);
+void printHide(const char* str);
+void printCancel(const char* str);
+}  // namespace utils
+}  // namespace terminal
+
+#endif  // TERMINAL_LIBRARY_UTILS_BASE_H_

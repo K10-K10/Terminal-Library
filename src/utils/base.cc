@@ -1,0 +1,179 @@
+#include "utils/base.h"
+
+#include <sys/ioctl.h>
+#include <termios.h>
+#include <unistd.h>
+
+#include <cstdlib>
+#include <iostream>
+
+namespace terminal {
+namespace utils {
+void clear() {
+#ifdef _WIN32
+  system("cls");
+#else
+  system("clear");
+#endif
+}
+
+void backSpace() {
+  std::cout << "\e[1D";
+  std::cout << ' ';
+  std::cout << "\e[1D";
+  std::cout.flush();
+}
+
+void backSpace(int count) {
+  if (count <= 0) return;
+
+  // Move cursor left
+  std::cout << "\e[" << count << "D";
+
+  // Clear characters
+  for (int i = 0; i < count; i++) std::cout << ' ';
+
+  // Move back again
+  std::cout << "\e[" << count << "D";
+  std::cout.flush();
+}
+
+void initCursor() { std::cout << "\x1b[2J\x1b[H" << std::flush; }
+
+void UpFor(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "A" << std::flush;
+  }
+}
+
+void downFor(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "B" << std::flush;
+  }
+}
+
+void rFor(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "C" << std::flush;
+  }
+}
+
+void lFor(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "D" << std::flush;
+  }
+}
+
+void upForBeginOfLine(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "E" << std::flush;
+  } else {
+    std::cout << "\e[" << num << "F" << std::flush;
+  }
+}
+
+void downForBeginOfLine(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "F" << std::flush;
+  } else {
+    std::cout << "\e[" << num << "E" << std::flush;
+  }
+}
+
+void lTo(int num) {
+  if (num >= 0) {
+    std::cout << "\e[" << ++num << "G" << std::flush;
+  }
+}
+
+void moveTo(int row, int col) {
+  std::cout << "\e[" << (row + 1) << ";" << (col + 1) << "H" << std::flush;
+}
+
+std::pair<int, int> getTerminalSize() {
+  struct winsize w;
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) {
+    return {w.ws_row, w.ws_col};
+  }
+  return {-1, -1};
+}
+
+std::pair<int, int> getCursorPosition() {
+  struct termios oldt, newt;
+
+  tcgetattr(STDIN_FILENO, &oldt);
+  newt = oldt;
+
+  newt.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+  std::cout << "\e[6n" << std::flush;
+  int row = 0, col = 0;
+  char ch;
+  if (std::cin.get(ch) && ch == '\e') {
+    std::cin.get(ch);  // '['
+    std::cin >> row;
+    std::cin.get(ch);  // ';'
+    std::cin >> col;
+    std::cin.get(ch);  // 'R'
+  }
+
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+  return {row - 1, col - 1};
+}
+
+void upScroll(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "S" << std::flush;
+  } else {
+    int new_n = num * -1;
+    std::cout << "\e[" << num << "T" << std::flush;
+  }
+}
+
+void downScroll(int num) {
+  if (num > 0) {
+    std::cout << "\e[" << num << "T" << std::flush;
+  } else {
+    int new_n = num * -1;
+    std::cout << "\e[" << num << "S" << std::flush;
+  }
+}
+
+void printBold(const char* str) {
+  std::cout << "\e[1m" << str << "\e[0m" << std::flush;
+}
+
+void printThick(const char* str) {
+  std::cout << "\e[2m" << str << "\e[0m" << std::flush;
+}
+
+void printItalic(const char* str) {
+  std::cout << "\e[3m" << str << "\e[0m" << std::flush;
+}
+
+void printUnderline(const char* str) {
+  std::cout << "\e[4m" << str << "\e[0m" << std::flush;
+}
+
+void printBlink(const char* str) {
+  std::cout << "\e[5m" << str << "\e[0m" << std::flush;
+}
+
+void printFastBlink(const char* str) {
+  std::cout << "\e[5m" << str << "\e[0m" << std::flush;
+}
+
+void printReverse(const char* str) {
+  std::cout << "\e[7m" << str << "\e[0m" << std::flush;
+}
+
+void printHide(const char* str) {
+  std::cout << "\e[8m" << str << "\e[0m" << std::flush;
+}
+
+void printCancel(const char* str) {
+  std::cout << "\e[9m" << str << "\e[0m" << std::flush;
+}
+}  // namespace utils
+}  // namespace terminal
