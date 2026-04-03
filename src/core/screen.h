@@ -1,0 +1,3 @@
+namespace terminal {
+class Screen;
+}
