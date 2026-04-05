@@ -5,20 +5,13 @@
 
 #include <utility>
 
-#include "obj/manager.h"
-namespace __terminal__::__manager__::__render__ {
-void start(int fps = 60);
-void stop();
-static void obj_drawing(int fps);
+#include "core/screen.h"
 
-namespace detail {
-inline int terminal_row = 0;
-inline int terminal_col = 0;
-void draw_text(const int obj, const std::pair<int, int>& text_size);
-void draw_title(const int obj);
-void draw_border(const int obj, const std::pair<int, int>& text_size);
-std::pair<int, int> cnt_text_size(const int obj);
-}  // namespace detail
-}  // namespace __terminal__::__manager__::__render__
+namespace __terminal__ {
+class Render {
+ public:
+  void flush();
+};
 
+}  // namespace __terminal__
 #endif  // TERMINAL_LIBRARY_OBJ_RENDER_H_
