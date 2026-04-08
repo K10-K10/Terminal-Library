@@ -7,9 +7,6 @@
 #include "utils/base.h"
 
 namespace __terminal__ {
-
-extern Screen screen;
-
 void Render::flush() {
   int W = screen.width;
   int H = screen.height;

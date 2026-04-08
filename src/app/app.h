@@ -18,7 +18,6 @@ class App {
   static std::sig_atomic_t sig_num;
 
  private:
-  Screen& screen;
   Render& render;
   int width = 0, height = 0;
   int fps;

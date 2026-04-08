@@ -5,8 +5,6 @@
 
 #include <utility>
 
-#define FULL -1
-
 namespace terminal {
 namespace utils {
 

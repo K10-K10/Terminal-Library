@@ -1,25 +1,36 @@
 #include <vector>
 
-#include "core/render.h"
+namespace terminal {
+class Object;
+}
 
 namespace __terminal__ {
 struct Cell {
   char c;
   int fg = -1, bg = -1;
 };
+
+class App;
+class Render;
 class Screen {
+  friend App;
   friend Render;
 
  public:
+  int width() const;
+  int height() const;
+
+ private:
   void clear(int x, int y);
   void put(int x, int y, Cell c);
   void resize(int x, int y);
 
- protected:
   std::vector<Cell> current, next;
-  int width, height;
+  int width_, height_;
 };
 
-Screen screen;
-
 }  // namespace __terminal__
+
+namespace terminal {
+extern __terminal__::Screen screen;
+}
