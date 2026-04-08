@@ -12,9 +12,11 @@ struct Cell {
 
 class App;
 class Render;
+class DrawObj;
 class Screen {
   friend App;
   friend Render;
+  friend DrawObj;
 
  public:
   int width() const;
