@@ -8,6 +8,6 @@ void DrawObj::put(int y, int x, const Cell& c) {
   return;
 }
 
-inline DrawObj drawObj;
+DrawObj drawObj;
 
 }  // namespace __terminal__

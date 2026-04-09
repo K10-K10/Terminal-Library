@@ -9,6 +9,10 @@
 #include "utils/base.h"
 
 namespace __terminal__ {
+int __terminal__::App::sig_num = 0;
+
+App::App(Render& r) : render(r) {};
+
 void App::signal_handler(int sig) { sig_num = sig; }
 
 void App::init(int arg_fps) {

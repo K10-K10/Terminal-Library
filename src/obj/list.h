@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "layout/rect.h"
 #include "obj/obj.h"
 
 namespace terminal {

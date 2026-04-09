@@ -12,5 +12,6 @@
 #include "utils/color.h"
 
 namespace terminal {
-__terminal__::App app;
-}
+__terminal__::Render render;
+__terminal__::App app(render);
+}  // namespace terminal

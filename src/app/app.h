@@ -9,6 +9,7 @@
 namespace __terminal__ {
 class App {
  public:
+  App(Render& r);
   void init(int fps = 60);
   void loop(std::function<void()> frame);
   void pose();

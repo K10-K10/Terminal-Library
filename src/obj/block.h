@@ -1,10 +1,9 @@
 #pragma once
 
+#include "layout/rect.h"
 #include "obj/obj.h"
 
 namespace terminal {
-class Rect;
-
 class Block : public Object {
  public:
   void draw() override;

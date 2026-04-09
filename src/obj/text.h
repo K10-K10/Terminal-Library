@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "layout/rect.h"
 #include "obj/obj.h"
 
 namespace terminal {
