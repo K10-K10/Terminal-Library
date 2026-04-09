@@ -1,3 +1,5 @@
+#pragma once
+
 #include <csignal>
 #include <functional>
 
@@ -14,7 +16,7 @@ class App {
 
  protected:
   bool runnning = false;
-  bool pose = false;
+  bool pose_ = false;
   static std::sig_atomic_t sig_num;
 
  private:

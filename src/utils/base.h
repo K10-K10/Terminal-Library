@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef TERMINAL_LIBRARY_UTILS_BASE_H_
-#define TERMINAL_LIBRARY_UTILS_BASE_H_
-
 #include <utility>
 
 namespace terminal {
@@ -51,5 +48,3 @@ void printHide(const char* str);
 void printCancel(const char* str);
 }  // namespace utils
 }  // namespace terminal
-
-#endif  // TERMINAL_LIBRARY_UTILS_BASE_H_

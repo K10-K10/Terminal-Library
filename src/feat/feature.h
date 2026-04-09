@@ -1,13 +1,11 @@
 #pragma once
-#ifndef TERMINAL_LIBRARY__FEAT_FEATURE_H_
-#define TERMINAL_LIBRARY__FEAT_FEATURE_H_
 
 #include <iostream>
 #include <istream>
 #include <string>
 
 namespace terminal {
-void PasswordInput(std::string &Password) {
+void PasswordInput(std::string& Password) {
   char c;
   // while (std::cin.get(c))
   //{
@@ -21,5 +19,3 @@ void PasswordInput(std::string &Password) {
   // }
 }
 }  // namespace terminal
-
-#endif  // TERMINAL_LIBRARY__FEAT_FEATURE_H_

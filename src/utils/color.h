@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef TERMINAL_LIBRARY_UTILS_COLOR_H_
-#define TERMINAL_LIBRARY_UTILS_COLOR_H_
-
 namespace terminal::utils {
 // text
 enum TextColor {
@@ -31,5 +28,3 @@ int printColor(int txt_color, const char* str);
 int printColor(int txt_color, int fill_color, const char* str);
 
 }  // namespace terminal::utils
-
-#endif  // TERMINAL_LIBRARY_UTILS_COLOR_H_

@@ -1,5 +1,4 @@
-#ifndef LIBRARY_TERMINAL_TERMINAL_H_
-#define LIBRARY_TERMINAL_TERMINAL_H_
+#pragma once
 
 #include "feat/feature.h"
 #include "input/cursor.h"
@@ -15,5 +14,3 @@
 namespace terminal {
 __terminal__::App app;
 }
-
-#endif  // LIBRARY_TERMINAL_TERMINAL_H_

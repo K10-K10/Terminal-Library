@@ -1,5 +1,4 @@
-#ifndef CORE_SCREE_H_
-#define CORE_SCREEN_H_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -40,5 +39,3 @@ class Screen {
 namespace terminal {
 extern __terminal__::Screen screen;
 }
-
-#endif

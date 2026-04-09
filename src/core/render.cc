@@ -1,6 +1,3 @@
-#ifndef CORE_RENDER_CC_
-#define CORE_RENDER_CC_
-
 #include "core/render.h"
 
 #include <iostream>
@@ -54,5 +51,3 @@ void Render::flush() {
 Render render;
 
 }  // namespace __terminal__
-
-#endif

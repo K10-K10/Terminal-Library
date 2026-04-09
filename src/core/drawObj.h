@@ -1,3 +1,5 @@
+#pragma once
+
 #include "core/screen.h"
 
 namespace __terminal__ {
