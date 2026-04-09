@@ -1,3 +1,7 @@
+#ifndef CORE_SCREE_H_
+#define CORE_SCREEN_H_
+
+#include <string>
 #include <vector>
 
 namespace terminal {
@@ -6,7 +10,7 @@ class Object;
 
 namespace __terminal__ {
 struct Cell {
-  char c;
+  std::string c;
   int fg = -1, bg = -1;
 };
 
@@ -36,3 +40,5 @@ class Screen {
 namespace terminal {
 extern __terminal__::Screen screen;
 }
+
+#endif

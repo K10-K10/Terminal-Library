@@ -6,6 +6,11 @@
 #include "layout/rect.h"
 
 namespace terminal {
+Text& Text::set_pos(const Rect& r) {
+  rect = r;
+  return *this;
+}
+
 Text& Text::set_text(const std::string& text) {
   text_ = text;
   return *this;
@@ -23,24 +28,25 @@ Text& Text::pop() {
   return *this;
 }
 
-void Text::draw(const Rect& r) {
+void Text::draw() {
   // Implementation for drawing text
   int cnt_x = 0;
   int cnt_y = 0;
   for (char c : text_) {
     if (c == '\n') {
-      if (r.w - cnt_x > 0) {
-        for (int j = r.x + cnt_x; j <= r.w; ++j) {
-          __terminal__::drawObj.put(r.y + cnt_y, r.x + cnt_x, {' '});
+      if (rect.w - cnt_x > 0) {
+        for (int j = rect.x + cnt_x; j <= rect.w; ++j) {
+          __terminal__::drawObj.put(rect.y + cnt_y, rect.x + cnt_x, {" "});
         }
       } else {
         cnt_x = 0;
         ++cnt_y;
       }
     } else {
-      __terminal__::drawObj.put(r.x + cnt_x, r.y + cnt_y, {c});
+      __terminal__::drawObj.put(rect.x + cnt_x, rect.y + cnt_y,
+                                {std::string{c}});
       ++cnt_x;
-      if (cnt_x >= r.w) {
+      if (cnt_x >= rect.w) {
         cnt_x = 0;
         ++cnt_y;
       }

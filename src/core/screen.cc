@@ -1,3 +1,6 @@
+#ifndef CORE_SCREEN_CC_
+#define CORE_SCREEN_CC_
+
 #include "core/screen.h"
 
 #include <vector>
@@ -30,3 +33,5 @@ void Screen::resize(int x, int y) {
 namespace terminal {
 __terminal__::Screen screen;
 }
+
+#endif

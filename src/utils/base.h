@@ -35,7 +35,7 @@ std::pair<int, int> getTerminalSize();
 // Get current cursor position (row, col)
 std::pair<int, int> getCursorPosition();
 
-// scroll
+// scroll' '
 void upScroll(int);
 void downScroll(int);
 
