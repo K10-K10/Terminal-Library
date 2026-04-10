@@ -43,7 +43,7 @@ void Text::draw() {
         ++cnt_y;
       }
     } else {
-      __terminal__::drawObj.put(rect.x + cnt_x, rect.y + cnt_y,
+      __terminal__::drawObj.put(rect.y + cnt_y, rect.x + cnt_x,
                                 {std::string{c}});
       ++cnt_x;
       if (cnt_x >= rect.w) {

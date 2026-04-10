@@ -24,7 +24,7 @@ void upForBeginOfLine(int);
 void downForBeginOfLine(int);
 void lTo(int);
 
-void moveTo(int row, int col);
+void moveTo(int y, int x);
 
 // Terminal size
 std::pair<int, int> getTerminalSize();
