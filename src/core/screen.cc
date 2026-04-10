@@ -14,7 +14,7 @@ void Screen::clear(int x, int y) {
   next.resize(x * y);
 }
 
-void Screen::put(int x, int y, Cell c) { current[y * width_ + x] = c; }
+void Screen::put(int x, int y, Cell c) { next[y * width_ + x] = c; }
 
 void Screen::resize(int x, int y) {
   width_ = x;
