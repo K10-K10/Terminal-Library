@@ -25,7 +25,7 @@ List& List::add_item(const std::string& s) {
   return *this;
 }
 
-const std::string& List::selected_item() const {
+const std::string List::selected_item() const {
   if (items_.empty())
     return "";
   else
