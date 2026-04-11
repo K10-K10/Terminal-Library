@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef TERMINAL_LIBRARY_INPUT_KEYBOARD_H_
-#define TERMINAL_LIBRARY_INPUT_KEYBOARD_H_
-
 namespace __terminal__::__input__ {
 enum class KeyCode {
   NONE,
@@ -29,8 +26,8 @@ class Key {
   void show();
   void hide();
 
-  KeyCode getKeyCode() const;
-  char getCurrentChar() const;
+  KeyCode getKeyCode();
+  char getCurrentChar();
   bool read();
 
  private:
@@ -48,5 +45,3 @@ namespace terminal::input {
 extern __terminal__::__input__::Key key;
 using KeyCode = __terminal__::__input__::KeyCode;
 }  // namespace terminal::input
-
-#endif  // TERMINAL_LIBRARY_INPUT_KEYBOARD_H_

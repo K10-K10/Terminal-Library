@@ -1,9 +1,7 @@
 #pragma once
 
-#ifndef TERMINAL_LIBRARY_INPUT_CURSOR_H_
-#define TERMINAL_LIBRARY_INPUT_CURSOR_H_
-
 #include <utility>
+
 namespace __terminal__::__input__ {
 class Cursor {
  public:
@@ -34,5 +32,3 @@ class Cursor {
 namespace terminal::input {
 extern __terminal__::__input__::Cursor cursor;
 }
-
-#endif  // TERMINAL_LIBRARY_INPUT_CURSOR_H_

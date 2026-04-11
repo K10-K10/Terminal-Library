@@ -1,11 +1,6 @@
 #pragma once
 
-#ifndef TERMINAL_LIBRARY_UTILS_BASE_H_
-#define TERMINAL_LIBRARY_UTILS_BASE_H_
-
 #include <utility>
-
-#define FULL -1
 
 namespace terminal {
 namespace utils {
@@ -29,7 +24,7 @@ void upForBeginOfLine(int);
 void downForBeginOfLine(int);
 void lTo(int);
 
-void moveTo(int row, int col);
+void moveTo(int y, int x);
 
 // Terminal size
 std::pair<int, int> getTerminalSize();
@@ -37,7 +32,7 @@ std::pair<int, int> getTerminalSize();
 // Get current cursor position (row, col)
 std::pair<int, int> getCursorPosition();
 
-// scroll
+// scroll' '
 void upScroll(int);
 void downScroll(int);
 
@@ -53,5 +48,3 @@ void printHide(const char* str);
 void printCancel(const char* str);
 }  // namespace utils
 }  // namespace terminal
-
-#endif  // TERMINAL_LIBRARY_UTILS_BASE_H_

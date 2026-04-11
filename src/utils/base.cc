@@ -86,8 +86,8 @@ void lTo(int num) {
   }
 }
 
-void moveTo(int row, int col) {
-  std::cout << "\e[" << (row + 1) << ";" << (col + 1) << "H" << std::flush;
+void moveTo(int y, int x) {
+  std::cout << "\e[" << (y + 1) << ";" << (x + 1) << "H" << std::flush;
 }
 
 std::pair<int, int> getTerminalSize() {
@@ -108,18 +108,18 @@ std::pair<int, int> getCursorPosition() {
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
   std::cout << "\e[6n" << std::flush;
-  int row = 0, col = 0;
+  int y = 0, x = 0;
   char ch;
   if (std::cin.get(ch) && ch == '\e') {
     std::cin.get(ch);  // '['
-    std::cin >> row;
+    std::cin >> y;
     std::cin.get(ch);  // ';'
-    std::cin >> col;
+    std::cin >> x;
     std::cin.get(ch);  // 'R'
   }
 
   tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-  return {row - 1, col - 1};
+  return {y - 1, x - 1};
 }
 
 void upScroll(int num) {

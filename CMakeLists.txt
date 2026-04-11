@@ -7,15 +7,17 @@ find_package(Curses REQUIRED)
 
 add_library(terminal
     src/feat/feature.cc
-    src/field/field.cc
     src/input/cursor.cc
     src/input/keyboard.cc
-    src/obj/obj.cc
-    src/obj/manager.cc
-    src/obj/render.cc
     src/utils/base.cc
     src/utils/color.cc
-    src/terminal/Terminal.cc
+    src/app/app.cc
+    src/core/drawObj.cc
+    src/core/render.cc
+    src/core/screen.cc
+    src/obj/block.cc
+    src/obj/list.cc
+    src/obj/text.cc
 )
 
 target_include_directories(terminal PUBLIC
