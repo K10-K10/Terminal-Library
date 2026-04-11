@@ -9,7 +9,7 @@ class Object;
 
 namespace __terminal__ {
 struct Cell {
-  std::string c;
+  std::string c = "";
   int fg = -1, bg = -1;
 };
 

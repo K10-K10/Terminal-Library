@@ -23,7 +23,6 @@ void Block::draw() {
   int r = rect.right();
   int t = rect.y;
   int b = rect.bottom();
-
   __terminal__::drawObj.put(t, l, {single.tl});
   __terminal__::drawObj.put(t, r, {single.tr});
   __terminal__::drawObj.put(b, l, {single.bl});
