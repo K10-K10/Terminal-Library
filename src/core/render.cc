@@ -14,11 +14,11 @@ void Render::flush() {
   int W = terminal::screen.width();
   int H = terminal::screen.height();
   logs << "--- FLUSH START ---" << std::endl;
-
+  int start = -1;
+  std::string line;
   for (int y = 0; y < H; ++y) {
-    int start = -1;
-    std::string line;
-
+    start = -1;
+    line.clear();
     for (int x = 0; x < W; ++x) {
       int i = y * W + x;
 
@@ -35,20 +35,20 @@ void Render::flush() {
         std::cout << line;
         logs << "Update at (" << y << ", " << start << "): " << line
              << std::endl;
-
-        for (int k = 0; k < line.size(); ++k) {
-          terminal::screen.current[y * W + start + k] =
-              terminal::screen.next[y * W + start + k];
-        }
         start = -1;
+        line.clear();
       }
     }
     if (start != -1) {
       terminal::utils::moveTo(y, start);
       std::cout << line << std::flush;
       logs << "Update at (" << y << ", " << start << "): " << line << std::endl;
+      start = -1;
+      line.clear();
     }
   }
+  terminal::screen.current = terminal::screen.next;
+  terminal::screen.next.clear();
   logs << "--- FLUSH END ---" << std::endl;
   logs.flush();
   std::cout << std::flush;
