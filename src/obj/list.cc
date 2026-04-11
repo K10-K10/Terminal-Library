@@ -43,11 +43,12 @@ void List::move_up() {
 }
 
 void List::move_down() {
-  if (selected_ + 1 < items_.size()) {
+  int max_items = static_cast<int>(items_.size());
+  if (selected_ + 1 < max_items) {
     ++selected_;
   }
 
-  int view_height = rect.bottom() - rect.y + 1;
+  int view_height = rect.h;
 
   if (selected_ >= draw_index_num_ + view_height) {
     draw_index_num_ = selected_ - view_height + 1;

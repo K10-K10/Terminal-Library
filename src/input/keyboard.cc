@@ -29,8 +29,16 @@ void Key::hide() {
   // Implementation for hiding the key (if applicable)
 }
 
-KeyCode Key::getKeyCode() const { return key_code; }
-char Key::getCurrentChar() const { return current_char; }
+KeyCode Key::getKeyCode() {
+  KeyCode key_ = key_code;
+  key_code = KeyCode::NONE;
+  return key_;
+}
+char Key::getCurrentChar() {
+  char char_ = current_char;
+  current_char = '\0';
+  return char_;
+}
 
 bool Key::read() {
   int ch = getch();

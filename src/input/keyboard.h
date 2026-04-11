@@ -26,8 +26,8 @@ class Key {
   void show();
   void hide();
 
-  KeyCode getKeyCode() const;
-  char getCurrentChar() const;
+  KeyCode getKeyCode();
+  char getCurrentChar();
   bool read();
 
  private:
