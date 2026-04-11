@@ -7,23 +7,16 @@ namespace __terminal__ {
 int Screen::width() const { return width_; }
 int Screen::height() const { return height_; }
 
-void Screen::clear(int x, int y) {
-  width_ = x;
-  height_ = y;
-  current.resize(x * y);
-  next.resize(x * y);
+void Screen::resize(int w, int h) {
+  width_ = w;
+  height_ = h;
+  current.assign(w * h, {" "});
+  next.assign(w * h, {" "});
 }
+
+void Screen::clear() { std::fill(next.begin(), next.end(), Cell{" "}); }
 
 void Screen::put(int x, int y, Cell c) { next[y * width_ + x] = c; }
-
-void Screen::resize(int x, int y) {
-  width_ = x;
-  height_ = y;
-  current.clear();
-  next.clear();
-  current.resize(x * y);
-  next.resize(x * y);
-}
 
 }  // namespace __terminal__
 

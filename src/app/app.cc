@@ -41,7 +41,7 @@ void App::init(int arg_fps) {
   std::cout << "\x1b[?25l" << std::flush;
   enable_raw_mode();
   auto [height, width] = terminal::utils::getTerminalSize();
-  terminal::screen.clear(width, height);
+  terminal::screen.resize(width, height);
   fps = arg_fps;
 }
 
