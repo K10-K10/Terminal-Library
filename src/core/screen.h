@@ -26,7 +26,7 @@ class Screen {
   int height() const;
 
  private:
-  void clear(int x, int y);
+  void clear();
   void put(int x, int y, Cell c);
   void resize(int x, int y);
 

@@ -29,7 +29,7 @@ void enable_raw_mode() {
 void disable_raw_mode() { tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig); }
 int __terminal__::App::sig_num = 0;
 
-App::App(Render& r) : render(r) {};
+App::App(Render& r) : render(r){};
 
 void App::signal_handler(int sig) { sig_num = sig; }
 
@@ -41,7 +41,7 @@ void App::init(int arg_fps) {
   std::cout << "\x1b[?25l" << std::flush;
   enable_raw_mode();
   auto [height, width] = terminal::utils::getTerminalSize();
-  terminal::screen.clear(width, height);
+  terminal::screen.resize(width, height);
   fps = arg_fps;
 }
 
