@@ -57,20 +57,23 @@ void List::move_down() {
 
 int List::selected_index() const { return selected_; }
 void List::draw() {
-  int x = rect.x;
-  int y = rect.y;
-  int w = rect.w;
-  int h = rect.h;
+  int l = rect.x;
+  int w = (rect.w == FULL) ? __terminal__::screen.width() : rect.w;
+  int r = l + w - 1;
+  int t = rect.y;
+  int h = (rect.h == FULL) ? __terminal__::screen.height() : rect.h;
+  int b = t + h - 1;
+  if (w < 2 || h < 2) return;
 
   int max_items = items_.size();
 
   for (int i = 0; i < h; ++i) {
     int idx = draw_index_num_ + i;
 
-    int cy = y + i;
+    int cy = t + i;
 
     for (int j = 0; j < w; ++j) {
-      __terminal__::drawObj.put(cy, x + j, {" "});
+      __terminal__::drawObj.put(cy, l + j, {" "});
     }
 
     if (idx >= max_items) continue;
@@ -78,12 +81,12 @@ void List::draw() {
     const std::string& text = items_[idx];
     bool selected = (idx == selected_);
 
-    __terminal__::drawObj.put(cy, x, {selected ? ">" : " "});
+    __terminal__::drawObj.put(cy, l, {selected ? ">" : " "});
 
     int max_width = w - 1;
 
     for (int j = 0; j < max_width && j < (int)text.size(); ++j) {
-      __terminal__::drawObj.put(cy, x + 1 + j, {std::string(1, text[j])});
+      __terminal__::drawObj.put(cy, l + 1 + j, {std::string(1, text[j])});
     }
   }
 }

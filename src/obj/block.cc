@@ -17,12 +17,13 @@ Block& Block::set_type(int new_type) {
 int Block::get_type() { return type_; }
 
 void Block::draw() {
-  if (rect.w < 2 || rect.h < 2) return;
-
   int l = rect.x;
-  int r = rect.right();
+  int w = (rect.w == FULL) ? __terminal__::screen.width() : rect.w;
+  int r = l + w - 1;
   int t = rect.y;
-  int b = rect.bottom();
+  int h = (rect.h == FULL) ? __terminal__::screen.height() : rect.h;
+  int b = t + h - 1;
+  if (w < 2 || h < 2) return;
   __terminal__::drawObj.put(t, l, {single.tl});
   __terminal__::drawObj.put(t, r, {single.tr});
   __terminal__::drawObj.put(b, l, {single.bl});

@@ -32,21 +32,26 @@ void Text::draw() {
   // Implementation for drawing text
   int cnt_x = 0;
   int cnt_y = 0;
+
+  int l = rect.x;
+  int w = (rect.w == FULL) ? __terminal__::screen.width() : rect.w;
+  int t = rect.y;
+  int h = (rect.h == FULL) ? __terminal__::screen.height() : rect.h;
+
   for (char c : text_) {
     if (c == '\n') {
-      if (rect.w - cnt_x > 0) {
-        for (int j = rect.x + cnt_x; j <= rect.w; ++j) {
-          __terminal__::drawObj.put(rect.y + cnt_y, rect.x + cnt_x, {" "});
+      if (w - cnt_x > 0) {
+        for (int j = l + cnt_x; j <= w; ++j) {
+          __terminal__::drawObj.put(t + cnt_y, l + cnt_x, {" "});
         }
       } else {
         cnt_x = 0;
         ++cnt_y;
       }
     } else {
-      __terminal__::drawObj.put(rect.y + cnt_y, rect.x + cnt_x,
-                                {std::string{c}});
+      __terminal__::drawObj.put(t + cnt_y, l + cnt_x, {std::string{c}});
       ++cnt_x;
-      if (cnt_x >= rect.w) {
+      if (cnt_x >= w) {
         cnt_x = 0;
         ++cnt_y;
       }
