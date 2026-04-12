@@ -41,7 +41,7 @@ void App::init(int arg_fps) {
   std::cout << "\x1b[?25l" << std::flush;
   enable_raw_mode();
   auto [height, width] = terminal::utils::getTerminalSize();
-  terminal::screen.resize(width, height);
+  __terminal__::screen.resize(width, height);
   fps = arg_fps;
 }
 
@@ -50,8 +50,8 @@ void App::loop(std::function<void()> frame) {
   while (runnning) {
     if (sig_num == SIGWINCH) {
       auto [height, width] = terminal::utils::getTerminalSize();
-      // terminal::utils::clear();
-      terminal::screen.resize(width, height);  // TODO: Object Resize
+      terminal::utils::clear();
+      __terminal__::screen.resize(width, height);
       sig_num = 0;
     }
     if (sig_num == SIGINT) {

@@ -1,5 +1,7 @@
 #pragma once
 
+#define FULL -1
+
 namespace terminal {
 struct Rect {
   int x, y, w, h;

@@ -4,7 +4,7 @@
 
 namespace __terminal__ {
 void DrawObj::put(int y, int x, const Cell& c) {
-  terminal::screen.put(x, y, c);
+  __terminal__::screen.put(x, y, c);
   return;
 }
 

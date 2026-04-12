@@ -33,9 +33,6 @@ class Screen {
   std::vector<Cell> current, next;
   int width_, height_;
 };
+extern __terminal__::Screen screen;
 
 }  // namespace __terminal__
-
-namespace terminal {
-extern __terminal__::Screen screen;
-}

@@ -14,7 +14,7 @@ class List : public Object {
   List& set_items(std::vector<std::string> items);
   const std::vector<std::string>& items() const;
   List& add_item(const std::string& s);
-  const std::string& selected_item() const;
+  const std::string selected_item() const;
   // TODO: heightlite selected item
   // TODO: scroll, set symbol
   void move_up();
