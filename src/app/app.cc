@@ -50,8 +50,8 @@ void App::loop(std::function<void()> frame) {
   while (runnning) {
     if (sig_num == SIGWINCH) {
       auto [height, width] = terminal::utils::getTerminalSize();
-      // terminal::utils::clear();
-      terminal::screen.resize(width, height);  // TODO: Object Resize
+      terminal::utils::clear();
+      terminal::screen.resize(width, height);
       sig_num = 0;
     }
     if (sig_num == SIGINT) {
