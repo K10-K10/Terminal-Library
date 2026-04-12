@@ -18,8 +18,6 @@ void Screen::clear() { std::fill(next.begin(), next.end(), Cell{" "}); }
 
 void Screen::put(int x, int y, Cell c) { next[y * width_ + x] = c; }
 
-}  // namespace __terminal__
-
-namespace terminal {
 __terminal__::Screen screen;
-}
+
+}  // namespace __terminal__
