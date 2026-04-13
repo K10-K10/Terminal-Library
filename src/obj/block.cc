@@ -4,17 +4,20 @@
 #include "layout/rect.h"
 
 namespace terminal {
-Block& Block::set_pos(const Rect& r) {
+Block& Block::position(const Rect& r) {
   rect = r;
   return *this;
 }
 
-Block& Block::set_type(int new_type) {
-  Block::type_ = new_type;
+Block& Block::border_type(const BorderType::Border& type) {
+  style_ = &type;
   return *this;
 }
 
-int Block::get_type() { return type_; }
+Block& Block::borders(const Borders::EdgeType type_) {
+  edges_ = type_;
+  return *this;
+}
 
 void Block::draw() {
   int l = rect.x;
@@ -24,20 +27,27 @@ void Block::draw() {
   int h = (rect.h == FULL) ? __terminal__::screen.height() : rect.h;
   int b = t + h - 1;
   if (w < 2 || h < 2) return;
-  __terminal__::drawObj.put(t, l, {single.tl});
-  __terminal__::drawObj.put(t, r, {single.tr});
-  __terminal__::drawObj.put(b, l, {single.bl});
-  __terminal__::drawObj.put(b, r, {single.br});
-
-  for (int x = l + 1; x < r; ++x) {
-    __terminal__::drawObj.put(t, x, {single.h});
-    __terminal__::drawObj.put(b, x, {single.h});
+  auto& s = *style_;
+  for (int x = l; x <= r; ++x) {
+    if (edges_ & Borders::TOP) __terminal__::drawObj.put(t, x, {s.h});
+    if (edges_ & Borders::BOTTOM) __terminal__::drawObj.put(b, x, {s.h});
   }
 
-  for (int y = t + 1; y < b; ++y) {
-    __terminal__::drawObj.put(y, l, {single.v});
-    __terminal__::drawObj.put(y, r, {single.v});
+  for (int y = t; y <= b; ++y) {
+    if (edges_ & Borders::LEFT) __terminal__::drawObj.put(y, l, {s.v});
+    if (edges_ & Borders::RIGHT) __terminal__::drawObj.put(y, r, {s.v});
   }
+  if ((edges_ & Borders::TOP) && (edges_ & Borders::LEFT))
+    __terminal__::drawObj.put(t, l, {s.tl});
+
+  if ((edges_ & Borders::TOP) && (edges_ & Borders::RIGHT))
+    __terminal__::drawObj.put(t, r, {s.tr});
+
+  if ((edges_ & Borders::BOTTOM) && (edges_ & Borders::LEFT))
+    __terminal__::drawObj.put(b, l, {s.bl});
+
+  if ((edges_ & Borders::BOTTOM) && (edges_ & Borders::RIGHT))
+    __terminal__::drawObj.put(b, r, {s.br});
 }
 
 }  // namespace terminal

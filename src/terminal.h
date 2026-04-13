@@ -9,7 +9,7 @@
 #include "obj/block.h"
 #include "obj/list.h"
 #include "obj/text.h"
-#include "utils/color.h"
+#include "style/color.h"
 
 namespace terminal {
 __terminal__::Render render;

@@ -10,8 +10,8 @@ namespace terminal {
 
 class List : public Object {
  public:
-  List& set_pos(const Rect& r);
-  List& set_items(std::vector<std::string> items);
+  List& position(const Rect& r);
+  List& items(std::vector<std::string> items);
   const std::vector<std::string>& items() const;
   List& add_item(const std::string& s);
   const std::string selected_item() const;

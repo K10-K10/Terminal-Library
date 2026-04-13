@@ -9,8 +9,8 @@ namespace terminal {
 
 class Text : private Object {
  public:
-  Text& set_pos(const Rect& r);
-  Text& set_text(const std::string& text);
+  Text& position(const Rect& r);
+  Text& contents(const std::string& text);
   std::string get_text();
   Text& push(char c);
   Text& pop();
