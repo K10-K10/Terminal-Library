@@ -1,82 +1,53 @@
 # Getting Started
 
-## Introduction
+This document will guide you through the process of setting up and using the TUI library in your C++ projects. Follow the steps below to get started.
 
-This library is designed to help you create text-based user interfaces (TUIs) in the terminal using C++. It provides a set of tools for handling terminal input, output, colors, and cursor management.
+## Installation
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/K10-K10/Terminal-Library.git
+    ```
 
-## Setup
+1. Link the library to your `CMakeLists.txt`:
+    ```cmake
+    add_subdirectory(path/to/Terminal-Library)
+    ```
 
-To get started with the Terminal Library, follow these steps:
-1. **Clone the Repository**: add submodule or clone the repository to your local machine.
+## Usage
 
-2. **Include the Library**: Make sure to include the necessary header files in your C++ project.
-
-```cpp
-#include "terminal/Terminal.h"
-```
-
-cmake
-```
-add_subdirectory($This library path$)
-target_link_libraries(your_project_name terminal)
-```
-
-3. **Build Your Project**: Use CMake to configure and build your project.
-
-> This library requires C++11 or higher.
-
-### shortest cmake
-```cmake
-cmake_minimum_required(VERSION 3.16)
-project(app LANGUAGES CXX)
-
-add_subdirectory(lib/Terminal-Library)
-
-add_executable(app src/main.cpp)
-target_link_libraries(app PRIVATE terminal)
-```
-
-## namespace
-All functionalities of the library are encapsulated within the `terminal` namespace.
-
-In `terminal` namespace, you will find various modules such as `utils`, `input` that provide specific functionalities for building TUIs.
-
-# How to use
-## Terminal Initialization
-Before using any terminal functionalities, you need to initialize the terminal.
+This library is header-only, so you can directly include the header files in your project.
 
 ```cpp
-terminal::Terminal.init();
+#include <terminal.h>
 ```
 
-`Terminal.init()` sets up the terminal for TUI operations, enabling features like color support and cursor management.[see Terminal Documentation](terminal.md)
+## How to Use
 
-## Create Objects
-
-To create and manipulate terminal objects, you can use the `terminal::Object` class. Here's a simple example of how to create an object and display it in the terminal:
+First, initialize the terminal:
 
 ```cpp
-terminal::Object myObject("Title", "This is the content of the object.", 5, 10, 10, 30, 1);
-myObject.show();
+app.init();
 ```
 
-This code creates a terminal object with a title, content, position, size, and border style, and then displays it in the terminal.[see Object Documentation](objects.md)
+Then, you can create and manipulate terminal elements as needed. For example, to create a simple text element:
 
-## Exit Terminal
-When you are done with your TUI application, make sure to properly exit the terminal mode to restore the terminal to its original state.
 ```cpp
-terminal::Terminal.exit();
+terminal::Text text("Hello, World!");
 ```
 
-# Examples
+Finally, draw the terminal to see the changes:
+
 ```cpp
-#include "terminal/Terminal.h"
-
-int main() {
-  terminal::Terminal.init();
-  terminal::Object myObject("Welcome", "Hello, Terminal Library!", 5, 10, 10, 40, 1);
-  myObject.show();
-  terminal::Terminal.exit();
-  return 0;
-}
+app.loop{[&](){ app.draw(); }};
 ```
+
+When you're done, make sure to clean up resources:
+
+```cpp
+app.stop();
+```
+
+example code can be found in the [Examples](docs/examples.md) section of the documentation.
+
+author: K10-K10
+update: 12/04/2026
