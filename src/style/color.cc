@@ -2,25 +2,26 @@
 
 #include <iostream>
 
-namespace terminal::utils {
-int printColor(int txt_color, const char* str) {
-  if (37 >= txt_color && txt_color >= 30) {
-    std::cout << "\e[" << txt_color << "m" << str << "\e[0m " << std::flush;
-    return 0;
-  } else {
-    return -1;
-  }
-}
+// namespace Styles {
+// int printColor(int txt_color, const char* str) {
+//   if (37 >= txt_color && txt_color >= 30) {
+//     std::cout << "\e[" << txt_color << "m" << str << "\e[0m " << std::flush;
+//     return 0;
+//   } else {
+//     return -1;
+//   }
+// }
 
-int printColor(int txt_color, int fill_color, const char* str) {
-  if (37 >= txt_color && txt_color >= 30 && 47 >= fill_color &&
-      fill_color >= 40) {
-    std::cout << "\e[" << txt_color << "m" << "\e[" << fill_color << "m" << str
-              << "\e[0m " << std::flush;
-    return 0;
-  } else {
-    return -1;
-  }
-}
+// int printColor(int txt_color, int fill_color, const char* str) {
+//   if (37 >= txt_color && txt_color >= 30 && 47 >= fill_color &&
+//       fill_color >= 40) {
+//     std::cout << "\e[" << txt_color << "m" << "\e[" << fill_color << "m" <<
+//     str
+//               << "\e[0m " << std::flush;
+//     return 0;
+//   } else {
+//     return -1;
+//   }
+// }
 
-}  // namespace terminal::utils
+// }  // namespace Styles
