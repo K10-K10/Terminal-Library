@@ -93,7 +93,7 @@ void moveTo(int y, int x) {
 std::pair<int, int> getTerminalSize() {
   struct winsize w;
   if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != -1) {
-    return {w.ws_row, w.ws_col};
+    return {w.ws_col, w.ws_row};  // width, height
   }
   return {-1, -1};
 }
