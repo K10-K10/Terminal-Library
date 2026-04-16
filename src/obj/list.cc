@@ -7,12 +7,12 @@
 #include "layout/rect.h"
 
 namespace terminal {
-List& List::set_pos(const Rect& r) {
+List& List::position(const Rect& r) {
   rect = r;
   return *this;
 }
 
-List& List::set_items(std::vector<std::string> items) {
+List& List::items(std::vector<std::string> items) {
   items_ = std::move(items);
   selected_ = 0;
   return *this;

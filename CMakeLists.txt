@@ -10,7 +10,7 @@ add_library(terminal
     src/input/cursor.cc
     src/input/keyboard.cc
     src/utils/base.cc
-    src/utils/color.cc
+    src/style/color.cc
     src/app/app.cc
     src/core/drawObj.cc
     src/core/render.cc

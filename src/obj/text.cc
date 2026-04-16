@@ -6,12 +6,12 @@
 #include "layout/rect.h"
 
 namespace terminal {
-Text& Text::set_pos(const Rect& r) {
+Text& Text::position(const Rect& r) {
   rect = r;
   return *this;
 }
 
-Text& Text::set_text(const std::string& text) {
+Text& Text::contents(const std::string& text) {
   text_ = text;
   return *this;
 }
