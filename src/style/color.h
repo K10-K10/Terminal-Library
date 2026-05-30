@@ -2,7 +2,7 @@
 
 namespace Styles {
 // text
-enum fg {
+enum class fg {
   Black = 30,
   Red = 31,
   Green = 32,
@@ -14,7 +14,7 @@ enum fg {
 };
 
 // fill
-enum bg {
+enum class bg {
   Black = 40,
   Red = 41,
   Green = 42,
